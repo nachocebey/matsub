@@ -19,7 +19,7 @@ interface BookingRow {
   guest_email: string | null
   guest_phone: string | null
   created_at: string
-  trip: { title: string; date: string; time: string } | null
+  trip: { title: string; title_i18n: { es?: string; ca?: string; en?: string } | null; date: string; time: string } | null
   profile: { full_name: string; phone: string | null; certification_level: string } | null
 }
 
