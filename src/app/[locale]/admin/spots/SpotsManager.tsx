@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { toast } from '@/components/ui/Toaster'
 import { DifficultyBadge } from '@/components/ui/DifficultyBadge'
 import { I18nTextFields } from '@/components/ui/I18nTextFields'
-import { Plus, Edit2, Trash2 } from 'lucide-react'
+import { Plus, Edit2, Trash2, Eye, EyeOff } from 'lucide-react'
 import type { Spot, Difficulty, I18nField } from '@/types'
 
 interface SpotForm {
@@ -17,6 +17,7 @@ interface SpotForm {
   difficulty: Difficulty
   lat: number | ''
   lng: number | ''
+  visible: boolean
 }
 
 const EMPTY: SpotForm = {
@@ -24,6 +25,7 @@ const EMPTY: SpotForm = {
   depth_min: '', depth_max: '',
   difficulty: 'beginner',
   lat: '', lng: '',
+  visible: true,
 }
 
 function toSlug(str: string) {
@@ -53,6 +55,7 @@ export function SpotsManager({ spots: initial }: { spots: Spot[] }) {
       depth_max: s.depth_max ?? '',
       difficulty: s.difficulty,
       lat: s.lat ?? '', lng: s.lng ?? '',
+      visible: s.visible,
     })
     setShowForm(true)
   }
@@ -75,6 +78,7 @@ export function SpotsManager({ spots: initial }: { spots: Spot[] }) {
       difficulty: form.difficulty,
       lat: form.lat === '' ? null : Number(form.lat),
       lng: form.lng === '' ? null : Number(form.lng),
+      visible: form.visible,
     }
 
     if (editingId) {
@@ -165,6 +169,15 @@ export function SpotsManager({ spots: initial }: { spots: Spot[] }) {
                   <input type="number" step="any" className="form-input" value={form.lng} onChange={e => set('lng', e.target.value as unknown as number)} />
                 </div>
               </div>
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={form.visible}
+                  onChange={e => set('visible', e.target.checked)}
+                  className="h-4 w-4 rounded border-ocean-300 text-ocean-600 focus:ring-ocean-500"
+                />
+                <span className="text-sm font-medium text-ocean-700">Visible en la web</span>
+              </label>
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => setShowForm(false)} className="btn-secondary flex-1">Cancelar</button>
                 <button type="submit" disabled={saving} className="btn-primary flex-1">{saving ? 'Guardando...' : 'Guardar'}</button>
@@ -177,9 +190,15 @@ export function SpotsManager({ spots: initial }: { spots: Spot[] }) {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {spots.map(spot => (
           <div key={spot.id} className="card p-5">
-            <div className="flex items-start justify-between mb-2">
+            <div className="flex items-start justify-between mb-2 gap-2">
               <h3 className="font-semibold text-ocean-950">{spot.name_i18n?.es || spot.name}</h3>
-              <DifficultyBadge difficulty={spot.difficulty} />
+              <div className="flex items-center gap-1.5 shrink-0">
+                {spot.visible
+                  ? <Eye className="h-4 w-4 text-ocean-400" />
+                  : <EyeOff className="h-4 w-4 text-ocean-300" />
+                }
+                <DifficultyBadge difficulty={spot.difficulty} />
+              </div>
             </div>
             {(spot.description_i18n?.es || spot.description) && (
               <p className="text-sm text-ocean-500 line-clamp-2 mb-3">{spot.description_i18n?.es || spot.description}</p>

@@ -1,6 +1,7 @@
 {
   "nav": {
     "spots": "Spots",
+    "courses": "Cursos",
     "calendar": "Calendari",
     "about": "Sobre nosaltres",
     "contact": "Contacte",
@@ -399,9 +400,28 @@
       "saveError": "Error en desar.",
       "deleteError": "Error en eliminar.",
       "deleteConfirm": "Eliminar aquest spot? Les sortides associades quedaran sense spot.",
+      "visible": "Visible a la web",
       "deleted": "Spot eliminat.",
       "edit2": "Editar",
       "none": "Cap spot"
+    },
+    "courses": {
+      "title": "Gestió de cursos",
+      "new": "Nou curs",
+      "edit": "Editar curs",
+      "slug": "Slug *",
+      "description": "Descripció",
+      "certification": "Certificació obtinguda",
+      "noCertification": "Cap",
+      "visible": "Visible a la web",
+      "updated": "Curs actualitzat!",
+      "created": "Curs creat!",
+      "saveError": "Error en desar.",
+      "deleteError": "Error en eliminar.",
+      "deleteConfirm": "Eliminar aquest curs?",
+      "deleted": "Curs eliminat.",
+      "edit2": "Editar",
+      "none": "Cap curs"
     },
     "trips": {
       "title": "Gestió de sortides",
@@ -410,6 +430,8 @@
       "type": "Tipus",
       "spot": "Spot",
       "noSpot": "Sense spot",
+      "course": "Curs",
+      "noCourse": "Sense curs",
       "titleField": "Títol *",
       "description": "Descripció",
       "date": "Data *",
@@ -439,6 +461,20 @@
       "cancelledStatus": "Cancel·lada",
       "none": "Cap sortida"
     }
+  },
+  "courses": {
+    "title": "Cursos de busseig",
+    "ourCourses": "Els nostres cursos",
+    "subtitle": "Formació PADI per a tots els nivells. Des del primer capbussament fins a convertir-te en professional del busseig.",
+    "empty": "Aviat afegirem els nostres cursos. Torna a visitar-nos!",
+    "allCourses": "Tots els cursos",
+    "certification": "Certificació obtinguda: {cert}",
+    "upcomingTrips": "Properes sortides del curs {name}",
+    "noTrips": "No hi ha sortides programades per a aquest curs.",
+    "noTripsDesc": "Consulta el calendari general o contacta'ns per organitzar una sessió.",
+    "viewCalendar": "Veure calendari",
+    "contactUs": "Contactar",
+    "notFound": "Curs no trobat"
   },
   "common": {
     "difficulty": {

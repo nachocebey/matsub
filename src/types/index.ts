@@ -21,6 +21,18 @@ export interface Profile {
 
 export type I18nField = { es?: string; ca?: string; en?: string }
 
+export interface Course {
+  id: string
+  slug: string
+  title: string
+  title_i18n: I18nField
+  description: string | null
+  description_i18n: I18nField
+  certification_obtained: CertificationLevel | null
+  visible: boolean
+  created_at: string
+}
+
 export interface Spot {
   id: string
   name: string
@@ -34,6 +46,7 @@ export interface Spot {
   lat: number | null
   lng: number | null
   images: string[]
+  visible: boolean
   created_at: string
 }
 
@@ -41,6 +54,7 @@ export interface Trip {
   id: string
   type: TripType
   spot_id: string | null
+  course_id: string | null
   title: string
   description: string | null
   title_i18n: I18nField

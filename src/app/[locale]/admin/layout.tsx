@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { LayoutDashboard, MapPin, Calendar, Users, Package, Waves } from 'lucide-react'
+import { LayoutDashboard, MapPin, Calendar, Users, Package, Waves, BookOpen } from 'lucide-react'
 
 const NAV = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/spots', label: 'Spots', icon: MapPin },
+  { href: '/admin/cursos', label: 'Cursos', icon: BookOpen },
   { href: '/admin/trips', label: 'Sortides', icon: Calendar },
   { href: '/admin/bookings', label: 'Reserves', icon: Users },
   { href: '/admin/equipment', label: 'Equipament', icon: Package },

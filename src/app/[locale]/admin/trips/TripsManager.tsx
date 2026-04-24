@@ -7,16 +7,18 @@ import { formatDate, formatPrice, TRIP_TYPE_LABELS } from '@/lib/utils'
 import { I18nTextFields } from '@/components/ui/I18nTextFields'
 import { Plus, Edit2, XCircle, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import type { TripWithAvailability, Spot, TripType, Difficulty, I18nField } from '@/types'
+import type { TripWithAvailability, Spot, Course, TripType, Difficulty, I18nField } from '@/types'
 
 interface Props {
   trips: TripWithAvailability[]
-  spots: Pick<Spot, 'id' | 'name' | 'name_i18n'>[]
+  spots: Pick<Spot, 'id' | 'name' | 'name_i18n' | 'description_i18n'>[]
+  courses: Pick<Course, 'id' | 'title' | 'title_i18n' | 'description_i18n'>[]
 }
 
 interface TripForm {
   type: TripType
   spot_id: string
+  course_id: string
   title_i18n: I18nField
   description_i18n: I18nField
   date: string
@@ -30,6 +32,7 @@ interface TripForm {
 const EMPTY_FORM: TripForm = {
   type: 'dive',
   spot_id: '',
+  course_id: '',
   title_i18n: {},
   description_i18n: {},
   date: '',
@@ -40,7 +43,7 @@ const EMPTY_FORM: TripForm = {
   difficulty_level: '',
 }
 
-export function TripsManager({ trips: initial, spots }: Props) {
+export function TripsManager({ trips: initial, spots, courses }: Props) {
   const supabase = createClient()
   const [trips, setTrips] = useState(initial)
   const [showForm, setShowForm] = useState(false)
@@ -62,6 +65,7 @@ export function TripsManager({ trips: initial, spots }: Props) {
     setForm({
       type: trip.type,
       spot_id: trip.spot_id ?? '',
+      course_id: trip.course_id ?? '',
       title_i18n: trip.title_i18n ?? { es: trip.title },
       description_i18n: trip.description_i18n ?? (trip.description ? { es: trip.description } : {}),
       date: trip.date,
@@ -74,6 +78,30 @@ export function TripsManager({ trips: initial, spots }: Props) {
     setShowForm(true)
   }
 
+  const handleSpotChange = (spotId: string) => {
+    set('spot_id', spotId)
+    if (!spotId) return
+    const spot = spots.find(s => s.id === spotId)
+    if (spot && Object.keys(form.title_i18n).length === 0) {
+      set('title_i18n', spot.name_i18n ?? {})
+      if (spot.description_i18n && Object.keys(spot.description_i18n).length > 0) {
+        set('description_i18n', spot.description_i18n)
+      }
+    }
+  }
+
+  const handleCourseChange = (courseId: string) => {
+    set('course_id', courseId)
+    if (!courseId) return
+    const course = courses.find(c => c.id === courseId)
+    if (course && Object.keys(form.title_i18n).length === 0) {
+      set('title_i18n', course.title_i18n ?? {})
+      if (course.description_i18n && Object.keys(course.description_i18n).length > 0) {
+        set('description_i18n', course.description_i18n)
+      }
+    }
+  }
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
@@ -84,6 +112,7 @@ export function TripsManager({ trips: initial, spots }: Props) {
     const payload = {
       type: form.type,
       spot_id: form.spot_id || null,
+      course_id: form.course_id || null,
       title: displayTitle,
       description: displayDesc,
       title_i18n: form.title_i18n,
@@ -146,15 +175,27 @@ export function TripsManager({ trips: initial, spots }: Props) {
                     <option value="course">Curso</option>
                   </select>
                 </div>
-                <div>
-                  <label className="form-label">Spot</label>
-                  <select className="form-input" value={form.spot_id} onChange={e => set('spot_id', e.target.value)}>
-                    <option value="">Sin spot</option>
-                    {spots.map(s => (
-                      <option key={s.id} value={s.id}>{s.name_i18n?.es || s.name}</option>
-                    ))}
-                  </select>
-                </div>
+                {form.type === 'dive' ? (
+                  <div>
+                    <label className="form-label">Spot</label>
+                    <select className="form-input" value={form.spot_id} onChange={e => handleSpotChange(e.target.value)}>
+                      <option value="">Sin spot</option>
+                      {spots.map(s => (
+                        <option key={s.id} value={s.id}>{s.name_i18n?.es || s.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div>
+                    <label className="form-label">Curso</label>
+                    <select className="form-input" value={form.course_id} onChange={e => handleCourseChange(e.target.value)}>
+                      <option value="">Sin curso</option>
+                      {courses.map(c => (
+                        <option key={c.id} value={c.id}>{c.title_i18n?.es || c.title}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
 
               <I18nTextFields

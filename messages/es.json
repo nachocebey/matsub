@@ -1,6 +1,7 @@
 {
   "nav": {
     "spots": "Spots",
+    "courses": "Cursos",
     "calendar": "Calendario",
     "about": "Sobre nosotros",
     "contact": "Contacto",
@@ -398,10 +399,29 @@
       "created": "¡Spot creado!",
       "saveError": "Error al guardar.",
       "deleteError": "Error al eliminar.",
+      "visible": "Visible en la web",
       "deleteConfirm": "¿Eliminar este spot? Las salidas asociadas quedarán sin spot.",
       "deleted": "Spot eliminado.",
       "edit2": "Editar",
       "none": "Sin spots"
+    },
+    "courses": {
+      "title": "Gestión de cursos",
+      "new": "Nuevo curso",
+      "edit": "Editar curso",
+      "slug": "Slug *",
+      "description": "Descripción",
+      "certification": "Certificación obtenida",
+      "noCertification": "Ninguna",
+      "visible": "Visible en la web",
+      "updated": "¡Curso actualizado!",
+      "created": "¡Curso creado!",
+      "saveError": "Error al guardar.",
+      "deleteError": "Error al eliminar.",
+      "deleteConfirm": "¿Eliminar este curso?",
+      "deleted": "Curso eliminado.",
+      "edit2": "Editar",
+      "none": "Sin cursos"
     },
     "trips": {
       "title": "Gestión de salidas",
@@ -410,6 +430,8 @@
       "type": "Tipo",
       "spot": "Spot",
       "noSpot": "Sin spot",
+      "course": "Curso",
+      "noCourse": "Sin curso",
       "titleField": "Título *",
       "description": "Descripción",
       "date": "Fecha *",
@@ -439,6 +461,20 @@
       "cancelledStatus": "Cancelada",
       "none": "Sin salidas"
     }
+  },
+  "courses": {
+    "title": "Cursos de buceo",
+    "ourCourses": "Nuestros cursos",
+    "subtitle": "Formación PADI para todos los niveles. Desde el primer chapuzón hasta convertirte en profesional del buceo.",
+    "empty": "Próximamente añadiremos nuestros cursos. ¡Vuelve a visitarnos!",
+    "allCourses": "Todos los cursos",
+    "certification": "Certificación obtenida: {cert}",
+    "upcomingTrips": "Próximas salidas del curso {name}",
+    "noTrips": "No hay salidas programadas para este curso.",
+    "noTripsDesc": "Consulta el calendario general o contáctanos para organizar una sesión.",
+    "viewCalendar": "Ver calendario",
+    "contactUs": "Contactar",
+    "notFound": "Curso no encontrado"
   },
   "common": {
     "difficulty": {

@@ -28,6 +28,7 @@ export function Navbar() {
 
   const NAV_LINKS = [
     { href: '/spots', label: t('spots') },
+    { href: '/cursos', label: t('courses') },
     { href: '/calendario', label: t('calendar') },
     { href: '/sobre-nosotros', label: t('about') },
     { href: '/contacto', label: t('contact') },

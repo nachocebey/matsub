@@ -23,6 +23,7 @@ async function getHomeData() {
     supabase
       .from('spots')
       .select('*')
+      .eq('visible', true)
       .order('created_at', { ascending: true })
       .limit(3),
   ])

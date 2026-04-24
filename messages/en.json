@@ -1,6 +1,7 @@
 {
   "nav": {
     "spots": "Spots",
+    "courses": "Courses",
     "calendar": "Calendar",
     "about": "About us",
     "contact": "Contact",
@@ -399,9 +400,28 @@
       "saveError": "Error saving.",
       "deleteError": "Error deleting.",
       "deleteConfirm": "Delete this spot? Associated trips will have no spot.",
+      "visible": "Visible on the website",
       "deleted": "Spot deleted.",
       "edit2": "Edit",
       "none": "No spots"
+    },
+    "courses": {
+      "title": "Course management",
+      "new": "New course",
+      "edit": "Edit course",
+      "slug": "Slug *",
+      "description": "Description",
+      "certification": "Certification obtained",
+      "noCertification": "None",
+      "visible": "Visible on the website",
+      "updated": "Course updated!",
+      "created": "Course created!",
+      "saveError": "Error saving.",
+      "deleteError": "Error deleting.",
+      "deleteConfirm": "Delete this course?",
+      "deleted": "Course deleted.",
+      "edit2": "Edit",
+      "none": "No courses"
     },
     "trips": {
       "title": "Trip management",
@@ -410,6 +430,8 @@
       "type": "Type",
       "spot": "Spot",
       "noSpot": "No spot",
+      "course": "Course",
+      "noCourse": "No course",
       "titleField": "Title *",
       "description": "Description",
       "date": "Date *",
@@ -439,6 +461,20 @@
       "cancelledStatus": "Cancelled",
       "none": "No trips"
     }
+  },
+  "courses": {
+    "title": "Diving courses",
+    "ourCourses": "Our courses",
+    "subtitle": "PADI training for all levels. From your first splash to becoming a dive professional.",
+    "empty": "We'll be adding our courses soon. Come back and visit us!",
+    "allCourses": "All courses",
+    "certification": "Certification obtained: {cert}",
+    "upcomingTrips": "Upcoming trips for course {name}",
+    "noTrips": "No trips scheduled for this course.",
+    "noTripsDesc": "Check the general calendar or contact us to arrange a session.",
+    "viewCalendar": "View calendar",
+    "contactUs": "Contact us",
+    "notFound": "Course not found"
   },
   "common": {
     "difficulty": {

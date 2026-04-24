@@ -16,6 +16,7 @@ export default async function SpotsPage() {
   const { data: spots } = await supabase
     .from('spots')
     .select('*')
+    .eq('visible', true)
     .order('name', { ascending: true })
 
   const spotsList = (spots ?? []) as Spot[]
