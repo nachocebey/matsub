@@ -78,7 +78,7 @@ export default async function SpotDetailPage({ params }: Props) {
                 {spot.depth_max && (
                   <div className="flex items-center gap-2 text-ocean-300">
                     <Anchor className="h-4 w-4 text-ocean-400" />
-                    <span>{t('depth', { min: spot.depth_min, max: spot.depth_max })}</span>
+                    <span>{t('depth', { min: spot.depth_min ?? 0, max: spot.depth_max })}</span>
                   </div>
                 )}
                 {spot.lat && spot.lng && (

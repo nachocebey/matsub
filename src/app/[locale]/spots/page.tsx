@@ -86,7 +86,7 @@ export default async function SpotsPage() {
                     {spot.depth_max && (
                       <span className="flex items-center gap-1">
                         <MapPin className="h-3 w-3" />
-                        {t('depth', { min: spot.depth_min, max: spot.depth_max })}
+                        {t('depth', { min: spot.depth_min ?? 0, max: spot.depth_max })}
                       </span>
                     )}
                   </div>

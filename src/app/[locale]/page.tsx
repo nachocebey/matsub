@@ -195,7 +195,7 @@ export default async function HomePage() {
                   )}
                   {spot.depth_max && (
                     <p className="text-xs text-ocean-500">
-                      {ts('depth', { min: spot.depth_min, max: spot.depth_max })}
+                      {ts('depth', { min: spot.depth_min ?? 0, max: spot.depth_max })}
                     </p>
                   )}
                 </Link>
