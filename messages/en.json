@@ -251,6 +251,7 @@
     "lastName": "Last name",
     "firstNamePlaceholder": "Your first name",
     "lastNamePlaceholder": "Your last name",
+    "certification": "Certification level",
     "equipment": {
       "title": "My equipment",
       "subtitle": "Check the gear you already own. It will be pre-selected automatically when you make a booking."

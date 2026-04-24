@@ -251,6 +251,7 @@
     "lastName": "Cognoms",
     "firstNamePlaceholder": "El teu nom",
     "lastNamePlaceholder": "Els teus cognoms",
+    "certification": "Nivell de certificació",
     "equipment": {
       "title": "Equipament propi",
       "subtitle": "Marca el material que ja tens. Es pre-seleccionarà automàticament quan facis una reserva."

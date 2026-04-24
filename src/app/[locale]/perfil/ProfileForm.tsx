@@ -5,8 +5,11 @@ import { createClient } from '@/lib/supabase/client'
 import { toast } from '@/components/ui/Toaster'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { Save } from 'lucide-react'
-import type { Profile } from '@/types'
+import type { Profile, CertificationLevel } from '@/types'
 import { useTranslations } from 'next-intl'
+import { CERTIFICATION_LABELS } from '@/lib/utils'
+
+const CERTS: CertificationLevel[] = ['none', 'open_water', 'advanced', 'rescue', 'divemaster']
 
 export function ProfileForm({ profile, userId }: { profile: Profile | null; userId: string }) {
   const t = useTranslations('profile')
@@ -14,6 +17,9 @@ export function ProfileForm({ profile, userId }: { profile: Profile | null; user
 
   const [firstName, setFirstName] = useState(profile?.first_name ?? '')
   const [lastName, setLastName] = useState(profile?.last_name ?? '')
+  const [certificationLevel, setCertificationLevel] = useState<CertificationLevel>(
+    profile?.certification_level ?? 'none'
+  )
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -28,6 +34,7 @@ export function ProfileForm({ profile, userId }: { profile: Profile | null; user
         first_name: firstName.trim(),
         last_name: lastName.trim(),
         full_name,
+        certification_level: certificationLevel,
       })
       .eq('id', userId)
 
@@ -68,6 +75,19 @@ export function ProfileForm({ profile, userId }: { profile: Profile | null; user
               required
             />
           </div>
+        </div>
+        <div>
+          <label className="form-label" htmlFor="certification_level">{t('certification')}</label>
+          <select
+            id="certification_level"
+            className="form-input"
+            value={certificationLevel}
+            onChange={e => setCertificationLevel(e.target.value as CertificationLevel)}
+          >
+            {CERTS.map(c => (
+              <option key={c} value={c}>{CERTIFICATION_LABELS[c]}</option>
+            ))}
+          </select>
         </div>
       </div>
 

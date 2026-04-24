@@ -251,6 +251,7 @@
     "lastName": "Apellidos",
     "firstNamePlaceholder": "Tu nombre",
     "lastNamePlaceholder": "Tus apellidos",
+    "certification": "Nivel de certificación",
     "equipment": {
       "title": "Equipamiento propio",
       "subtitle": "Marca el material que ya tienes. Se pre-seleccionará automáticamente cuando hagas una reserva."
