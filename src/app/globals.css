@@ -102,18 +102,18 @@
 }
 
 /* react-phone-number-input integration */
-.phone-input .PhoneInput {
+.phone-input {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   border: 1px solid #bae6fd;
   border-radius: 0.5rem;
   padding: 0 0.875rem;
   background: white;
   transition: box-shadow 0.15s;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 
-.phone-input .PhoneInput:focus-within {
+.phone-input:focus-within {
   outline: none;
   box-shadow: 0 0 0 2px #0ea5e9;
   border-color: transparent;
@@ -123,36 +123,10 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.625rem 0 0.625rem 0;
+  padding: 0.625rem 0.75rem 0.625rem 0;
   border-right: 1px solid #e0f2fe;
-  padding-right: 0.75rem;
+  margin-right: 0.75rem;
   cursor: pointer;
-}
-
-.phone-input .PhoneInputCountrySelect {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-  border: 0;
-  opacity: 0;
-  cursor: inherit;
-}
-
-.phone-input .PhoneInputCountrySelectArrow {
-  width: 0.5rem;
-  height: 0.5rem;
-  opacity: 0.5;
-  border-style: solid;
-  border-color: #0c4a6e;
-  border-top-width: 0;
-  border-bottom-width: 1px;
-  border-left-width: 0;
-  border-right-width: 1px;
-  transform: rotate(45deg);
-  margin-top: -2px;
 }
 
 .phone-input .PhoneInputInput {
@@ -163,6 +137,7 @@
   font-size: 0.875rem;
   color: #082f49;
   background: transparent;
+  min-width: 0;
 }
 
 .phone-input .PhoneInputInput::placeholder {
