@@ -11,7 +11,7 @@ export default async function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-ocean-50 px-4 py-16">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-ocean-600 font-bold text-2xl mb-6">
             <Waves className="h-7 w-7" />
