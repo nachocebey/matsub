@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
 
   if (!isProtected) return intlResponse
 
-  let response = intlResponse ?? NextResponse.next({ request })
+  const response = intlResponse ?? NextResponse.next({ request })
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

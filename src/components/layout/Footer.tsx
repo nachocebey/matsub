@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 
 export function Footer() {
   const t = useTranslations('footer')
-  const tc = useTranslations('contact')
+
 
   return (
     <footer className="bg-ocean-950 text-ocean-200">
