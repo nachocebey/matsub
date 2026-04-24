@@ -188,6 +188,7 @@
       "lastName": "Apellidos",
       "email": "Email",
       "phone": "Teléfono",
+      "birthDate": "Fecha de nacimiento",
       "certification": "Nivel de certificación",
       "password": "Contraseña",
       "passwordPlaceholder": "Mínimo 8 caracteres",
@@ -251,6 +252,7 @@
     "lastName": "Apellidos",
     "firstNamePlaceholder": "Tu nombre",
     "lastNamePlaceholder": "Tus apellidos",
+    "birthDate": "Fecha de nacimiento",
     "certification": "Nivel de certificación",
     "equipment": {
       "title": "Equipamiento propio",

@@ -17,6 +17,7 @@ export function ProfileForm({ profile, userId }: { profile: Profile | null; user
 
   const [firstName, setFirstName] = useState(profile?.first_name ?? '')
   const [lastName, setLastName] = useState(profile?.last_name ?? '')
+  const [birthDate, setBirthDate] = useState(profile?.birth_date ?? '')
   const [certificationLevel, setCertificationLevel] = useState<CertificationLevel>(
     profile?.certification_level ?? 'none'
   )
@@ -34,6 +35,7 @@ export function ProfileForm({ profile, userId }: { profile: Profile | null; user
         first_name: firstName.trim(),
         last_name: lastName.trim(),
         full_name,
+        birth_date: birthDate || null,
         certification_level: certificationLevel,
       })
       .eq('id', userId)
@@ -75,19 +77,31 @@ export function ProfileForm({ profile, userId }: { profile: Profile | null; user
               required
             />
           </div>
-        </div>
-        <div>
-          <label className="form-label" htmlFor="certification_level">{t('certification')}</label>
-          <select
-            id="certification_level"
-            className="form-input"
-            value={certificationLevel}
-            onChange={e => setCertificationLevel(e.target.value as CertificationLevel)}
-          >
-            {CERTS.map(c => (
-              <option key={c} value={c}>{CERTIFICATION_LABELS[c]}</option>
-            ))}
-          </select>
+          <div>
+            <label className="form-label" htmlFor="birth_date">{t('birthDate')}</label>
+            <input
+              id="birth_date"
+              type="date"
+              className="form-input"
+              value={birthDate}
+              onChange={e => setBirthDate(e.target.value)}
+              max={new Date(Date.now() - 10 * 365.25 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+              min={new Date(Date.now() - 100 * 365.25 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+            />
+          </div>
+          <div>
+            <label className="form-label" htmlFor="certification_level">{t('certification')}</label>
+            <select
+              id="certification_level"
+              className="form-input"
+              value={certificationLevel}
+              onChange={e => setCertificationLevel(e.target.value as CertificationLevel)}
+            >
+              {CERTS.map(c => (
+                <option key={c} value={c}>{CERTIFICATION_LABELS[c]}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 

@@ -188,6 +188,7 @@
       "lastName": "Cognoms",
       "email": "Email",
       "phone": "Telèfon",
+      "birthDate": "Data de naixement",
       "certification": "Nivell de certificació",
       "password": "Contrasenya",
       "passwordPlaceholder": "Mínim 8 caràcters",
@@ -251,6 +252,7 @@
     "lastName": "Cognoms",
     "firstNamePlaceholder": "El teu nom",
     "lastNamePlaceholder": "Els teus cognoms",
+    "birthDate": "Data de naixement",
     "certification": "Nivell de certificació",
     "equipment": {
       "title": "Equipament propi",

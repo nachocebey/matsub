@@ -188,6 +188,7 @@
       "lastName": "Last name",
       "email": "Email",
       "phone": "Phone",
+      "birthDate": "Date of birth",
       "certification": "Certification level",
       "password": "Password",
       "passwordPlaceholder": "Minimum 8 characters",
@@ -251,6 +252,7 @@
     "lastName": "Last name",
     "firstNamePlaceholder": "Your first name",
     "lastNamePlaceholder": "Your last name",
+    "birthDate": "Date of birth",
     "certification": "Certification level",
     "equipment": {
       "title": "My equipment",

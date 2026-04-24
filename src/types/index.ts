@@ -13,6 +13,7 @@ export interface Profile {
   last_name: string
   full_name: string
   phone: string | null
+  birth_date: string | null
   certification_level: CertificationLevel
   owned_equipment: EquipmentType[]
   is_admin: boolean

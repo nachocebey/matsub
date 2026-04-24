@@ -36,13 +36,14 @@ export function RegisterForm() {
     const first_name = (form.get('first_name') as string).trim()
     const last_name = (form.get('last_name') as string).trim()
     const full_name = `${first_name} ${last_name}`.trim()
+    const birth_date = form.get('birth_date') as string
     const certification_level = form.get('certification_level') as CertificationLevel
 
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { first_name, last_name, full_name, phone: phone ?? '', certification_level },
+        data: { first_name, last_name, full_name, phone: phone ?? '', birth_date, certification_level },
         emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     })
@@ -119,13 +120,27 @@ export function RegisterForm() {
         </div>
       </div>
 
-      <div>
-        <label className="form-label" htmlFor="certification_level">{t('certification')}</label>
-        <select id="certification_level" name="certification_level" className="form-input">
-          {CERTS.map(c => (
-            <option key={c} value={c}>{CERTIFICATION_LABELS[c]}</option>
-          ))}
-        </select>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className="form-label" htmlFor="birth_date">{t('birthDate')}</label>
+          <input
+            id="birth_date"
+            name="birth_date"
+            type="date"
+            required
+            className="form-input"
+            max={new Date(Date.now() - 10 * 365.25 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+            min={new Date(Date.now() - 100 * 365.25 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+          />
+        </div>
+        <div>
+          <label className="form-label" htmlFor="certification_level">{t('certification')}</label>
+          <select id="certification_level" name="certification_level" className="form-input">
+            {CERTS.map(c => (
+              <option key={c} value={c}>{CERTIFICATION_LABELS[c]}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div>
