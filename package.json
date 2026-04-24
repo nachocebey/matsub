@@ -17,6 +17,7 @@
     "@radix-ui/react-toast": "^1.2.15",
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.104.0",
+    "@types/react-datepicker": "^7.0.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^1.8.0",
@@ -24,7 +25,9 @@
     "next-intl": "^4.9.1",
     "nextjs-toploader": "^3.9.17",
     "react": "^18",
+    "react-datepicker": "^9.1.0",
     "react-dom": "^18",
+    "react-phone-number-input": "^3.4.16",
     "resend": "^6.12.2",
     "tailwind-merge": "^3.5.0"
   },

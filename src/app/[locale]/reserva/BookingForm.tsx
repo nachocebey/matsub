@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { toast } from '@/components/ui/Toaster'
@@ -34,11 +34,7 @@ export function BookingForm({ trip, profile, existingBooking }: Props) {
     .split(',')
     .filter((e): e is EquipmentType => EQUIPMENT_TYPES.includes(e as EquipmentType))
 
-  const initialEquipment = equipmentFromUrl.length > 0
-    ? equipmentFromUrl
-    : (profile?.owned_equipment ?? [])
-
-  const [selectedEquipment, setSelectedEquipment] = useState<EquipmentType[]>(initialEquipment)
+  const [selectedEquipment, setSelectedEquipment] = useState<EquipmentType[]>(equipmentFromUrl)
   const [notes, setNotes] = useState('')
   const [loading, setLoading] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
@@ -53,10 +49,6 @@ export function BookingForm({ trip, profile, existingBooking }: Props) {
   const isFull = trip.available_spots <= 0
   const isPast = new Date(trip.date) < new Date()
 
-  useEffect(() => {
-    setSelectedEquipment(initialEquipment)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const toggleEquipment = (type: EquipmentType) => {
     setSelectedEquipment(prev =>
@@ -206,45 +198,38 @@ export function BookingForm({ trip, profile, existingBooking }: Props) {
 
       {!isFull && !isPast && (
         <>
-          {/* Equipment selection */}
-          <div className="card p-6">
-            <h3 className="font-semibold text-ocean-950 mb-1 flex items-center gap-2">
-              <Package className="h-4 w-4 text-ocean-400" />
-              {t('equipment.title')}
-            </h3>
-            <p className="text-sm text-ocean-500 mb-4">
-              {t('equipment.subtitle')}
-              {isLoggedIn && (profile?.owned_equipment?.length ?? 0) > 0 && (
-                <span className="text-ocean-400"> {t('equipment.fromProfile')}</span>
-              )}
-            </p>
-            <div className="grid gap-2 sm:grid-cols-2">
-              {EQUIPMENT_TYPES.map(type => {
-                const isOwned = profile?.owned_equipment.includes(type)
-                const isSelected = selectedEquipment.includes(type)
-                return (
-                  <label
-                    key={type}
-                    className={`flex items-center gap-3 rounded-xl border p-3 cursor-pointer transition-colors ${
-                      isSelected ? 'border-ocean-500 bg-ocean-50' : 'border-ocean-100 hover:border-ocean-300'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={() => toggleEquipment(type)}
-                      className="rounded border-ocean-300 text-ocean-600 focus:ring-ocean-500"
-                    />
-                    <span className="text-lg">{EQUIPMENT_ICONS[type]}</span>
-                    <div className="flex-1">
+          {/* Equipment selection — only for dive trips */}
+          {trip.type === 'dive' && (
+            <div className="card p-6">
+              <h3 className="font-semibold text-ocean-950 mb-1 flex items-center gap-2">
+                <Package className="h-4 w-4 text-ocean-400" />
+                {t('equipment.title')}
+              </h3>
+              <p className="text-sm text-ocean-500 mb-4">{t('equipment.subtitle')}</p>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {EQUIPMENT_TYPES.map(type => {
+                  const isSelected = selectedEquipment.includes(type)
+                  return (
+                    <label
+                      key={type}
+                      className={`flex items-center gap-3 rounded-xl border p-3 cursor-pointer transition-colors ${
+                        isSelected ? 'border-ocean-500 bg-ocean-50' : 'border-ocean-100 hover:border-ocean-300'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => toggleEquipment(type)}
+                        className="rounded border-ocean-300 text-ocean-600 focus:ring-ocean-500"
+                      />
+                      <span className="text-lg">{EQUIPMENT_ICONS[type]}</span>
                       <p className="text-sm font-medium text-ocean-950">{EQUIPMENT_TYPE_LABELS[type]}</p>
-                      {isOwned && <p className="text-xs text-ocean-400">{t('equipment.fromProfile')}</p>}
-                    </div>
-                  </label>
-                )
-              })}
+                    </label>
+                  )
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Guest contact fields (only when not logged in) */}
           {!isLoggedIn && (

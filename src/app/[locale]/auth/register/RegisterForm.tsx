@@ -9,6 +9,9 @@ import { CERTIFICATION_LABELS } from '@/lib/utils'
 import { Eye, EyeOff, UserPlus } from 'lucide-react'
 import type { CertificationLevel } from '@/types'
 import { useTranslations } from 'next-intl'
+import PhoneInput from 'react-phone-number-input'
+import type { Value as E164Number } from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
 
 const CERTS: CertificationLevel[] = ['none', 'open_water', 'advanced', 'rescue', 'divemaster']
 
@@ -20,6 +23,7 @@ export function RegisterForm() {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [phone, setPhone] = useState<E164Number | undefined>()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -32,14 +36,13 @@ export function RegisterForm() {
     const first_name = (form.get('first_name') as string).trim()
     const last_name = (form.get('last_name') as string).trim()
     const full_name = `${first_name} ${last_name}`.trim()
-    const phone = form.get('phone') as string
     const certification_level = form.get('certification_level') as CertificationLevel
 
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { first_name, last_name, full_name, phone, certification_level },
+        data: { first_name, last_name, full_name, phone: phone ?? '', certification_level },
         emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     })
@@ -105,14 +108,13 @@ export function RegisterForm() {
           />
         </div>
         <div>
-          <label className="form-label" htmlFor="phone">{t('phone')}</label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            className="form-input"
-            placeholder={t('phonePlaceholder')}
+          <label className="form-label">{t('phone')}</label>
+          <PhoneInput
+            value={phone}
+            onChange={setPhone}
+            defaultCountry="ES"
+            international
+            className="phone-input"
           />
         </div>
       </div>

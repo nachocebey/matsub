@@ -2,19 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { formatDate, formatTime, formatPrice, BOOKING_STATUS_LABELS, CERTIFICATION_LABELS, EQUIPMENT_TYPE_LABELS, getI18n } from '@/lib/utils'
+import { formatDate, formatTime, formatPrice, BOOKING_STATUS_LABELS, CERTIFICATION_LABELS, getI18n } from '@/lib/utils'
 import { DifficultyBadge } from '@/components/ui/DifficultyBadge'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from '@/components/ui/Toaster'
-import { Calendar, Clock, Euro, User, Package, ArrowRight, X, Save } from 'lucide-react'
+import { Calendar, Clock, Euro, User, Package, ArrowRight, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import type { BookingWithDetails, BookingStatus, Profile, EquipmentType } from '@/types'
+import type { BookingWithDetails, BookingStatus, Profile } from '@/types'
 import { useTranslations, useLocale } from 'next-intl'
-
-const EQUIPMENT_TYPES: EquipmentType[] = ['wetsuit', 'bcd', 'regulator', 'fins', 'mask', 'tank']
-const EQUIPMENT_ICONS: Record<EquipmentType, string> = {
-  wetsuit: '🤿', bcd: '🦺', regulator: '🔧', fins: '🐟', mask: '👓', tank: '🫙',
-}
 
 interface Props {
   profile: Profile
@@ -29,32 +24,11 @@ const STATUS_STYLES: Record<BookingStatus, string> = {
 
 export function UserDashboard({ profile, bookings: initialBookings }: Props) {
   const t = useTranslations('dashboard')
-  const tp = useTranslations('profile')
   const locale = useLocale()
   const supabase = createClient()
   const [bookings, setBookings] = useState(initialBookings)
   const [filter, setFilter] = useState<'all' | BookingStatus>('all')
   const [cancelling, setCancelling] = useState<string | null>(null)
-  const [ownedEquipment, setOwnedEquipment] = useState<EquipmentType[]>(profile.owned_equipment ?? [])
-  const [savingEquipment, setSavingEquipment] = useState(false)
-
-  const toggleOwned = (type: EquipmentType) => {
-    setOwnedEquipment(prev =>
-      prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
-    )
-  }
-
-  const saveOwnedEquipment = async () => {
-    setSavingEquipment(true)
-    const { error } = await supabase
-      .from('profiles')
-      .update({ owned_equipment: ownedEquipment })
-      .eq('id', profile.id)
-
-    if (error) toast.error(tp('saveError'))
-    else toast.success(tp('saveSuccess'))
-    setSavingEquipment(false)
-  }
 
   const filtered = filter === 'all'
     ? bookings
@@ -123,53 +97,6 @@ export function UserDashboard({ profile, bookings: initialBookings }: Props) {
       </div>
 
       <div className="container-main py-12">
-        {/* Owned equipment */}
-        <div className="card p-6 mb-10">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="font-semibold text-ocean-950 flex items-center gap-2">
-                <Package className="h-4 w-4 text-ocean-400" />
-                {t('equipment.title')}
-              </h2>
-              <p className="text-sm text-ocean-500 mt-0.5">
-                {t('equipment.subtitle')}
-              </p>
-            </div>
-            <button
-              onClick={saveOwnedEquipment}
-              disabled={savingEquipment}
-              className="btn-primary text-xs py-1.5 px-3"
-            >
-              <Save className="h-3.5 w-3.5" />
-              {savingEquipment ? t('equipment.saving') : t('equipment.save')}
-            </button>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {EQUIPMENT_TYPES.map(type => (
-              <label
-                key={type}
-                className={cn(
-                  'flex items-center gap-2.5 rounded-xl border p-3 cursor-pointer transition-colors',
-                  ownedEquipment.includes(type)
-                    ? 'border-ocean-500 bg-ocean-50'
-                    : 'border-ocean-100 hover:border-ocean-300'
-                )}
-              >
-                <input
-                  type="checkbox"
-                  checked={ownedEquipment.includes(type)}
-                  onChange={() => toggleOwned(type)}
-                  className="rounded border-ocean-300 text-ocean-600 focus:ring-ocean-500"
-                />
-                <span>{EQUIPMENT_ICONS[type]}</span>
-                <span className="text-sm font-medium text-ocean-800">
-                  {EQUIPMENT_TYPE_LABELS[type]}
-                </span>
-              </label>
-            ))}
-          </div>
-        </div>
-
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3 mb-8">
           <h2 className="text-xl font-bold text-ocean-950 mr-2">{t('bookings.title')}</h2>

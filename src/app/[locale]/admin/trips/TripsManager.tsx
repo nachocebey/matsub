@@ -6,6 +6,7 @@ import { toast } from '@/components/ui/Toaster'
 import { formatDate, formatPrice, TRIP_TYPE_LABELS } from '@/lib/utils'
 import { I18nTextFields } from '@/components/ui/I18nTextFields'
 import { Plus, Edit2, XCircle, Users } from 'lucide-react'
+import { DatePicker } from '@/components/ui/DatePicker'
 import { cn } from '@/lib/utils'
 import type { TripWithAvailability, Spot, Course, TripType, Difficulty, I18nField } from '@/types'
 
@@ -215,7 +216,7 @@ export function TripsManager({ trips: initial, spots, courses }: Props) {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="form-label">Fecha *</label>
-                  <input required type="date" className="form-input" value={form.date} onChange={e => set('date', e.target.value)} />
+                  <DatePicker required value={form.date} onChange={v => set('date', v)} />
                 </div>
                 <div>
                   <label className="form-label">Hora *</label>
