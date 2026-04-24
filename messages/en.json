@@ -1,0 +1,484 @@
+{
+  "nav": {
+    "spots": "Spots",
+    "calendar": "Calendar",
+    "about": "About us",
+    "contact": "Contact",
+    "profile": "My profile",
+    "bookings": "My bookings",
+    "admin": "Administration",
+    "signOut": "Sign out",
+    "signIn": "Sign in",
+    "register": "Register"
+  },
+  "footer": {
+    "tagline": "Professional diving center in Mataró. Discover the Maresme seabed with our experts.",
+    "explore": "Explore",
+    "spots": "Dive spots",
+    "calendar": "Trip calendar",
+    "about": "About us",
+    "myAccount": "My account",
+    "myBookings": "My bookings",
+    "contact": "Contact",
+    "rights": "© {year} MATSUB Centre de Busseig. All rights reserved.",
+    "madeWith": "Made with ❤️ in Mataró"
+  },
+  "home": {
+    "hero": {
+      "subtitle": "Professional diving center in Mataró",
+      "title1": "Discover the seabed",
+      "title2": "of the Maresme",
+      "description": "Guided dives, PADI courses and equipment rental. Explore the marine richness of the Catalan coast with our certified instructors.",
+      "cta": "View upcoming trips",
+      "ctaSecondary": "Learn about us"
+    },
+    "why": {
+      "title": "Why choose MATSUB?",
+      "experience": "Over 15 years of experience in the Maresme, with hundreds of trained divers and thousands of dives completed.",
+      "dives": "Guided dives",
+      "divesDesc": "Weekly trips to the best Maresme spots with PADI-certified guides.",
+      "courses": "PADI courses",
+      "coursesDesc": "From Open Water to Divemaster. Complete training for all levels.",
+      "seabed": "Unique seabeds",
+      "seabedDesc": "Discover the marine biodiversity of the Catalan coast: morays, octopuses and rockfish.",
+      "safety": "Safety first",
+      "safetyDesc": "Certified equipment, experienced instructors and strict safety protocols."
+    },
+    "trips": {
+      "title": "Upcoming trips",
+      "subtitle": "Book your spot for upcoming dives and courses.",
+      "viewAll": "View all",
+      "viewAllLink": "View all trips"
+    },
+    "spots": {
+      "title": "Featured spots",
+      "subtitle": "The best diving spots in the Maresme, just minutes from Mataró.",
+      "viewAll": "All spots"
+    },
+    "cta": {
+      "title": "Ready to dive in?",
+      "subtitle": "Sign up now and book your first dive. Our team is waiting for you.",
+      "register": "Register for free",
+      "contact": "Any questions? Write to us"
+    }
+  },
+  "spots": {
+    "title": "Dive spots",
+    "ourSpots": "Our spots",
+    "subtitle": "Discover the best diving spots in the Maresme. From beginner-friendly areas to depths that challenge experts.",
+    "empty": "We'll be adding our spots soon. Come back and visit us!",
+    "allSpots": "All spots",
+    "depth": "Depth: {min}–{max}m",
+    "upcomingTrips": "Upcoming trips at {name}",
+    "noTrips": "No trips scheduled",
+    "noTripsDesc": "Check the general calendar or contact us to arrange a custom trip.",
+    "viewCalendar": "View calendar",
+    "contactUs": "Contact us",
+    "notFound": "Spot not found"
+  },
+  "calendar": {
+    "title": "Trip calendar",
+    "subtitle": "All scheduled dives and courses. Filter by type and book your spot.",
+    "all": "All",
+    "dives": "Dives",
+    "courses": "Courses",
+    "trips": "trips",
+    "days": {
+      "mon": "Mo",
+      "tue": "Tu",
+      "wed": "We",
+      "thu": "Th",
+      "fri": "Fr",
+      "sat": "Sa",
+      "sun": "Su"
+    },
+    "dive": "Dive",
+    "course": "Course",
+    "viewAll": "View all",
+    "noDayTrips": "No trips on this day.",
+    "noTrips": "No trips scheduled."
+  },
+  "booking": {
+    "title": "Book a spot",
+    "summary": "Trip summary",
+    "full": "Full",
+    "spotsAvailable": "{count} spots available",
+    "equipment": {
+      "title": "What equipment do you have?",
+      "subtitle": "Check what you already own. The center will know what you need.",
+      "fromProfile": "(pre-selected from your profile)"
+    },
+    "guestData": {
+      "title": "Your details",
+      "subtitle": "You'll receive an email to confirm your booking.",
+      "signIn": "Sign in",
+      "signInSuffix": "if you already have an account.",
+      "fullName": "Full name *",
+      "namePlaceholder": "Your name",
+      "phone": "Phone",
+      "email": "Email *",
+      "emailHint": "We'll send a confirmation link to this address."
+    },
+    "notes": "Notes (optional)",
+    "notesPlaceholder": "Allergies, medical conditions, preferences...",
+    "confirmBtn": "Confirm booking · {price}",
+    "requestBtn": "Request booking · {price}",
+    "processing": "Processing booking...",
+    "sending": "Sending...",
+    "emailHint": "You'll receive an email to confirm your spot.",
+    "viewOther": "View other trips",
+    "alreadyBooked": {
+      "title": "You already have a booking!",
+      "subtitle": "You're already signed up for this trip.",
+      "viewBookings": "View my bookings"
+    },
+    "checkEmail": {
+      "title": "Check your email!",
+      "sent": "We've sent an email to <strong>{email}</strong>.",
+      "instruction": "Click the confirmation link to complete your booking. The link expires in 24 hours.",
+      "backToCalendar": "Back to calendar"
+    },
+    "warnings": {
+      "full": "This trip is full.",
+      "past": "This trip has already passed."
+    },
+    "success": "Booking made! You'll receive a confirmation email."
+  },
+  "verify": {
+    "success": {
+      "title": "Booking confirmed!",
+      "message": "Thank you, {name}! Your booking for \"{trip}\" has been confirmed. The center will contact you with the final details."
+    },
+    "already": {
+      "title": "Already confirmed",
+      "message": "Your booking for \"{trip}\" was already verified previously."
+    },
+    "invalid": {
+      "title": "Invalid link",
+      "message": "This verification link doesn't exist or has expired. If you think this is an error, contact us."
+    },
+    "cancelled": {
+      "title": "Booking cancelled",
+      "message": "This booking has been cancelled. You can make a new booking in the calendar."
+    },
+    "viewTrips": "View trips",
+    "contactUs": "Contact us"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to manage your bookings",
+      "noAccount": "Don't have an account yet?",
+      "registerLink": "Register now",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Sign in",
+      "loading": "Signing in...",
+      "error": "Incorrect email or password",
+      "success": "Signed in successfully!"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Join the MATSUB community",
+      "hasAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "certification": "Certification level",
+      "password": "Password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "firstNamePlaceholder": "Your first name",
+      "lastNamePlaceholder": "Your last name",
+      "phonePlaceholder": "+34 600 000 000",
+      "emailPlaceholder": "email@example.com",
+      "submit": "Create account",
+      "loading": "Creating account...",
+      "terms": "By registering you accept our terms of use and privacy policy.",
+      "errorExists": "This email is already registered.",
+      "errorGeneral": "Error creating account. Please try again.",
+      "success": "Account created! Check your email to confirm your registration."
+    },
+    "reset": {
+      "title": "Reset password",
+      "subtitle": "We'll send you a link to reset it",
+      "backToLogin": "← Back to sign in",
+      "email": "Your account email",
+      "submit": "Send recovery link",
+      "loading": "Sending...",
+      "successTitle": "Email sent!",
+      "successDesc": "Check your inbox and click the link to reset your password.",
+      "error": "Error sending the email. Please try again."
+    }
+  },
+  "dashboard": {
+    "greeting": "Hello, {name}!",
+    "admin": "Administrator",
+    "adminPanel": "Admin panel",
+    "stats": {
+      "totalBookings": "Total bookings",
+      "upcomingTrips": "Upcoming trips",
+      "certification": "Certification"
+    },
+    "equipment": {
+      "title": "My equipment",
+      "subtitle": "Checked equipment will be pre-selected automatically for each booking.",
+      "save": "Save",
+      "saving": "Saving...",
+      "fromProfile": "From your profile"
+    },
+    "bookings": {
+      "title": "My bookings",
+      "all": "All",
+      "empty": "No bookings yet.",
+      "emptyDesc": "Explore the calendar and book your next dive!",
+      "viewTrips": "View available trips",
+      "cancelConfirm": "Are you sure you want to cancel this booking?",
+      "cancelled": "Cancelled.",
+      "cancelError": "Error cancelling the booking.",
+      "cancel": "Cancel",
+      "cancelling": "Cancelling...",
+      "newBooking": "Book a new trip"
+    }
+  },
+  "profile": {
+    "title": "My profile",
+    "personalData": "Personal details",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "firstNamePlaceholder": "Your first name",
+    "lastNamePlaceholder": "Your last name",
+    "equipment": {
+      "title": "My equipment",
+      "subtitle": "Check the gear you already own. It will be pre-selected automatically when you make a booking."
+    },
+    "save": "Save changes",
+    "saving": "Saving...",
+    "saveError": "Error saving profile.",
+    "saveSuccess": "Profile saved successfully!"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Questions about trips, courses or equipment? Write to us and we'll help you.",
+    "whereToFind": "Where to find us",
+    "address": "Address",
+    "addressValue": "Carrer de la Mar, 42\n08301 Mataró, Barcelona",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Opening hours",
+    "hoursValue": "Mon–Fri: 9:00–20:00\nSat: 8:00–18:00\nSun: 8:00–14:00",
+    "mapAlt": "Google Maps map",
+    "mapLabel": "Carrer de la Mar, 42 · Mataró",
+    "formTitle": "Send us a message",
+    "name": "Full name",
+    "namePlaceholder": "Your name",
+    "subject": "Subject",
+    "message": "Message",
+    "messagePlaceholder": "Tell us what you need...",
+    "submit": "Send message",
+    "sending": "Sending...",
+    "successTitle": "Message sent!",
+    "successDesc": "We'll reply within 24 hours. See you soon!",
+    "error": "Error sending the message. Try again or write to us directly.",
+    "sentToast": "Message sent successfully!"
+  },
+  "about": {
+    "title": "About MATSUB",
+    "intro": "We are a diving center founded in Mataró in 2009 with one goal: to bring the underwater world to everyone, safely, sustainably and passionately.",
+    "stats": {
+      "experience": "15+",
+      "experienceLabel": "Years of experience",
+      "divers": "500+",
+      "diversLabel": "Trained divers",
+      "dives": "2,000+",
+      "divesLabel": "Dives completed",
+      "spots": "30+",
+      "spotsLabel": "Spots explored"
+    },
+    "historyTitle": "Our story",
+    "history1": "MATSUB was born from the shared passion of a group of friends from Mataró who discovered diving and fell in love with the Maresme seabed.",
+    "history2": "In 2009 we opened our center with a clear mission: to offer quality dives, rigorous training and a personal touch that makes every diver feel at home.",
+    "history3": "Today, with over 15 years of experience, we remain the reference center in the area, proud of the community we've built around our love of the sea.",
+    "badges": {
+      "padi": "Certified PADI school",
+      "team": "Expert and passionate team",
+      "yearRound": "Year-round trips",
+      "eco": "Environmental commitment"
+    },
+    "teamTitle": "Our team",
+    "teamSubtitle": "PADI-certified instructors and guides with years of experience in the Maresme seabed.",
+    "team": {
+      "marc": {
+        "name": "Marc Puig",
+        "role": "Director & PADI Instructor",
+        "bio": "Professional diver since age 18. PADI Instructor with over 1,500 students trained. Specialist in Mediterranean seabeds.",
+        "cert": "PADI Course Director"
+      },
+      "anna": {
+        "name": "Anna Solà",
+        "role": "PADI Instructor & Marine Biologist",
+        "bio": "Graduated in Marine Biology from UAB. Combines her passion for diving with knowledge of the marine ecosystem.",
+        "cert": "PADI Master Instructor"
+      },
+      "jordi": {
+        "name": "Jordi Matas",
+        "role": "Dive guide & Equipment technician",
+        "bio": "Divemaster specialising in night diving and underwater photography. Responsible for all equipment maintenance.",
+        "cert": "PADI Divemaster"
+      }
+    },
+    "ctaTitle": "Want to meet us in person?",
+    "ctaDesc": "Come visit us at the center, or write to us for any query. We'll be happy to help.",
+    "ctaContact": "Contact us",
+    "ctaTrips": "View trips"
+  },
+  "admin": {
+    "title": "Administration panel",
+    "stats": {
+      "users": "Registered users",
+      "activeTrips": "Active trips",
+      "confirmedBookings": "Confirmed bookings",
+      "availableEquipment": "Available equipment"
+    },
+    "recentBookings": "Recent bookings",
+    "noBookings": "No bookings",
+    "bookings": {
+      "title": "Booking management",
+      "all": "All",
+      "user": "User",
+      "trip": "Trip",
+      "status": "Status",
+      "equipment": "Equipment",
+      "date": "Booking date",
+      "actions": "Actions",
+      "guest": "(guest)",
+      "pendingVerification": "Pending verification",
+      "noEquipment": "None",
+      "confirm": "Confirm",
+      "setPending": "Set pending",
+      "cancel": "Cancel",
+      "none": "No bookings",
+      "updateError": "Error."
+    },
+    "equipment": {
+      "title": "Equipment management",
+      "new": "New item",
+      "edit": "Edit item",
+      "name": "Name *",
+      "type": "Type",
+      "size": "Size",
+      "status": "Status",
+      "available": "Available",
+      "maintenance": "Under maintenance",
+      "retired": "Retired",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving...",
+      "updated": "Item updated!",
+      "added": "Item added!",
+      "deleteConfirm": "Delete this item?",
+      "deleted": "Item deleted.",
+      "error": "Error.",
+      "none": "No equipment"
+    },
+    "spots": {
+      "title": "Spot management",
+      "new": "New spot",
+      "edit": "Edit spot",
+      "slug": "Slug *",
+      "description": "Description",
+      "depthMin": "Min depth (m)",
+      "depthMax": "Max depth (m)",
+      "difficulty": "Difficulty",
+      "lat": "Latitude",
+      "lng": "Longitude",
+      "updated": "Spot updated!",
+      "created": "Spot created!",
+      "saveError": "Error saving.",
+      "deleteError": "Error deleting.",
+      "deleteConfirm": "Delete this spot? Associated trips will have no spot.",
+      "deleted": "Spot deleted.",
+      "edit2": "Edit",
+      "none": "No spots"
+    },
+    "trips": {
+      "title": "Trip management",
+      "new": "New trip",
+      "edit": "Edit trip",
+      "type": "Type",
+      "spot": "Spot",
+      "noSpot": "No spot",
+      "titleField": "Title *",
+      "description": "Description",
+      "date": "Date *",
+      "time": "Time *",
+      "duration": "Duration (min)",
+      "maxParticipants": "Max. participants",
+      "price": "Price (€)",
+      "difficulty": "Difficulty",
+      "noDifficulty": "Not specified",
+      "dive": "Dive",
+      "course": "Course",
+      "updated": "Trip updated!",
+      "created": "Trip created!",
+      "updateError": "Error saving changes.",
+      "createError": "Error creating trip.",
+      "cancelConfirm": "Cancel this trip? Existing bookings will be affected.",
+      "cancelled": "Trip cancelled.",
+      "error": "Error.",
+      "colTitle": "Title",
+      "colType": "Type",
+      "colDate": "Date",
+      "colSpots": "Spots",
+      "colPrice": "Price",
+      "colStatus": "Status",
+      "colActions": "Actions",
+      "active": "Active",
+      "cancelledStatus": "Cancelled",
+      "none": "No trips"
+    }
+  },
+  "common": {
+    "difficulty": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "tripType": {
+      "dive": "Dive",
+      "course": "Course"
+    },
+    "bookingStatus": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    },
+    "equipment": {
+      "wetsuit": "Wetsuit",
+      "bcd": "BCD",
+      "regulator": "Regulator",
+      "fins": "Fins",
+      "mask": "Mask",
+      "tank": "Tank"
+    },
+    "certification": {
+      "none": "No certification",
+      "open_water": "Open Water",
+      "advanced": "Advanced Open Water",
+      "rescue": "Rescue Diver",
+      "divemaster": "Divemaster"
+    },
+    "bookNow": "Book now",
+    "full": "Full",
+    "almostFull": "Almost full",
+    "noSpots": "No spots left",
+    "spotsLeft": "{count} spots available",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "error": "Error."
+  }
+}

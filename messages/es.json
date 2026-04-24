@@ -1,0 +1,484 @@
+{
+  "nav": {
+    "spots": "Spots",
+    "calendar": "Calendario",
+    "about": "Sobre nosotros",
+    "contact": "Contacto",
+    "profile": "Mi perfil",
+    "bookings": "Mis reservas",
+    "admin": "Administración",
+    "signOut": "Cerrar sesión",
+    "signIn": "Iniciar sesión",
+    "register": "Registrarse"
+  },
+  "footer": {
+    "tagline": "Centro de buceo profesional en Mataró. Descubre el fondo marino del Maresme con nuestros expertos.",
+    "explore": "Explora",
+    "spots": "Spots de buceo",
+    "calendar": "Calendario de salidas",
+    "about": "Sobre nosotros",
+    "myAccount": "Mi cuenta",
+    "myBookings": "Mis reservas",
+    "contact": "Contacto",
+    "rights": "© {year} MATSUB Centre de Busseig. Todos los derechos reservados.",
+    "madeWith": "Hecho con ❤️ en Mataró"
+  },
+  "home": {
+    "hero": {
+      "subtitle": "Centro de buceo profesional en Mataró",
+      "title1": "Descubre el fondo",
+      "title2": "del Maresme",
+      "description": "Inmersiones guiadas, cursos PADI y alquiler de equipamiento. Explora la riqueza marina de la costa catalana con nuestros instructores certificados.",
+      "cta": "Ver próximas salidas",
+      "ctaSecondary": "Conocer el centro"
+    },
+    "why": {
+      "title": "¿Por qué elegir MATSUB?",
+      "experience": "Más de 15 años de experiencia en el Maresme, con cientos de buceadores formados y miles de inmersiones realizadas.",
+      "dives": "Inmersiones guiadas",
+      "divesDesc": "Salidas semanales a los mejores spots del Maresme con guías certificados PADI.",
+      "courses": "Cursos PADI",
+      "coursesDesc": "Desde Open Water hasta Divemaster. Formación completa para todos los niveles.",
+      "seabed": "Fondos marinos únicos",
+      "seabedDesc": "Descubre la biodiversidad marina de la costa catalana: morenas, pulpos y peces de roca.",
+      "safety": "Seguridad primero",
+      "safetyDesc": "Equipo homologado, instructores con experiencia y protocolos de seguridad estrictos."
+    },
+    "trips": {
+      "title": "Próximas salidas",
+      "subtitle": "Reserva tu plaza para las próximas inmersiones y cursos.",
+      "viewAll": "Ver todas",
+      "viewAllLink": "Ver todas las salidas"
+    },
+    "spots": {
+      "title": "Spots destacados",
+      "subtitle": "Los mejores lugares de buceo del Maresme, a pocos minutos de Mataró.",
+      "viewAll": "Todos los spots"
+    },
+    "cta": {
+      "title": "¿Listo para sumergirte?",
+      "subtitle": "Regístrate ahora y reserva tu primera inmersión. Nuestro equipo te espera.",
+      "register": "Registrarse gratis",
+      "contact": "¿Tienes dudas? Escríbenos"
+    }
+  },
+  "spots": {
+    "title": "Spots de buceo",
+    "ourSpots": "Nuestros spots",
+    "subtitle": "Descubre los mejores puntos de buceo del Maresme. Desde zonas aptas para principiantes hasta profundidades que desafían a los expertos.",
+    "empty": "Pronto añadiremos nuestros spots. ¡Vuelve a visitarnos!",
+    "allSpots": "Todos los spots",
+    "depth": "Profundidad: {min}–{max}m",
+    "upcomingTrips": "Próximas salidas en {name}",
+    "noTrips": "No hay salidas programadas",
+    "noTripsDesc": "Consulta el calendario general o contáctanos para organizar una salida personalizada.",
+    "viewCalendar": "Ver calendario",
+    "contactUs": "Contactar",
+    "notFound": "Spot no encontrado"
+  },
+  "calendar": {
+    "title": "Calendario de salidas",
+    "subtitle": "Todas las inmersiones y cursos programados. Filtra por tipo y reserva tu plaza.",
+    "all": "Todos",
+    "dives": "Inmersiones",
+    "courses": "Cursos",
+    "trips": "salidas",
+    "days": {
+      "mon": "Lu",
+      "tue": "Ma",
+      "wed": "Mi",
+      "thu": "Ju",
+      "fri": "Vi",
+      "sat": "Sá",
+      "sun": "Do"
+    },
+    "dive": "Inmersión",
+    "course": "Curso",
+    "viewAll": "Ver todas",
+    "noDayTrips": "No hay salidas este día.",
+    "noTrips": "No hay salidas programadas."
+  },
+  "booking": {
+    "title": "Reservar plaza",
+    "summary": "Resumen de la salida",
+    "full": "Completo",
+    "spotsAvailable": "{count} plazas disponibles",
+    "equipment": {
+      "title": "¿Qué equipamiento llevas?",
+      "subtitle": "Marca lo que ya tienes. El centro sabrá qué necesitas completar.",
+      "fromProfile": "(pre-seleccionado de tu perfil)"
+    },
+    "guestData": {
+      "title": "Tus datos",
+      "subtitle": "Recibirás un email para confirmar la reserva.",
+      "signIn": "Inicia sesión",
+      "signInSuffix": "si ya tienes cuenta.",
+      "fullName": "Nombre completo *",
+      "namePlaceholder": "Tu nombre",
+      "phone": "Teléfono",
+      "email": "Email *",
+      "emailHint": "Te enviaremos un link de confirmación a esta dirección."
+    },
+    "notes": "Notas (opcional)",
+    "notesPlaceholder": "Alergias, condiciones médicas, preferencias...",
+    "confirmBtn": "Confirmar reserva · {price}",
+    "requestBtn": "Solicitar reserva · {price}",
+    "processing": "Procesando reserva...",
+    "sending": "Enviando...",
+    "emailHint": "Recibirás un email para confirmar tu plaza.",
+    "viewOther": "Ver otras salidas",
+    "alreadyBooked": {
+      "title": "¡Ya tienes una reserva!",
+      "subtitle": "Ya estás apuntado a esta salida.",
+      "viewBookings": "Ver mis reservas"
+    },
+    "checkEmail": {
+      "title": "¡Revisa tu correo!",
+      "sent": "Te hemos enviado un email a <strong>{email}</strong>.",
+      "instruction": "Haz clic en el link de confirmación para completar la reserva. El link caduca en 24 horas.",
+      "backToCalendar": "Volver al calendario"
+    },
+    "warnings": {
+      "full": "Esta salida está completa.",
+      "past": "Esta salida ya ha pasado."
+    },
+    "success": "¡Reserva realizada! Recibirás un email de confirmación."
+  },
+  "verify": {
+    "success": {
+      "title": "¡Reserva confirmada!",
+      "message": "¡Gracias, {name}! Tu reserva para \"{trip}\" ha sido confirmada. El centro se pondrá en contacto contigo para los detalles finales."
+    },
+    "already": {
+      "title": "Ya estás confirmado",
+      "message": "Tu reserva para \"{trip}\" ya estaba verificada anteriormente."
+    },
+    "invalid": {
+      "title": "Link no válido",
+      "message": "Este link de verificación no existe o ha caducado. Si crees que es un error, contáctanos."
+    },
+    "cancelled": {
+      "title": "Reserva cancelada",
+      "message": "Esta reserva ha sido cancelada. Puedes hacer una nueva reserva en el calendario."
+    },
+    "viewTrips": "Ver salidas",
+    "contactUs": "Contactarnos"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión para gestionar tus reservas",
+      "noAccount": "¿Aún no tienes cuenta?",
+      "registerLink": "Regístrate ahora",
+      "email": "Email",
+      "password": "Contraseña",
+      "forgotPassword": "¿Has olvidado la contraseña?",
+      "submit": "Iniciar sesión",
+      "loading": "Iniciando sesión...",
+      "error": "Email o contraseña incorrectos",
+      "success": "¡Sesión iniciada correctamente!"
+    },
+    "register": {
+      "title": "Crea tu cuenta",
+      "subtitle": "Únete a la comunidad MATSUB",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "signInLink": "Inicia sesión",
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
+      "email": "Email",
+      "phone": "Teléfono",
+      "certification": "Nivel de certificación",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Mínimo 8 caracteres",
+      "firstNamePlaceholder": "Tu nombre",
+      "lastNamePlaceholder": "Tus apellidos",
+      "phonePlaceholder": "+34 600 000 000",
+      "emailPlaceholder": "correo@ejemplo.com",
+      "submit": "Crear cuenta",
+      "loading": "Creando cuenta...",
+      "terms": "Al registrarte aceptas nuestras condiciones de uso y política de privacidad.",
+      "errorExists": "Este email ya está registrado.",
+      "errorGeneral": "Error al crear la cuenta. Inténtalo de nuevo.",
+      "success": "¡Cuenta creada! Revisa tu email para confirmar el registro."
+    },
+    "reset": {
+      "title": "Recuperar contraseña",
+      "subtitle": "Te enviaremos un link para restablecerla",
+      "backToLogin": "← Volver a iniciar sesión",
+      "email": "Email de tu cuenta",
+      "submit": "Enviar link de recuperación",
+      "loading": "Enviando...",
+      "successTitle": "¡Correo enviado!",
+      "successDesc": "Revisa tu bandeja de entrada y haz clic en el link para restablecer la contraseña.",
+      "error": "Error al enviar el correo. Inténtalo de nuevo."
+    }
+  },
+  "dashboard": {
+    "greeting": "¡Hola, {name}!",
+    "admin": "Administrador",
+    "adminPanel": "Panel de admin",
+    "stats": {
+      "totalBookings": "Reservas totales",
+      "upcomingTrips": "Próximas salidas",
+      "certification": "Certificación"
+    },
+    "equipment": {
+      "title": "Mi equipamiento",
+      "subtitle": "El equipamiento marcado se pre-seleccionará automáticamente en cada reserva.",
+      "save": "Guardar",
+      "saving": "Guardando...",
+      "fromProfile": "De tu perfil"
+    },
+    "bookings": {
+      "title": "Mis reservas",
+      "all": "Todas",
+      "empty": "No tienes reservas aún.",
+      "emptyDesc": "¡Explora el calendario y reserva tu próxima inmersión!",
+      "viewTrips": "Ver salidas disponibles",
+      "cancelConfirm": "¿Seguro que quieres cancelar esta reserva?",
+      "cancelled": "Cancelada.",
+      "cancelError": "Error al cancelar la reserva.",
+      "cancel": "Cancelar",
+      "cancelling": "Cancelando...",
+      "newBooking": "Reservar nueva salida"
+    }
+  },
+  "profile": {
+    "title": "Mi perfil",
+    "personalData": "Datos personales",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "firstNamePlaceholder": "Tu nombre",
+    "lastNamePlaceholder": "Tus apellidos",
+    "equipment": {
+      "title": "Equipamiento propio",
+      "subtitle": "Marca el material que ya tienes. Se pre-seleccionará automáticamente cuando hagas una reserva."
+    },
+    "save": "Guardar cambios",
+    "saving": "Guardando...",
+    "saveError": "Error al guardar el perfil.",
+    "saveSuccess": "¡Perfil guardado correctamente!"
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "¿Tienes dudas sobre las salidas, cursos o equipamiento? Escríbenos y te ayudaremos.",
+    "whereToFind": "Dónde encontrarnos",
+    "address": "Dirección",
+    "addressValue": "Carrer de la Mar, 42\n08301 Mataró, Barcelona",
+    "phone": "Teléfono",
+    "email": "Email",
+    "hours": "Horario",
+    "hoursValue": "Lu–Vi: 9:00–20:00\nSá: 8:00–18:00\nDo: 8:00–14:00",
+    "mapAlt": "Mapa de Google Maps",
+    "mapLabel": "Carrer de la Mar, 42 · Mataró",
+    "formTitle": "Envíanos un mensaje",
+    "name": "Nombre completo",
+    "namePlaceholder": "Tu nombre",
+    "subject": "Asunto",
+    "message": "Mensaje",
+    "messagePlaceholder": "Cuéntanos lo que necesitas...",
+    "submit": "Enviar mensaje",
+    "sending": "Enviando...",
+    "successTitle": "¡Mensaje enviado!",
+    "successDesc": "Te responderemos en las próximas 24 horas. ¡Hasta pronto!",
+    "error": "Error al enviar el mensaje. Inténtalo de nuevo o escríbenos directamente.",
+    "sentToast": "¡Mensaje enviado correctamente!"
+  },
+  "about": {
+    "title": "Sobre MATSUB",
+    "intro": "Somos un centro de buceo fundado en Mataró en 2009 con un único objetivo: acercar el mundo submarino a todos, de forma segura, sostenible y apasionante.",
+    "stats": {
+      "experience": "15+",
+      "experienceLabel": "Años de experiencia",
+      "divers": "500+",
+      "diversLabel": "Buceadores formados",
+      "dives": "2.000+",
+      "divesLabel": "Inmersiones realizadas",
+      "spots": "30+",
+      "spotsLabel": "Spots explorados"
+    },
+    "historyTitle": "Nuestra historia",
+    "history1": "MATSUB nace de la pasión compartida de un grupo de amigos de Mataró que descubrieron el buceo y se enamoraron de los fondos marinos del Maresme.",
+    "history2": "En 2009 abrimos las puertas de nuestro centro con una misión clara: ofrecer inmersiones de calidad, formación rigurosa y un trato cercano que hiciera que cada buceador se sintiera en casa.",
+    "history3": "Hoy, con más de 15 años de experiencia, seguimos siendo el centro de referencia de la zona, orgullosos de la comunidad que hemos creado alrededor del amor por el mar.",
+    "badges": {
+      "padi": "Escuela PADI certificada",
+      "team": "Equipo experto y apasionado",
+      "yearRound": "Salidas todo el año",
+      "eco": "Compromiso ambiental"
+    },
+    "teamTitle": "Nuestro equipo",
+    "teamSubtitle": "Instructores y guías certificados PADI con años de experiencia en los fondos del Maresme.",
+    "team": {
+      "marc": {
+        "name": "Marc Puig",
+        "role": "Director e Instructor PADI",
+        "bio": "Buceador profesional desde los 18 años. Instructor PADI con más de 1.500 alumnos formados. Especialista en fondos mediterráneos.",
+        "cert": "PADI Course Director"
+      },
+      "anna": {
+        "name": "Anna Solà",
+        "role": "Instructora PADI & Bióloga Marina",
+        "bio": "Licenciada en Biología Marina por la UAB. Combina la pasión por el buceo con el conocimiento del ecosistema marino.",
+        "cert": "PADI Master Instructor"
+      },
+      "jordi": {
+        "name": "Jordi Matas",
+        "role": "Guía de buceo & Técnico de equipamiento",
+        "bio": "Divemaster con especialización en buceo nocturno y fotografía submarina. Responsable del mantenimiento de todo el equipamiento.",
+        "cert": "PADI Divemaster"
+      }
+    },
+    "ctaTitle": "¿Quieres conocernos en persona?",
+    "ctaDesc": "Ven a visitarnos al centro, o escríbenos para cualquier consulta. Estaremos encantados de ayudarte.",
+    "ctaContact": "Contactarnos",
+    "ctaTrips": "Ver salidas"
+  },
+  "admin": {
+    "title": "Panel de administración",
+    "stats": {
+      "users": "Usuarios registrados",
+      "activeTrips": "Salidas activas",
+      "confirmedBookings": "Reservas confirmadas",
+      "availableEquipment": "Equipos disponibles"
+    },
+    "recentBookings": "Últimas reservas",
+    "noBookings": "Sin reservas",
+    "bookings": {
+      "title": "Gestión de reservas",
+      "all": "Todas",
+      "user": "Usuario",
+      "trip": "Salida",
+      "status": "Estado",
+      "equipment": "Equipamiento",
+      "date": "Fecha reserva",
+      "actions": "Acciones",
+      "guest": "(invitado)",
+      "pendingVerification": "Pendiente verificación",
+      "noEquipment": "Ninguno",
+      "confirm": "Confirmar",
+      "setPending": "Poner pendiente",
+      "cancel": "Cancelar",
+      "none": "Sin reservas",
+      "updateError": "Error."
+    },
+    "equipment": {
+      "title": "Gestión de equipamiento",
+      "new": "Nuevo equipo",
+      "edit": "Editar equipo",
+      "name": "Nombre *",
+      "type": "Tipo",
+      "size": "Talla",
+      "status": "Estado",
+      "available": "Disponible",
+      "maintenance": "En mantenimiento",
+      "retired": "Retirado",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "saving": "Guardando...",
+      "updated": "¡Equipo actualizado!",
+      "added": "¡Equipo añadido!",
+      "deleteConfirm": "¿Eliminar este equipo?",
+      "deleted": "Equipo eliminado.",
+      "error": "Error.",
+      "none": "Sin equipamiento"
+    },
+    "spots": {
+      "title": "Gestión de spots",
+      "new": "Nuevo spot",
+      "edit": "Editar spot",
+      "slug": "Slug *",
+      "description": "Descripción",
+      "depthMin": "Prof. mín (m)",
+      "depthMax": "Prof. máx (m)",
+      "difficulty": "Dificultad",
+      "lat": "Latitud",
+      "lng": "Longitud",
+      "updated": "¡Spot actualizado!",
+      "created": "¡Spot creado!",
+      "saveError": "Error al guardar.",
+      "deleteError": "Error al eliminar.",
+      "deleteConfirm": "¿Eliminar este spot? Las salidas asociadas quedarán sin spot.",
+      "deleted": "Spot eliminado.",
+      "edit2": "Editar",
+      "none": "Sin spots"
+    },
+    "trips": {
+      "title": "Gestión de salidas",
+      "new": "Nueva salida",
+      "edit": "Editar salida",
+      "type": "Tipo",
+      "spot": "Spot",
+      "noSpot": "Sin spot",
+      "titleField": "Título *",
+      "description": "Descripción",
+      "date": "Fecha *",
+      "time": "Hora *",
+      "duration": "Duración (min)",
+      "maxParticipants": "Máx. participantes",
+      "price": "Precio (€)",
+      "difficulty": "Dificultad",
+      "noDifficulty": "Sin especificar",
+      "dive": "Inmersión",
+      "course": "Curso",
+      "updated": "¡Salida actualizada!",
+      "created": "¡Salida creada!",
+      "updateError": "Error al guardar los cambios.",
+      "createError": "Error al crear la salida.",
+      "cancelConfirm": "¿Cancelar esta salida? Las reservas existentes quedarán afectadas.",
+      "cancelled": "Salida cancelada.",
+      "error": "Error.",
+      "colTitle": "Título",
+      "colType": "Tipo",
+      "colDate": "Fecha",
+      "colSpots": "Plazas",
+      "colPrice": "Precio",
+      "colStatus": "Estado",
+      "colActions": "Acciones",
+      "active": "Activa",
+      "cancelledStatus": "Cancelada",
+      "none": "Sin salidas"
+    }
+  },
+  "common": {
+    "difficulty": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
+    "tripType": {
+      "dive": "Inmersión",
+      "course": "Curso"
+    },
+    "bookingStatus": {
+      "pending": "Pendiente",
+      "confirmed": "Confirmada",
+      "cancelled": "Cancelada"
+    },
+    "equipment": {
+      "wetsuit": "Traje de neopreno",
+      "bcd": "Chaleco hidrostático",
+      "regulator": "Regulador",
+      "fins": "Aletas",
+      "mask": "Máscara",
+      "tank": "Botella"
+    },
+    "certification": {
+      "none": "Sin certificación",
+      "open_water": "Open Water",
+      "advanced": "Advanced Open Water",
+      "rescue": "Rescue Diver",
+      "divemaster": "Divemaster"
+    },
+    "bookNow": "Reservar plaza",
+    "full": "Completo",
+    "almostFull": "Casi completo",
+    "noSpots": "Sin plazas",
+    "spotsLeft": "{count} plazas disponibles",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "error": "Error."
+  }
+}

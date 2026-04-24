@@ -1,0 +1,484 @@
+{
+  "nav": {
+    "spots": "Spots",
+    "calendar": "Calendari",
+    "about": "Sobre nosaltres",
+    "contact": "Contacte",
+    "profile": "El meu perfil",
+    "bookings": "Les meves reserves",
+    "admin": "Administració",
+    "signOut": "Tancar sessió",
+    "signIn": "Iniciar sessió",
+    "register": "Registrar-se"
+  },
+  "footer": {
+    "tagline": "Centre de busseig professional a Mataró. Descobreix el fons marí del Maresme amb els nostres experts.",
+    "explore": "Explora",
+    "spots": "Spots de busseig",
+    "calendar": "Calendari de sortides",
+    "about": "Sobre nosaltres",
+    "myAccount": "El meu compte",
+    "myBookings": "Les meves reserves",
+    "contact": "Contacte",
+    "rights": "© {year} MATSUB Centre de Busseig. Tots els drets reservats.",
+    "madeWith": "Fet amb ❤️ a Mataró"
+  },
+  "home": {
+    "hero": {
+      "subtitle": "Centre de busseig professional a Mataró",
+      "title1": "Descobreix el fons",
+      "title2": "del Maresme",
+      "description": "Immersions guiades, cursos PADI i lloguer d'equipament. Explora la riquesa marina de la costa catalana amb els nostres instructors certificats.",
+      "cta": "Veure properes sortides",
+      "ctaSecondary": "Conèixer el centre"
+    },
+    "why": {
+      "title": "Per què triar MATSUB?",
+      "experience": "Més de 15 anys d'experiència al Maresme, amb centenars de bussejadors formats i milers d'immersions realitzades.",
+      "dives": "Immersions guiades",
+      "divesDesc": "Sortides setmanals als millors spots del Maresme amb guies certificats PADI.",
+      "courses": "Cursos PADI",
+      "coursesDesc": "Des d'Open Water fins a Divemaster. Formació completa per a tots els nivells.",
+      "seabed": "Fons marins únics",
+      "seabedDesc": "Descobreix la biodiversitat marina de la costa catalana: morenes, polps i peixos de roca.",
+      "safety": "Seguretat primer",
+      "safetyDesc": "Equip homologat, instructors amb experiència i protocols de seguretat estrictes."
+    },
+    "trips": {
+      "title": "Properes sortides",
+      "subtitle": "Reserva la teva plaça per a les pròximes immersions i cursos.",
+      "viewAll": "Veure totes",
+      "viewAllLink": "Veure totes les sortides"
+    },
+    "spots": {
+      "title": "Spots destacats",
+      "subtitle": "Els millors llocs de busseig del Maresme, a pocs minuts de Mataró.",
+      "viewAll": "Tots els spots"
+    },
+    "cta": {
+      "title": "Llest per submergir-te?",
+      "subtitle": "Registra't ara i reserva la teva primera immersió. El nostre equip t'espera.",
+      "register": "Registrar-se gratis",
+      "contact": "Tens dubtes? Escriu-nos"
+    }
+  },
+  "spots": {
+    "title": "Spots de busseig",
+    "ourSpots": "Els nostres spots",
+    "subtitle": "Descobreix els millors punts de busseig del Maresme. Des de zones aptes per a principiants fins a fondàries que desafien els experts.",
+    "empty": "Aviat afegirem els nostres spots. Torna a visitar-nos!",
+    "allSpots": "Tots els spots",
+    "depth": "Profunditat: {min}–{max}m",
+    "upcomingTrips": "Properes sortides a {name}",
+    "noTrips": "No hi ha sortides programades",
+    "noTripsDesc": "Consulta el calendari general o contacta'ns per organitzar una sortida personalitzada.",
+    "viewCalendar": "Veure calendari",
+    "contactUs": "Contactar",
+    "notFound": "Spot no trobat"
+  },
+  "calendar": {
+    "title": "Calendari de sortides",
+    "subtitle": "Totes les immersions i cursos programats. Filtra per tipus i reserva la teva plaça.",
+    "all": "Tots",
+    "dives": "Immersions",
+    "courses": "Cursos",
+    "trips": "sortides",
+    "days": {
+      "mon": "Dl",
+      "tue": "Dt",
+      "wed": "Dc",
+      "thu": "Dj",
+      "fri": "Dv",
+      "sat": "Ds",
+      "sun": "Dg"
+    },
+    "dive": "Immersió",
+    "course": "Curs",
+    "viewAll": "Veure totes",
+    "noDayTrips": "Cap sortida aquest dia.",
+    "noTrips": "No hi ha sortides programades."
+  },
+  "booking": {
+    "title": "Reservar plaça",
+    "summary": "Resum de la sortida",
+    "full": "Complet",
+    "spotsAvailable": "{count} places disponibles",
+    "equipment": {
+      "title": "Quin equipament portes?",
+      "subtitle": "Marca el que ja tens. El centre sabrà què necessites completar.",
+      "fromProfile": "(pre-seleccionat del teu perfil)"
+    },
+    "guestData": {
+      "title": "Les teves dades",
+      "subtitle": "Rebràs un email per confirmar la reserva.",
+      "signIn": "Inicia sessió",
+      "signInSuffix": "si ja tens compte.",
+      "fullName": "Nom complet *",
+      "namePlaceholder": "El teu nom",
+      "phone": "Telèfon",
+      "email": "Email *",
+      "emailHint": "T'enviarem un link de confirmació a aquesta adreça."
+    },
+    "notes": "Notes (opcional)",
+    "notesPlaceholder": "Al·lèrgies, condicions mèdiques, preferències...",
+    "confirmBtn": "Confirmar reserva · {price}",
+    "requestBtn": "Sol·licitar reserva · {price}",
+    "processing": "Processant reserva...",
+    "sending": "Enviant...",
+    "emailHint": "Rebràs un email per confirmar la teva plaça.",
+    "viewOther": "Veure altres sortides",
+    "alreadyBooked": {
+      "title": "Ja tens una reserva!",
+      "subtitle": "Ja estàs apuntat a aquesta sortida.",
+      "viewBookings": "Veure les meves reserves"
+    },
+    "checkEmail": {
+      "title": "Revisa el teu correu!",
+      "sent": "T'hem enviat un email a <strong>{email}</strong>.",
+      "instruction": "Fes clic al link de confirmació per completar la reserva. El link caduca en 24 hores.",
+      "backToCalendar": "Tornar al calendari"
+    },
+    "warnings": {
+      "full": "Aquesta sortida és completa.",
+      "past": "Aquesta sortida ja ha passat."
+    },
+    "success": "Reserva realitzada! Rebràs un email de confirmació."
+  },
+  "verify": {
+    "success": {
+      "title": "Reserva confirmada!",
+      "message": "Gràcies, {name}! La teva reserva per a \"{trip}\" ha estat confirmada. El centre et contactarà per als detalls finals."
+    },
+    "already": {
+      "title": "Ja estàs confirmat",
+      "message": "La teva reserva per a \"{trip}\" ja estava verificada anteriorment."
+    },
+    "invalid": {
+      "title": "Link no vàlid",
+      "message": "Aquest link de verificació no existeix o ha caducat. Si creus que és un error, contacta amb nosaltres."
+    },
+    "cancelled": {
+      "title": "Reserva cancel·lada",
+      "message": "Aquesta reserva ha estat cancel·lada. Pots fer una nova reserva al calendari."
+    },
+    "viewTrips": "Veure sortides",
+    "contactUs": "Contactar-nos"
+  },
+  "auth": {
+    "login": {
+      "title": "Benvingut de nou",
+      "subtitle": "Inicia sessió per gestionar les teves reserves",
+      "noAccount": "Encara no tens compte?",
+      "registerLink": "Registra't ara",
+      "email": "Email",
+      "password": "Contrasenya",
+      "forgotPassword": "Heu oblidat la contrasenya?",
+      "submit": "Iniciar sessió",
+      "loading": "Iniciant sessió...",
+      "error": "Email o contrasenya incorrectes",
+      "success": "Sessió iniciada correctament!"
+    },
+    "register": {
+      "title": "Crea el teu compte",
+      "subtitle": "Uneix-te a la comunitat MATSUB",
+      "hasAccount": "Ja tens compte?",
+      "signInLink": "Inicia sessió",
+      "firstName": "Nom",
+      "lastName": "Cognoms",
+      "email": "Email",
+      "phone": "Telèfon",
+      "certification": "Nivell de certificació",
+      "password": "Contrasenya",
+      "passwordPlaceholder": "Mínim 8 caràcters",
+      "firstNamePlaceholder": "El teu nom",
+      "lastNamePlaceholder": "Els teus cognoms",
+      "phonePlaceholder": "+34 600 000 000",
+      "emailPlaceholder": "correu@exemple.com",
+      "submit": "Crear compte",
+      "loading": "Creant compte...",
+      "terms": "En registrar-te acceptes les nostres condicions d'ús i política de privacitat.",
+      "errorExists": "Aquest email ja està registrat.",
+      "errorGeneral": "Error en crear el compte. Torna-ho a provar.",
+      "success": "Compte creat! Revisa el teu email per confirmar el registre."
+    },
+    "reset": {
+      "title": "Recuperar contrasenya",
+      "subtitle": "T'enviarem un link per restablir-la",
+      "backToLogin": "← Tornar a iniciar sessió",
+      "email": "Email del teu compte",
+      "submit": "Enviar link de recuperació",
+      "loading": "Enviant...",
+      "successTitle": "Correu enviat!",
+      "successDesc": "Revisa la teva bústia d'entrada i fes clic al link per restablir la contrasenya.",
+      "error": "Error en enviar el correu. Torna-ho a provar."
+    }
+  },
+  "dashboard": {
+    "greeting": "Hola, {name}!",
+    "admin": "Administrador",
+    "adminPanel": "Panel d'admin",
+    "stats": {
+      "totalBookings": "Reserves totals",
+      "upcomingTrips": "Properes sortides",
+      "certification": "Certificació"
+    },
+    "equipment": {
+      "title": "El meu equipament",
+      "subtitle": "L'equipament marcat es pre-seleccionarà automàticament en cada reserva.",
+      "save": "Desar",
+      "saving": "Desant...",
+      "fromProfile": "Del teu perfil"
+    },
+    "bookings": {
+      "title": "Les meves reserves",
+      "all": "Totes",
+      "empty": "No tens reserves encara.",
+      "emptyDesc": "Explora el calendari i reserva la teva propera immersió!",
+      "viewTrips": "Veure sortides disponibles",
+      "cancelConfirm": "Segur que vols cancel·lar aquesta reserva?",
+      "cancelled": "Cancel·lada.",
+      "cancelError": "Error en cancel·lar la reserva.",
+      "cancel": "Cancel·lar",
+      "cancelling": "Cancel·lant...",
+      "newBooking": "Reservar nova sortida"
+    }
+  },
+  "profile": {
+    "title": "El meu perfil",
+    "personalData": "Dades personals",
+    "firstName": "Nom",
+    "lastName": "Cognoms",
+    "firstNamePlaceholder": "El teu nom",
+    "lastNamePlaceholder": "Els teus cognoms",
+    "equipment": {
+      "title": "Equipament propi",
+      "subtitle": "Marca el material que ja tens. Es pre-seleccionarà automàticament quan facis una reserva."
+    },
+    "save": "Desar canvis",
+    "saving": "Desant...",
+    "saveError": "Error en desar el perfil.",
+    "saveSuccess": "Perfil desat correctament!"
+  },
+  "contact": {
+    "title": "Contacte",
+    "subtitle": "Tens dubtes sobre les sortides, cursos o equipament? Escriu-nos i t'ajudarem.",
+    "whereToFind": "On trobar-nos",
+    "address": "Adreça",
+    "addressValue": "Carrer de la Mar, 42\n08301 Mataró, Barcelona",
+    "phone": "Telèfon",
+    "email": "Email",
+    "hours": "Horari",
+    "hoursValue": "Dl–Dv: 9:00–20:00\nDs: 8:00–18:00\nDg: 8:00–14:00",
+    "mapAlt": "Mapa de Google Maps",
+    "mapLabel": "Carrer de la Mar, 42 · Mataró",
+    "formTitle": "Envia'ns un missatge",
+    "name": "Nom complet",
+    "namePlaceholder": "El teu nom",
+    "subject": "Assumpte",
+    "message": "Missatge",
+    "messagePlaceholder": "Explica'ns el que necessites...",
+    "submit": "Enviar missatge",
+    "sending": "Enviant...",
+    "successTitle": "Missatge enviat!",
+    "successDesc": "T'respondrem en les pròximes 24 hores. Fins aviat!",
+    "error": "Error en enviar el missatge. Torna-ho a provar o escriu-nos directament.",
+    "sentToast": "Missatge enviat correctament!"
+  },
+  "about": {
+    "title": "Sobre MATSUB",
+    "intro": "Som un centre de busseig fundat a Mataró l'any 2009 amb un únic objectiu: apropar el món submarí a tothom, de forma segura, sostenible i apassionant.",
+    "stats": {
+      "experience": "15+",
+      "experienceLabel": "Anys d'experiència",
+      "divers": "500+",
+      "diversLabel": "Bussejadors formats",
+      "dives": "2.000+",
+      "divesLabel": "Immersions realitzades",
+      "spots": "30+",
+      "spotsLabel": "Spots explorats"
+    },
+    "historyTitle": "La nostra història",
+    "history1": "MATSUB neix de la passió compartida d'un grup d'amics mataronins que van descobrir el busseig i van quedar enamorats dels fons marins del Maresme.",
+    "history2": "El 2009 obrim les portes del nostre centre amb una missió clara: oferir immersions de qualitat, formació rigorosa i un tracte proper que fes que cada bussejador se sentís a casa.",
+    "history3": "Avui, amb més de 15 anys d'experiència, continuem sent el centre de referència de la zona, orgullosos de la comunitat que hem creat al voltant de l'amor pel mar.",
+    "badges": {
+      "padi": "Escola PADI certificada",
+      "team": "Equip expert i apassionat",
+      "yearRound": "Sortides tot l'any",
+      "eco": "Compromís ambiental"
+    },
+    "teamTitle": "El nostre equip",
+    "teamSubtitle": "Instructors i guies certificats PADI amb anys d'experiència als fons del Maresme.",
+    "team": {
+      "marc": {
+        "name": "Marc Puig",
+        "role": "Director i Instructor PADI",
+        "bio": "Bussejador professional des dels 18 anys. Instructor PADI amb més de 1.500 alumnes formats. Especialista en fons mediterranis.",
+        "cert": "PADI Course Director"
+      },
+      "anna": {
+        "name": "Anna Solà",
+        "role": "Instructora PADI & Biòloga Marina",
+        "bio": "Llicenciada en Biologia Marina per la UAB. Combina la passió pel busseig amb el coneixement de l'ecosistema marí.",
+        "cert": "PADI Master Instructor"
+      },
+      "jordi": {
+        "name": "Jordi Matas",
+        "role": "Guia de busseig & Tècnic d'equipament",
+        "bio": "Divemaster amb especialització en busseig nocturn i fotografía submarina. Responsable del manteniment de tot l'equipament.",
+        "cert": "PADI Divemaster"
+      }
+    },
+    "ctaTitle": "Vols conèixer-nos en persona?",
+    "ctaDesc": "Vine a visitar-nos al centre, o escriu-nos per a qualsevol consulta. Estarem encantats d'ajudar-te.",
+    "ctaContact": "Contactar-nos",
+    "ctaTrips": "Veure sortides"
+  },
+  "admin": {
+    "title": "Panel d'administració",
+    "stats": {
+      "users": "Usuaris registrats",
+      "activeTrips": "Sortides actives",
+      "confirmedBookings": "Reserves confirmades",
+      "availableEquipment": "Equips disponibles"
+    },
+    "recentBookings": "Darreres reserves",
+    "noBookings": "Cap reserva",
+    "bookings": {
+      "title": "Gestió de reserves",
+      "all": "Totes",
+      "user": "Usuari",
+      "trip": "Sortida",
+      "status": "Estat",
+      "equipment": "Equipament",
+      "date": "Data reserva",
+      "actions": "Accions",
+      "guest": "(convidat)",
+      "pendingVerification": "Pendent verificació",
+      "noEquipment": "Cap",
+      "confirm": "Confirmar",
+      "setPending": "Posar pendent",
+      "cancel": "Cancel·lar",
+      "none": "Cap reserva",
+      "updateError": "Error."
+    },
+    "equipment": {
+      "title": "Gestió d'equipament",
+      "new": "Nou equip",
+      "edit": "Editar equip",
+      "name": "Nom *",
+      "type": "Tipus",
+      "size": "Talla",
+      "status": "Estat",
+      "available": "Disponible",
+      "maintenance": "En manteniment",
+      "retired": "Retirat",
+      "cancel": "Cancel·lar",
+      "save": "Desar",
+      "saving": "Desant...",
+      "updated": "Equip actualitzat!",
+      "added": "Equip afegit!",
+      "deleteConfirm": "Eliminar aquest equip?",
+      "deleted": "Equip eliminat.",
+      "error": "Error.",
+      "none": "Cap equipament"
+    },
+    "spots": {
+      "title": "Gestió de spots",
+      "new": "Nou spot",
+      "edit": "Editar spot",
+      "slug": "Slug *",
+      "description": "Descripció",
+      "depthMin": "Prof. mín (m)",
+      "depthMax": "Prof. màx (m)",
+      "difficulty": "Dificultat",
+      "lat": "Latitud",
+      "lng": "Longitud",
+      "updated": "Spot actualitzat!",
+      "created": "Spot creat!",
+      "saveError": "Error en desar.",
+      "deleteError": "Error en eliminar.",
+      "deleteConfirm": "Eliminar aquest spot? Les sortides associades quedaran sense spot.",
+      "deleted": "Spot eliminat.",
+      "edit2": "Editar",
+      "none": "Cap spot"
+    },
+    "trips": {
+      "title": "Gestió de sortides",
+      "new": "Nova sortida",
+      "edit": "Editar sortida",
+      "type": "Tipus",
+      "spot": "Spot",
+      "noSpot": "Sense spot",
+      "titleField": "Títol *",
+      "description": "Descripció",
+      "date": "Data *",
+      "time": "Hora *",
+      "duration": "Durada (min)",
+      "maxParticipants": "Màx. participants",
+      "price": "Preu (€)",
+      "difficulty": "Dificultat",
+      "noDifficulty": "Sense especificar",
+      "dive": "Immersió",
+      "course": "Curs",
+      "updated": "Sortida actualitzada!",
+      "created": "Sortida creada!",
+      "updateError": "Error en desar els canvis.",
+      "createError": "Error en crear la sortida.",
+      "cancelConfirm": "Cancel·lar aquesta sortida? Les reserves existents quedaran afectades.",
+      "cancelled": "Sortida cancel·lada.",
+      "error": "Error.",
+      "colTitle": "Títol",
+      "colType": "Tipus",
+      "colDate": "Data",
+      "colSpots": "Places",
+      "colPrice": "Preu",
+      "colStatus": "Estat",
+      "colActions": "Accions",
+      "active": "Activa",
+      "cancelledStatus": "Cancel·lada",
+      "none": "Cap sortida"
+    }
+  },
+  "common": {
+    "difficulty": {
+      "beginner": "Principiant",
+      "intermediate": "Intermedi",
+      "advanced": "Avançat"
+    },
+    "tripType": {
+      "dive": "Immersió",
+      "course": "Curs"
+    },
+    "bookingStatus": {
+      "pending": "Pendent",
+      "confirmed": "Confirmada",
+      "cancelled": "Cancel·lada"
+    },
+    "equipment": {
+      "wetsuit": "Vestit de neoprè",
+      "bcd": "Jaqueta hidrostàtica",
+      "regulator": "Regulador",
+      "fins": "Aletes",
+      "mask": "Màscara",
+      "tank": "Ampolla"
+    },
+    "certification": {
+      "none": "Sense certificació",
+      "open_water": "Open Water",
+      "advanced": "Advanced Open Water",
+      "rescue": "Rescue Diver",
+      "divemaster": "Divemaster"
+    },
+    "bookNow": "Reservar plaça",
+    "full": "Complet",
+    "almostFull": "Quasi complet",
+    "noSpots": "Sense places",
+    "spotsLeft": "{count} places disponibles",
+    "cancel": "Cancel·lar",
+    "save": "Desar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "error": "Error."
+  }
+}
