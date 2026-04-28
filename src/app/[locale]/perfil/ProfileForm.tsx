@@ -7,9 +7,10 @@ import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { Save } from 'lucide-react'
 import type { Profile, CertificationLevel } from '@/types'
 import { useTranslations } from 'next-intl'
-import { CERTIFICATION_LABELS } from '@/lib/utils'
+import { CERTIFICATION_LABELS, getBirthDateBounds } from '@/lib/utils'
 
 const CERTS: CertificationLevel[] = ['none', 'open_water', 'advanced', 'rescue', 'divemaster']
+const BIRTH_DATE_BOUNDS = getBirthDateBounds()
 
 export function ProfileForm({ profile, userId }: { profile: Profile | null; userId: string }) {
   const t = useTranslations('profile')
@@ -85,8 +86,8 @@ export function ProfileForm({ profile, userId }: { profile: Profile | null; user
               className="form-input"
               value={birthDate}
               onChange={e => setBirthDate(e.target.value)}
-              max={new Date(Date.now() - 10 * 365.25 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
-              min={new Date(Date.now() - 100 * 365.25 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+              max={BIRTH_DATE_BOUNDS.max}
+              min={BIRTH_DATE_BOUNDS.min}
             />
           </div>
           <div>

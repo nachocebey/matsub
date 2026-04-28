@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from '@/components/ui/Toaster'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
-import { CERTIFICATION_LABELS } from '@/lib/utils'
+import { CERTIFICATION_LABELS, getBirthDateBounds } from '@/lib/utils'
 import { Eye, EyeOff, UserPlus } from 'lucide-react'
 import type { CertificationLevel } from '@/types'
 import { useTranslations } from 'next-intl'
@@ -14,6 +14,7 @@ import type { Value as E164Number } from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 
 const CERTS: CertificationLevel[] = ['none', 'open_water', 'advanced', 'rescue', 'divemaster']
+const BIRTH_DATE_BOUNDS = getBirthDateBounds()
 
 export function RegisterForm() {
   const t = useTranslations('auth.register')
@@ -129,8 +130,8 @@ export function RegisterForm() {
             type="date"
             required
             className="form-input"
-            max={new Date(Date.now() - 10 * 365.25 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
-            min={new Date(Date.now() - 100 * 365.25 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+            max={BIRTH_DATE_BOUNDS.max}
+            min={BIRTH_DATE_BOUNDS.min}
           />
         </div>
         <div>

@@ -75,3 +75,14 @@ export const BOOKING_STATUS_LABELS: Record<string, string> = {
   confirmed: 'Confirmada',
   cancelled: 'Cancel·lada',
 }
+
+const MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000
+
+export function getBirthDateBounds(): { min: string; max: string } {
+  const now = Date.now()
+  return {
+    min: new Date(now - 100 * MS_PER_YEAR).toISOString().split('T')[0],
+    max: new Date(now - 10 * MS_PER_YEAR).toISOString().split('T')[0],
+  }
+}
+
