@@ -1,5 +1,13 @@
 # MATSUB – Claude Code Guide
 
+## Reglas antes de hacer push a master
+
+Antes de cualquier push a `master`, ejecutar siempre en este orden:
+1. `npx tsc --noEmit` — sin errores de TypeScript
+2. `npm run build` — build de producción sin errores (incluye ESLint)
+
+Si alguno falla, arreglarlo antes de mergear. Nunca hacer push a master sin estos checks.
+
 Plataforma de reservas para un centro de buceo. Next.js 14 App Router + Supabase + Tailwind + next-intl.
 
 ## Stack
