@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { ContactForm } from './ContactForm'
 import { MapPin, Phone, Mail, Clock } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
+import { BRANDING } from '@/config/branding'
 
 export const metadata: Metadata = { title: 'Contacte' }
 
@@ -17,14 +18,14 @@ export default async function ContactoPage() {
     {
       icon: Phone,
       label: t('phone'),
-      value: '+34 937 00 12 34',
-      href: 'tel:+34937001234',
+      value: BRANDING.phone,
+      href: `tel:${BRANDING.phone.replace(/\s/g, '')}`,
     },
     {
       icon: Mail,
       label: t('email'),
-      value: 'info@matsub.cat',
-      href: 'mailto:info@matsub.cat',
+      value: BRANDING.email,
+      href: `mailto:${BRANDING.email}`,
     },
     {
       icon: Clock,

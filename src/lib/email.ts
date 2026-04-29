@@ -1,9 +1,10 @@
 import { Resend } from 'resend'
 import { formatDate, formatTime } from './utils'
+import { BRANDING } from '@/config/branding'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM = 'MATSUB <onboarding@resend.dev>'
-const ADMIN_EMAIL = 'n.cebey@gmail.com'
+const FROM = `${BRANDING.name} <${process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev'}>`
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'n.cebey@gmail.com'
 
 export async function sendBookingConfirmation({
   to,
@@ -36,8 +37,8 @@ export async function sendBookingConfirmation({
       <table width="100%" style="max-width:560px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
         <!-- Header -->
         <tr><td style="background:#0369a1;padding:32px;text-align:center;">
-          <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:700;">🌊 MATSUB</h1>
-          <p style="margin:8px 0 0;color:#bae6fd;font-size:14px;">Centre de Busseig de Mataró</p>
+          <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:700;">🌊 ${BRANDING.name}</h1>
+          <p style="margin:8px 0 0;color:#bae6fd;font-size:14px;">${BRANDING.tagline}</p>
         </td></tr>
         <!-- Body -->
         <tr><td style="padding:32px;">
@@ -78,9 +79,9 @@ export async function sendBookingConfirmation({
         <!-- Footer -->
         <tr><td style="padding:24px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;text-align:center;">
           <p style="margin:0;color:#94a3b8;font-size:13px;">
-            MATSUB · Carrer de la Mar, 42 · 08301 Mataró<br/>
-            <a href="mailto:info@matsub.cat" style="color:#0369a1;">info@matsub.cat</a> ·
-            <a href="tel:+34937001234" style="color:#0369a1;">+34 937 00 12 34</a>
+            ${BRANDING.name} · ${BRANDING.address.replace('\n', ' · ')}<br/>
+            <a href="mailto:${BRANDING.email}" style="color:#0369a1;">${BRANDING.email}</a> ·
+            <a href="tel:${BRANDING.phone.replace(/\s/g, '')}" style="color:#0369a1;">${BRANDING.phone}</a>
           </p>
         </td></tr>
       </table>
@@ -120,8 +121,8 @@ export async function sendGuestBookingVerification({
     <tr><td align="center" style="padding:40px 16px;">
       <table width="100%" style="max-width:560px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
         <tr><td style="background:#0369a1;padding:32px;text-align:center;">
-          <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:700;">🌊 MATSUB</h1>
-          <p style="margin:8px 0 0;color:#bae6fd;font-size:14px;">Centre de Busseig de Mataró</p>
+          <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:700;">🌊 ${BRANDING.name}</h1>
+          <p style="margin:8px 0 0;color:#bae6fd;font-size:14px;">${BRANDING.tagline}</p>
         </td></tr>
         <tr><td style="padding:32px;">
           <h2 style="margin:0 0 16px;color:#082f49;font-size:20px;">Confirma la teva reserva</h2>
@@ -143,8 +144,8 @@ export async function sendGuestBookingVerification({
         </td></tr>
         <tr><td style="padding:24px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;text-align:center;">
           <p style="margin:0;color:#94a3b8;font-size:13px;">
-            MATSUB · Carrer de la Mar, 42 · 08301 Mataró<br/>
-            <a href="mailto:info@matsub.cat" style="color:#0369a1;">info@matsub.cat</a>
+            ${BRANDING.name} · ${BRANDING.address.replace('\n', ' · ')}<br/>
+            <a href="mailto:${BRANDING.email}" style="color:#0369a1;">${BRANDING.email}</a>
           </p>
         </td></tr>
       </table>
@@ -171,7 +172,7 @@ export async function sendContactEmail({
     from: FROM,
     to: ADMIN_EMAIL,
     replyTo: email,
-    subject: `[MATSUB Contacte] ${subject}`,
+    subject: `[${BRANDING.name} Contacte] ${subject}`,
     html: `
 <html><body style="font-family:system-ui,sans-serif;color:#082f49;padding:32px;">
   <h2 style="color:#0369a1;">Nou missatge de contacte</h2>
@@ -189,14 +190,14 @@ export async function sendContactEmail({
   await resend.emails.send({
     from: FROM,
     to: email,
-    subject: 'Hem rebut el teu missatge – MATSUB',
+    subject: `Hem rebut el teu missatge – ${BRANDING.name}`,
     html: `
 <html><body style="font-family:system-ui,sans-serif;color:#082f49;padding:32px;">
   <h2 style="color:#0369a1;">Gràcies per contactar-nos, ${name}!</h2>
   <p>Hem rebut el teu missatge i et respondrem en les pròximes 24 hores.</p>
-  <p style="color:#475569;">— L'equip de MATSUB</p>
+  <p style="color:#475569;">— L'equip de ${BRANDING.name}</p>
   <hr style="border:none;border-top:1px solid #e2e8f0;margin:24px 0;" />
-  <p style="font-size:12px;color:#94a3b8;">MATSUB · Carrer de la Mar, 42 · 08301 Mataró · info@matsub.cat</p>
+  <p style="font-size:12px;color:#94a3b8;">${BRANDING.name} · ${BRANDING.address.replace('\n', ' · ')} · ${BRANDING.email}</p>
 </body></html>
     `,
   })

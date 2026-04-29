@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { LayoutDashboard, MapPin, Calendar, Users, Package, Waves, BookOpen } from 'lucide-react'
+import { BRANDING } from '@/config/branding'
 
 const NAV = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
@@ -33,7 +34,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <aside className="hidden lg:flex flex-col w-60 min-h-[calc(100vh-4rem)] bg-white border-r border-ocean-100 p-4 fixed left-0 top-16">
           <div className="flex items-center gap-2 px-2 py-3 mb-4">
             <Waves className="h-5 w-5 text-ocean-600" />
-            <span className="font-bold text-ocean-950">Admin MATSUB</span>
+            <span className="font-bold text-ocean-950">Admin {BRANDING.name}</span>
           </div>
           <nav className="space-y-1">
             {NAV.map(({ href, label, icon: Icon }) => (

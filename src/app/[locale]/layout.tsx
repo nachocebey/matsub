@@ -1,14 +1,30 @@
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
+import { getMessages, getTranslations } from 'next-intl/server'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { Toaster } from '@/components/ui/Toaster'
 import { locales, type Locale } from '@/i18n'
 import { notFound } from 'next/navigation'
 import NextTopLoader from 'nextjs-toploader'
+import type { Metadata } from 'next'
+import { BRANDING } from '@/config/branding'
+
+type Props = { params: { locale: string } }
 
 export function generateStaticParams() {
   return locales.map(locale => ({ locale }))
+}
+
+export async function generateMetadata({ params: { locale } }: Props): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: 'meta' })
+  return {
+    title: {
+      default: `${BRANDING.name} – ${BRANDING.tagline}`,
+      template: `%s | ${BRANDING.name}`,
+    },
+    description: t('description'),
+    keywords: t('keywords').split(',').map(k => k.trim()),
+  }
 }
 
 export default async function LocaleLayout({

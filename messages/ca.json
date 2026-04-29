@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "description": "Centre de busseig professional a Mataró. Immersions guiades, cursos PADI i lloguer d'equipament per a tots els nivells al Maresme.",
+    "keywords": "busseig, mataró, padi, immersions, cursos de busseig, maresme, submarinisme, barcelona"
+  },
   "nav": {
     "spots": "Spots",
     "courses": "Cursos",
@@ -97,7 +101,8 @@
     "course": "Curs",
     "viewAll": "Veure totes",
     "noDayTrips": "Cap sortida aquest dia.",
-    "noTrips": "No hi ha sortides programades."
+    "noTrips": "No hi ha sortides programades.",
+    "selectDay": "Toca un dia del calendari per veure les sortides"
   },
   "booking": {
     "title": "Reservar plaça",
