@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from '@/components/ui/Toaster'
-import { formatDate, BOOKING_STATUS_LABELS, CERTIFICATION_LABELS, EQUIPMENT_TYPE_LABELS } from '@/lib/utils'
+import { formatDate, BOOKING_STATUS_LABELS, CERTIFICATION_LABELS } from '@/lib/utils'
 import { cn } from '@/lib/utils'
-import { CheckCircle, XCircle, Clock, ChevronDown, ChevronRight, Users } from 'lucide-react'
+import { CheckCircle, XCircle, Clock, ChevronDown, ChevronRight, Users, X } from 'lucide-react'
 import type { BookingStatus } from '@/types'
 import { useTranslations } from 'next-intl'
 
@@ -15,7 +15,11 @@ interface BookingRow {
   status: BookingStatus
   notes: string | null
   needed_equipment: string[]
+  tank_size: string | null
+  wants_nitrox: boolean
   verified: boolean
+  payment_method: string | null
+  paid_at: string | null
   guest_name: string | null
   guest_email: string | null
   guest_phone: string | null
@@ -43,9 +47,12 @@ const STATUS_STYLES: Record<BookingStatus, string> = {
 
 export function BookingsManager({ bookings: initial }: { bookings: BookingRow[] }) {
   const t = useTranslations('admin.bookings')
+  const tCommon = useTranslations('common')
   const supabase = createClient()
   const [bookings, setBookings] = useState(initial)
   const [filter, setFilter] = useState<FilterType>('all')
+  const [selectedDate, setSelectedDate] = useState<string>('')
+  const dateInputRef = useRef<HTMLInputElement>(null)
   const [updating, setUpdating] = useState<string | null>(null)
   const [expanded, setExpanded] = useState<Set<string>>(
     () => new Set(initial.map(b => b.trip_id).filter(Boolean))
@@ -68,8 +75,10 @@ export function BookingsManager({ bookings: initial }: { bookings: BookingRow[] 
       }
       map.get(b.trip_id)!.bookings.push(b)
     }
-    return Array.from(map.values()).sort((a, b) => a.tripDate.localeCompare(b.tripDate))
-  }, [bookings])
+    return Array.from(map.values())
+      .filter(g => !selectedDate || g.tripDate === selectedDate)
+      .sort((a, b) => a.tripDate.localeCompare(b.tripDate))
+  }, [bookings, selectedDate])
 
   const handleFilterChange = (newFilter: FilterType) => {
     setFilter(newFilter)
@@ -112,17 +121,34 @@ export function BookingsManager({ bookings: initial }: { bookings: BookingRow[] 
     <div>
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <h1 className="text-2xl font-bold text-ocean-950">{t('title')}</h1>
-        <div className="flex gap-2">
-          {(['all', 'pending', 'confirmed', 'cancelled'] as const).map(f => (
-            <button key={f} onClick={() => handleFilterChange(f)}
-              className={cn('rounded-full px-3 py-1 text-xs font-medium border transition-colors',
-                filter === f
-                  ? 'bg-ocean-600 text-white border-ocean-600'
-                  : 'bg-white text-ocean-600 border-ocean-200 hover:border-ocean-400'
-              )}>
-              {f === 'all' ? t('all') : BOOKING_STATUS_LABELS[f]}
-            </button>
-          ))}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative flex items-center">
+            <input
+              ref={dateInputRef}
+              type="date"
+              value={selectedDate}
+              onChange={e => setSelectedDate(e.target.value)}
+              onClick={() => dateInputRef.current?.showPicker()}
+              className={`py-1.5 text-xs border border-ocean-200 rounded-full text-ocean-700 focus:outline-none focus:border-ocean-400 bg-white ${selectedDate ? 'pl-3 pr-8' : 'px-3'}`}
+            />
+            {selectedDate && (
+              <button onClick={() => setSelectedDate('')} className="absolute right-3 text-ocean-400 hover:text-ocean-600">
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
+          <div className="flex gap-2">
+            {(['all', 'pending', 'confirmed', 'cancelled'] as const).map(f => (
+              <button key={f} onClick={() => handleFilterChange(f)}
+                className={cn('rounded-full px-3 py-1 text-xs font-medium border transition-colors',
+                  filter === f
+                    ? 'bg-ocean-600 text-white border-ocean-600'
+                    : 'bg-white text-ocean-600 border-ocean-200 hover:border-ocean-400'
+                )}>
+                {f === 'all' ? t('all') : BOOKING_STATUS_LABELS[f]}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -207,20 +233,35 @@ export function BookingsManager({ bookings: initial }: { bookings: BookingRow[] 
                               )}
                             </td>
                             <td className="px-4 py-3">
-                              <span className={cn('badge', STATUS_STYLES[b.status])}>
-                                {BOOKING_STATUS_LABELS[b.status]}
-                              </span>
+                              <div className="flex flex-col gap-1">
+                                <span className={cn('badge', STATUS_STYLES[b.status])}>
+                                  {BOOKING_STATUS_LABELS[b.status]}
+                                </span>
+                                {b.paid_at ? (
+                                  <span className="badge badge-green text-xs">💳 Pagado</span>
+                                ) : b.payment_method === 'at_center' ? (
+                                  <span className="badge badge-blue text-xs">🏊 Pagar en centro</span>
+                                ) : b.payment_method === 'stripe' ? (
+                                  <span className="badge badge-yellow text-xs">💳 Pago pendiente</span>
+                                ) : null}
+                              </div>
                             </td>
                             <td className="px-4 py-3">
                               <div className="flex flex-wrap gap-1">
                                 {b.needed_equipment?.length > 0
                                   ? b.needed_equipment.map(type => (
                                       <span key={type} className="badge badge-blue text-xs">
-                                        {EQUIPMENT_TYPE_LABELS[type] ?? type}
+                                        {tCommon(`equipment.${type}`)}
                                       </span>
                                     ))
                                   : <span className="text-xs text-ocean-300">{t('noEquipment')}</span>
                                 }
+                                {b.tank_size && (
+                                  <span className="badge badge-blue text-xs">🫙 {b.tank_size}</span>
+                                )}
+                                {b.wants_nitrox && (
+                                  <span className="badge text-xs bg-amber-100 text-amber-700 border border-amber-200">⚗️ Nitrox</span>
+                                )}
                               </div>
                             </td>
                             <td className="px-4 py-3 text-ocean-500 text-xs whitespace-nowrap">

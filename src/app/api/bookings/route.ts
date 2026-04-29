@@ -2,11 +2,12 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 import { sendBookingConfirmation, sendGuestBookingVerification } from '@/lib/email'
+import { stripe } from '@/lib/stripe'
 import { randomUUID } from 'crypto'
 
 export async function POST(request: Request) {
   const body = await request.json()
-  const { trip_id, needed_equipment = [], notes, guest_name, guest_email, guest_phone, _hp, _t } = body
+  const { trip_id, locale, payment_method = 'at_center', needed_equipment = [], tank_size, wants_nitrox = false, notes, guest_name, guest_email, guest_phone, _hp, _t } = body
 
   // Honeypot: bots fill hidden fields, humans don't
   if (_hp) {
@@ -57,7 +58,7 @@ export async function POST(request: Request) {
     if (existing?.status === 'cancelled') {
       const { data, error } = await supabase
         .from('bookings')
-        .update({ status: 'pending', notes: notes || null, needed_equipment, verified: true })
+        .update({ status: 'pending', notes: notes || null, needed_equipment, tank_size: tank_size || null, wants_nitrox, verified: true, payment_method })
         .eq('id', existing.id)
         .select()
         .single()
@@ -66,11 +67,21 @@ export async function POST(request: Request) {
     } else {
       const { data, error } = await supabase
         .from('bookings')
-        .insert({ user_id: user.id, trip_id, status: 'pending', notes: notes || null, needed_equipment, verified: true })
+        .insert({ user_id: user.id, trip_id, status: 'pending', notes: notes || null, needed_equipment, tank_size: tank_size || null, wants_nitrox, verified: true, payment_method })
         .select()
         .single()
       if (error) return NextResponse.json({ error: error.message }, { status: 500 })
       bookingId = data.id
+    }
+
+    if (payment_method === 'stripe') {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(trip.price * 100),
+        currency: 'eur',
+        metadata: { booking_id: bookingId, user_id: user.id, trip_title: trip.title },
+      })
+      await supabase.from('bookings').update({ stripe_payment_intent_id: paymentIntent.id }).eq('id', bookingId)
+      return NextResponse.json({ bookingId, clientSecret: paymentIntent.client_secret }, { status: 201 })
     }
 
     try {
@@ -82,6 +93,7 @@ export async function POST(request: Request) {
         tripDate: trip.date,
         tripTime: trip.time,
         bookingId,
+        locale,
       })
     } catch { /* non-blocking */ }
 
@@ -120,16 +132,31 @@ export async function POST(request: Request) {
       guest_email: guest_email.toLowerCase().trim(),
       guest_phone: guest_phone?.trim() || null,
       needed_equipment,
+      tank_size: tank_size || null,
+      wants_nitrox,
       notes: notes || null,
       status: 'pending',
-      verified: false,
+      verified: payment_method === 'stripe' ? false : false,
       verification_token: verificationToken,
+      payment_method,
     })
     .select()
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
+  // Guest paying with Stripe: create PaymentIntent, skip verification email
+  if (payment_method === 'stripe') {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(trip.price * 100),
+      currency: 'eur',
+      metadata: { booking_id: booking.id, trip_title: trip.title },
+    })
+    await admin.from('bookings').update({ stripe_payment_intent_id: paymentIntent.id }).eq('id', booking.id)
+    return NextResponse.json({ bookingId: booking.id, clientSecret: paymentIntent.client_secret }, { status: 201 })
+  }
+
+  // Guest paying at center: send verification email
   try {
     const verificationUrl = `${siteUrl}/reserva/verificar?token=${verificationToken}`
     await sendGuestBookingVerification({
@@ -139,6 +166,7 @@ export async function POST(request: Request) {
       tripDate: trip.date,
       tripTime: trip.time,
       verificationUrl,
+      locale,
     })
   } catch {
     // If email fails, delete the booking so they can retry

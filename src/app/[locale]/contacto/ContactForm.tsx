@@ -4,10 +4,11 @@ import { useState } from 'react'
 import { toast } from '@/components/ui/Toaster'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { Send } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 export function ContactForm() {
   const t = useTranslations('contact')
+  const locale = useLocale()
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
 
@@ -21,7 +22,7 @@ export function ContactForm() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, locale }),
       })
       if (!res.ok) throw new Error()
       setSent(true)

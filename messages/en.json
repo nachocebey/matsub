@@ -110,9 +110,8 @@
     "full": "Full",
     "spotsAvailable": "{count} spots available",
     "equipment": {
-      "title": "What equipment do you have?",
-      "subtitle": "Check what you already own. The center will know what you need.",
-      "fromProfile": "(pre-selected from your profile)"
+      "title": "Do you need any equipment?",
+      "subtitle": "Check what you need the center to provide. Leave unchecked what you're already bringing."
     },
     "guestData": {
       "title": "Your details",
@@ -127,9 +126,34 @@
     },
     "notes": "Notes (optional)",
     "notesPlaceholder": "Allergies, medical conditions, preferences...",
+    "payment": {
+      "title": "Payment method",
+      "subtitle": "How would you like to pay?",
+      "payNow": "Pay now",
+      "payNowDesc": "Credit or debit card",
+      "atCenter": "Pay at the center",
+      "atCenterDesc": "Pay when you arrive for your dive",
+      "cardTitle": "Payment details",
+      "confirm": "Confirm payment",
+      "continueBtn": "Continue to payment · {price}",
+      "processing": "Processing payment..."
+    },
+    "atCenterDone": {
+      "title": "Booking requested!",
+      "body": "Your booking has been registered. You can pay when you arrive at the dive center.",
+      "payLaterHint": "Prefer to pay online? You can do it anytime from «My bookings».",
+      "viewBookings": "View my bookings"
+    },
+    "stripeDone": {
+      "title": "Booking confirmed!",
+      "body": "Payment successful. You'll receive a confirmation email.",
+      "backToCalendar": "View more trips"
+    },
+    "medicalWarning": "If you have or have had any relevant medical condition (heart problems, epilepsy, asthma, diabetes, among others), you must inform us before the activity and/or present a medical certificate of fitness for diving.",
+    "medicalWarningTitle": "Medical conditions",
     "confirmBtn": "Confirm booking · {price}",
     "requestBtn": "Request booking · {price}",
-    "processing": "Processing booking...",
+    "processing": "Processing...",
     "sending": "Sending...",
     "emailHint": "You'll receive an email to confirm your spot.",
     "viewOther": "View other trips",

@@ -110,9 +110,8 @@
     "full": "Completo",
     "spotsAvailable": "{count} plazas disponibles",
     "equipment": {
-      "title": "¿Qué equipamiento llevas?",
-      "subtitle": "Marca lo que ya tienes. El centro sabrá qué necesitas completar.",
-      "fromProfile": "(pre-seleccionado de tu perfil)"
+      "title": "¿Necesitas equipamiento?",
+      "subtitle": "Marca lo que necesitas que el centro te proporcione. Deja en blanco lo que ya traes."
     },
     "guestData": {
       "title": "Tus datos",
@@ -127,9 +126,34 @@
     },
     "notes": "Notas (opcional)",
     "notesPlaceholder": "Alergias, condiciones médicas, preferencias...",
+    "payment": {
+      "title": "Método de pago",
+      "subtitle": "¿Cómo prefieres pagar?",
+      "payNow": "Pagar ahora",
+      "payNowDesc": "Tarjeta de crédito o débito",
+      "atCenter": "Pagar en el centro",
+      "atCenterDesc": "Paga cuando llegues a bucear",
+      "cardTitle": "Datos de pago",
+      "confirm": "Confirmar pago",
+      "continueBtn": "Continuar al pago · {price}",
+      "processing": "Procesando pago..."
+    },
+    "atCenterDone": {
+      "title": "¡Reserva solicitada!",
+      "body": "Hemos registrado tu reserva. Podrás pagar al llegar al centro de buceo.",
+      "payLaterHint": "¿Prefieres pagar ahora? Puedes hacerlo en cualquier momento desde «Mis reservas».",
+      "viewBookings": "Ver mis reservas"
+    },
+    "stripeDone": {
+      "title": "¡Reserva confirmada!",
+      "body": "Pago realizado con éxito. Recibirás un email de confirmación.",
+      "backToCalendar": "Ver más salidas"
+    },
+    "medicalWarning": "Si padeces o has padecido alguna condición médica relevante (problemas cardíacos, epilepsia, asma, diabetes, entre otras), deberás informarnos antes de la actividad y/o presentar un certificado médico de aptitud para el buceo.",
+    "medicalWarningTitle": "Condiciones médicas",
     "confirmBtn": "Confirmar reserva · {price}",
     "requestBtn": "Solicitar reserva · {price}",
-    "processing": "Procesando reserva...",
+    "processing": "Procesando...",
     "sending": "Enviando...",
     "emailHint": "Recibirás un email para confirmar tu plaza.",
     "viewOther": "Ver otras salidas",
