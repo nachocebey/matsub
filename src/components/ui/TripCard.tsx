@@ -11,9 +11,10 @@ import { useTranslations, useLocale } from 'next-intl'
 interface TripCardProps {
   trip: TripWithAvailability
   compact?: boolean
+  isBooked?: boolean
 }
 
-export function TripCard({ trip, compact = false }: TripCardProps) {
+export function TripCard({ trip, compact = false, isBooked = false }: TripCardProps) {
   const t = useTranslations('common')
   const locale = useLocale()
   const isFull = trip.available_spots <= 0
@@ -34,7 +35,9 @@ export function TripCard({ trip, compact = false }: TripCardProps) {
             <DifficultyBadge difficulty={trip.difficulty_level} />
           )}
         </div>
-        {isFull ? (
+        {isBooked ? (
+          <span className="badge bg-green-100 text-green-700">✓ Apuntado</span>
+        ) : isFull ? (
           <span className="badge badge-red">{t('full')}</span>
         ) : isAlmostFull ? (
           <span className="badge badge-yellow">{t('almostFull')}</span>

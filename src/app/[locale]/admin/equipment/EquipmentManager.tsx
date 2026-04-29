@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from '@/components/ui/Toaster'
-import { EQUIPMENT_TYPE_LABELS } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 import { Plus, Edit2, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { Equipment, EquipmentType, EquipmentStatus } from '@/types'
@@ -29,7 +29,10 @@ const STATUS_LABELS: Record<EquipmentStatus, string> = {
   retired: 'Retirat',
 }
 
+const EQUIPMENT_TYPES: EquipmentType[] = ['wetsuit', 'bcd', 'regulator', 'fins', 'mask', 'tank']
+
 export function EquipmentManager({ equipment: initial }: { equipment: Equipment[] }) {
+  const tCommon = useTranslations('common')
   const supabase = createClient()
   const [equipment, setEquipment] = useState(initial)
   const [showForm, setShowForm] = useState(false)
@@ -100,8 +103,8 @@ export function EquipmentManager({ equipment: initial }: { equipment: Equipment[
                 <div>
                   <label className="form-label">Tipus</label>
                   <select className="form-input" value={form.type} onChange={e => set('type', e.target.value as EquipmentType)}>
-                    {Object.entries(EQUIPMENT_TYPE_LABELS).map(([v, l]) => (
-                      <option key={v} value={v}>{l}</option>
+                    {EQUIPMENT_TYPES.map(v => (
+                      <option key={v} value={v}>{tCommon(`equipment.${v}`)}</option>
                     ))}
                   </select>
                 </div>
@@ -141,7 +144,7 @@ export function EquipmentManager({ equipment: initial }: { equipment: Equipment[
               {equipment.map(e => (
                 <tr key={e.id} className="hover:bg-ocean-50/50">
                   <td className="px-4 py-3 font-medium text-ocean-950">{e.name}</td>
-                  <td className="px-4 py-3 text-ocean-600">{EQUIPMENT_TYPE_LABELS[e.type]}</td>
+                  <td className="px-4 py-3 text-ocean-600">{tCommon(`equipment.${e.type}`)}</td>
                   <td className="px-4 py-3 text-ocean-500">{e.size ?? '—'}</td>
                   <td className="px-4 py-3">
                     <span className={cn('badge', STATUS_STYLES[e.status])}>{STATUS_LABELS[e.status]}</span>

@@ -110,9 +110,8 @@
     "full": "Complet",
     "spotsAvailable": "{count} places disponibles",
     "equipment": {
-      "title": "Quin equipament portes?",
-      "subtitle": "Marca el que ja tens. El centre sabrà què necessites completar.",
-      "fromProfile": "(pre-seleccionat del teu perfil)"
+      "title": "Necessites equipament?",
+      "subtitle": "Marca el que necessites que el centre et proporcioni. Deixa en blanc el que ja portes."
     },
     "guestData": {
       "title": "Les teves dades",
@@ -127,9 +126,34 @@
     },
     "notes": "Notes (opcional)",
     "notesPlaceholder": "Al·lèrgies, condicions mèdiques, preferències...",
+    "payment": {
+      "title": "Mètode de pagament",
+      "subtitle": "Com prefereixes pagar?",
+      "payNow": "Pagar ara",
+      "payNowDesc": "Targeta de crèdit o dèbit",
+      "atCenter": "Pagar al centre",
+      "atCenterDesc": "Paga quan vinguis a bussejar",
+      "cardTitle": "Dades de pagament",
+      "confirm": "Confirmar pagament",
+      "continueBtn": "Continuar al pagament · {price}",
+      "processing": "Processant pagament..."
+    },
+    "atCenterDone": {
+      "title": "Reserva sol·licitada!",
+      "body": "Hem registrat la teva reserva. Podràs pagar quan arribis al centre de busseig.",
+      "payLaterHint": "Prefereixes pagar ara? Pots fer-ho en qualsevol moment des de «Les meves reserves».",
+      "viewBookings": "Veure les meves reserves"
+    },
+    "stripeDone": {
+      "title": "Reserva confirmada!",
+      "body": "Pagament realitzat amb èxit. Rebràs un email de confirmació.",
+      "backToCalendar": "Veure més sortides"
+    },
+    "medicalWarning": "Si pateixes o has patit alguna condició mèdica rellevant (problemes cardíacs, epilèpsia, asma, diabetis, entre d'altres), hauràs d'informar-nos abans de l'activitat i/o presentar un certificat mèdic d'aptitud per al busseig.",
+    "medicalWarningTitle": "Condicions mèdiques",
     "confirmBtn": "Confirmar reserva · {price}",
     "requestBtn": "Sol·licitar reserva · {price}",
-    "processing": "Processant reserva...",
+    "processing": "Processant...",
     "sending": "Enviant...",
     "emailHint": "Rebràs un email per confirmar la teva plaça.",
     "viewOther": "Veure altres sortides",

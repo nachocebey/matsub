@@ -78,6 +78,8 @@ export interface TripWithAvailability extends Trip {
   confirmed_participants: number
 }
 
+export type PaymentMethod = 'stripe' | 'at_center'
+
 export interface Booking {
   id: string
   user_id: string
@@ -85,6 +87,8 @@ export interface Booking {
   status: BookingStatus
   notes: string | null
   needed_equipment: EquipmentType[]
+  payment_method: PaymentMethod | null
+  paid_at: string | null
   created_at: string
 }
 

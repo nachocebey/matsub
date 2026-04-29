@@ -13,14 +13,27 @@ export default async function CalendarioPage() {
   const today = new Date().toISOString().split('T')[0]
   const t = await getTranslations('calendar')
 
-  const { data } = await supabase
-    .from('trips_with_availability')
-    .select('*')
-    .eq('status', 'active')
-    .gte('date', today)
-    .order('date', { ascending: true })
+  const [{ data }, { data: { user } }] = await Promise.all([
+    supabase
+      .from('trips_with_availability')
+      .select('*')
+      .eq('status', 'active')
+      .gte('date', today)
+      .order('date', { ascending: true }),
+    supabase.auth.getUser(),
+  ])
 
   const trips = (data ?? []) as TripWithAvailability[]
+
+  let bookedTripIds: string[] = []
+  if (user) {
+    const { data: bookings } = await supabase
+      .from('bookings')
+      .select('trip_id')
+      .eq('user_id', user.id)
+      .neq('status', 'cancelled')
+    bookedTripIds = (bookings ?? []).map(b => b.trip_id)
+  }
 
   return (
     <div className="pt-16">
@@ -32,7 +45,7 @@ export default async function CalendarioPage() {
           </p>
         </div>
       </div>
-      <CalendarClient trips={trips} />
+      <CalendarClient trips={trips} bookedTripIds={bookedTripIds} />
     </div>
   )
 }

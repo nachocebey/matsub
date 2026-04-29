@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { TripCard } from '@/components/ui/TripCard'
 import { ChevronLeft, ChevronRight, Waves, CalendarDays } from 'lucide-react'
 import { cn, getI18n } from '@/lib/utils'
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths, isToday, parseISO } from 'date-fns'
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths, isToday, isBefore, startOfToday, parseISO } from 'date-fns'
 import { ca, es, enUS } from 'date-fns/locale'
 import type { TripWithAvailability, TripType } from '@/types'
 import { useTranslations, useLocale } from 'next-intl'
@@ -13,11 +13,13 @@ const DATE_FNS_LOCALES = { es, ca, en: enUS }
 
 interface Props {
   trips: TripWithAvailability[]
+  bookedTripIds?: string[]
 }
 
 type FilterType = 'all' | TripType
 
-export function CalendarClient({ trips }: Props) {
+export function CalendarClient({ trips, bookedTripIds = [] }: Props) {
+  const bookedSet = useMemo(() => new Set(bookedTripIds), [bookedTripIds])
   const t = useTranslations('calendar')
   const locale = useLocale()
   const dfLocale = DATE_FNS_LOCALES[locale as keyof typeof DATE_FNS_LOCALES] ?? es
@@ -119,8 +121,10 @@ export function CalendarClient({ trips }: Props) {
 
             const dayTrips = tripsOnDay(day)
             const isSelected = selectedDate ? isSameDay(day, selectedDate) : false
+            const isPast = isBefore(day, startOfToday())
             const hasDive = dayTrips.some(t => t.type === 'dive')
             const hasCourse = dayTrips.some(t => t.type === 'course')
+            const hasBooked = dayTrips.some(t => bookedSet.has(t.id))
 
             return (
               <button
@@ -132,6 +136,8 @@ export function CalendarClient({ trips }: Props) {
                     ? 'bg-ocean-600'
                     : isToday(day)
                     ? 'bg-ocean-50'
+                    : isPast
+                    ? 'bg-slate-100 cursor-default'
                     : 'hover:bg-ocean-50/60'
                 )}
               >
@@ -141,10 +147,20 @@ export function CalendarClient({ trips }: Props) {
                     ? 'bg-white text-ocean-700'
                     : isToday(day)
                     ? 'bg-ocean-600 text-white'
+                    : isPast
+                    ? 'text-slate-400'
                     : 'text-ocean-700'
                 )}>
                   {format(day, 'd')}
                 </span>
+
+                {/* Booked indicator */}
+                {hasBooked && (
+                  <span className={cn(
+                    'absolute top-1 right-1 h-4 w-4 flex items-center justify-center rounded-full text-[9px] font-bold',
+                    isSelected ? 'bg-white text-green-600' : 'bg-green-500 text-white'
+                  )}>✓</span>
+                )}
 
                 {/* Trip titles — desktop only */}
                 {dayTrips.length > 0 && (
@@ -156,6 +172,8 @@ export function CalendarClient({ trips }: Props) {
                           'text-[11px] leading-tight truncate rounded px-1 py-0.5',
                           isSelected
                             ? 'bg-white/20 text-white'
+                            : bookedSet.has(trip.id)
+                            ? 'bg-green-100 text-green-700'
                             : trip.type === 'dive'
                             ? 'bg-ocean-100 text-ocean-700'
                             : 'bg-amber-100 text-amber-700'
@@ -185,13 +203,18 @@ export function CalendarClient({ trips }: Props) {
         </div>
 
         {/* Legend */}
-        <div className="flex gap-4 mt-4 pt-4 border-t border-ocean-100 text-xs text-ocean-500">
+        <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-ocean-100 text-xs text-ocean-500">
           <span className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-ocean-500" /> {t('dive')}
           </span>
           <span className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-amber-500" /> {t('course')}
           </span>
+          {bookedTripIds.length > 0 && (
+            <span className="flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-green-500" /> Apuntado
+            </span>
+          )}
         </div>
       </div>
 
@@ -233,7 +256,7 @@ export function CalendarClient({ trips }: Props) {
             ) : (
               <div className="grid gap-5">
                 {displayTrips.map(trip => (
-                  <TripCard key={trip.id} trip={trip} />
+                  <TripCard key={trip.id} trip={trip} isBooked={bookedSet.has(trip.id)} />
                 ))}
               </div>
             )}
@@ -250,7 +273,7 @@ export function CalendarClient({ trips }: Props) {
           ) : (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {displayTrips.map(trip => (
-                <TripCard key={trip.id} trip={trip} />
+                <TripCard key={trip.id} trip={trip} isBooked={bookedSet.has(trip.id)} />
               ))}
             </div>
           )}

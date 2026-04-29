@@ -6,10 +6,11 @@ import { formatDate, formatTime, formatPrice, BOOKING_STATUS_LABELS, CERTIFICATI
 import { DifficultyBadge } from '@/components/ui/DifficultyBadge'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from '@/components/ui/Toaster'
-import { Calendar, Clock, Euro, User, Package, ArrowRight, X } from 'lucide-react'
+import { Calendar, Clock, Euro, User, Package, ArrowRight, X, CreditCard } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { BookingWithDetails, BookingStatus, Profile } from '@/types'
 import { useTranslations, useLocale } from 'next-intl'
+import { PaymentModal } from './PaymentModal'
 
 interface Props {
   profile: Profile
@@ -29,6 +30,7 @@ export function UserDashboard({ profile, bookings: initialBookings }: Props) {
   const [bookings, setBookings] = useState(initialBookings)
   const [filter, setFilter] = useState<'all' | BookingStatus>('all')
   const [cancelling, setCancelling] = useState<string | null>(null)
+  const [payingBooking, setPayingBooking] = useState<BookingWithDetails | null>(null)
 
   const filtered = filter === 'all'
     ? bookings
@@ -52,8 +54,9 @@ export function UserDashboard({ profile, bookings: initialBookings }: Props) {
     setCancelling(null)
   }
 
+  const today = new Date().toISOString().split('T')[0]
   const upcoming = bookings.filter(b =>
-    b.status !== 'cancelled' && new Date(b.trip?.date) >= new Date()
+    b.status !== 'cancelled' && b.trip?.date >= today
   ).length
 
   return (
@@ -136,6 +139,12 @@ export function UserDashboard({ profile, bookings: initialBookings }: Props) {
                       <span className={cn('badge', STATUS_STYLES[booking.status])}>
                         {BOOKING_STATUS_LABELS[booking.status]}
                       </span>
+                      {booking.paid_at && (
+                        <span className="badge badge-green">💳 Pagado</span>
+                      )}
+                      {!booking.paid_at && booking.payment_method === 'at_center' && (
+                        <span className="badge badge-blue">🏊 Pagar en centro</span>
+                      )}
                       {booking.trip?.difficulty_level && (
                         <DifficultyBadge difficulty={booking.trip.difficulty_level} />
                       )}
@@ -182,17 +191,29 @@ export function UserDashboard({ profile, bookings: initialBookings }: Props) {
                     )}
                   </div>
 
-                  {/* Cancel button */}
-                  {booking.status !== 'cancelled' && booking.trip?.date && new Date(booking.trip.date) > new Date() && (
-                    <button
-                      onClick={() => handleCancel(booking.id)}
-                      disabled={cancelling === booking.id}
-                      className="text-xs text-red-500 hover:text-red-700 flex items-center gap-1 shrink-0"
-                    >
-                      <X className="h-3.5 w-3.5" />
-                      {cancelling === booking.id ? t('bookings.cancelling') : t('bookings.cancel')}
-                    </button>
-                  )}
+                  <div className="flex items-center gap-3 shrink-0">
+                    {/* Pay button — only for unpaid pending future bookings */}
+                    {booking.status === 'pending' && !booking.paid_at && booking.trip?.date >= today && (
+                      <button
+                        onClick={() => setPayingBooking(booking)}
+                        className="text-xs text-ocean-600 hover:text-ocean-800 flex items-center gap-1 font-medium"
+                      >
+                        <CreditCard className="h-3.5 w-3.5" />
+                        Pagar
+                      </button>
+                    )}
+                    {/* Cancel button */}
+                    {booking.status !== 'cancelled' && booking.trip?.date >= today && (
+                      <button
+                        onClick={() => handleCancel(booking.id)}
+                        disabled={cancelling === booking.id}
+                        className="text-xs text-red-500 hover:text-red-700 flex items-center gap-1"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                        {cancelling === booking.id ? t('bookings.cancelling') : t('bookings.cancel')}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -205,6 +226,21 @@ export function UserDashboard({ profile, bookings: initialBookings }: Props) {
           </Link>
         </div>
       </div>
+
+      {payingBooking && (
+        <PaymentModal
+          bookingId={payingBooking.id}
+          tripTitle={payingBooking.trip.title}
+          price={payingBooking.trip.price}
+          onClose={() => setPayingBooking(null)}
+          onSuccess={() => {
+            setBookings(prev => prev.map(b =>
+              b.id === payingBooking.id ? { ...b, status: 'confirmed' } : b
+            ))
+            setPayingBooking(null)
+          }}
+        />
+      )}
     </div>
   )
 }
