@@ -9,7 +9,7 @@ export default async function AdminBookingsPage() {
     .from('bookings')
     .select(`
       *,
-      trip:trips(title, title_i18n, date, time),
+      trip:trips(title, title_i18n, date, time, max_participants),
       profile:profiles(full_name, phone, certification_level)
     `)
     .order('created_at', { ascending: false })
