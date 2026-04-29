@@ -8,6 +8,10 @@ import { notFound } from 'next/navigation'
 import NextTopLoader from 'nextjs-toploader'
 import type { Metadata } from 'next'
 import { BRANDING } from '@/config/branding'
+import { Inter } from 'next/font/google'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 type Props = { params: { locale: string } }
 
@@ -39,7 +43,7 @@ export default async function LocaleLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={inter.variable}>
       <body className="min-h-screen flex flex-col">
         <NextTopLoader color="#0ea5e9" showSpinner={false} />
         <NextIntlClientProvider messages={messages}>
@@ -48,6 +52,7 @@ export default async function LocaleLayout({
           <Footer />
           <Toaster />
         </NextIntlClientProvider>
+        <SpeedInsights />
       </body>
     </html>
   )
