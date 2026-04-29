@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "description": "Professional diving center in Mataró. Guided dives, PADI courses and equipment rental for all levels on the Costa del Maresme.",
+    "keywords": "diving, mataró, padi, dives, diving courses, maresme, scuba diving, barcelona"
+  },
   "nav": {
     "spots": "Spots",
     "courses": "Courses",
@@ -97,7 +101,8 @@
     "course": "Course",
     "viewAll": "View all",
     "noDayTrips": "No trips on this day.",
-    "noTrips": "No trips scheduled."
+    "noTrips": "No trips scheduled.",
+    "selectDay": "Tap a day on the calendar to see the trips"
   },
   "booking": {
     "title": "Book a spot",

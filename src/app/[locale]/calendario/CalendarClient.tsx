@@ -2,8 +2,8 @@
 
 import { useState, useMemo } from 'react'
 import { TripCard } from '@/components/ui/TripCard'
-import { ChevronLeft, ChevronRight, Waves } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { ChevronLeft, ChevronRight, Waves, CalendarDays } from 'lucide-react'
+import { cn, getI18n } from '@/lib/utils'
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths, isToday, parseISO } from 'date-fns'
 import { ca, es, enUS } from 'date-fns/locale'
 import type { TripWithAvailability, TripType } from '@/types'
@@ -34,30 +34,27 @@ export function CalendarClient({ trips }: Props) {
   const monthEnd = endOfMonth(currentMonth)
   const days = eachDayOfInterval({ start: monthStart, end: monthEnd })
 
-  // Pad to start on Monday
   const startPad = (monthStart.getDay() + 6) % 7
-  const paddedDays = [
-    ...Array(startPad).fill(null),
-    ...days,
-  ]
+  const paddedDays = [...Array(startPad).fill(null), ...days]
 
   const tripsOnDay = (day: Date) =>
     filtered.filter(t => isSameDay(parseISO(t.date), day))
 
-  const selectedTrips = selectedDate
-    ? filtered.filter(t => isSameDay(parseISO(t.date), selectedDate))
-    : null
+  const monthTrips = useMemo(() =>
+    filtered.filter(t => {
+      const d = parseISO(t.date)
+      return d >= monthStart && d <= monthEnd
+    }),
+    [filtered, monthStart, monthEnd]
+  )
 
-  const upcomingTrips = selectedDate ? selectedTrips! : filtered
+  const displayTrips = selectedDate
+    ? filtered.filter(t => isSameDay(parseISO(t.date), selectedDate))
+    : monthTrips
 
   const DAY_HEADERS = [
-    t('days.mon'),
-    t('days.tue'),
-    t('days.wed'),
-    t('days.thu'),
-    t('days.fri'),
-    t('days.sat'),
-    t('days.sun'),
+    t('days.mon'), t('days.tue'), t('days.wed'), t('days.thu'),
+    t('days.fri'), t('days.sat'), t('days.sun'),
   ]
 
   return (
@@ -79,105 +76,180 @@ export function CalendarClient({ trips }: Props) {
           </button>
         ))}
         <span className="ml-auto text-sm text-ocean-500">
-          {filtered.length} {t('trips')}
+          {monthTrips.length} {t('trips')}
         </span>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[400px_1fr]">
-        {/* Mini calendar */}
-        <div className="card p-5">
-          {/* Month nav */}
-          <div className="flex items-center justify-between mb-4">
-            <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-1.5 rounded-lg hover:bg-ocean-50 text-ocean-600">
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <h2 className="font-semibold text-ocean-950 capitalize">
-              {format(currentMonth, 'MMMM yyyy', { locale: dfLocale })}
-            </h2>
-            <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="p-1.5 rounded-lg hover:bg-ocean-50 text-ocean-600">
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
-
-          {/* Day headers */}
-          <div className="grid grid-cols-7 mb-1">
-            {DAY_HEADERS.map(d => (
-              <div key={d} className="text-center text-xs font-medium text-ocean-400 py-1">
-                {d}
-              </div>
-            ))}
-          </div>
-
-          {/* Days grid */}
-          <div className="grid grid-cols-7 gap-0.5">
-            {paddedDays.map((day, i) => {
-              if (!day) return <div key={`pad-${i}`} />
-              const dayTrips = tripsOnDay(day)
-              const isSelected = selectedDate && isSameDay(day, selectedDate)
-              const hasDive = dayTrips.some(t => t.type === 'dive')
-              const hasCourse = dayTrips.some(t => t.type === 'course')
-
-              return (
-                <button
-                  key={day.toISOString()}
-                  onClick={() => setSelectedDate(isSelected ? null : day)}
-                  className={cn(
-                    'relative flex flex-col items-center py-1.5 rounded-lg text-sm transition-colors',
-                    isSelected
-                      ? 'bg-ocean-600 text-white'
-                      : isToday(day)
-                      ? 'bg-ocean-100 text-ocean-800 font-semibold'
-                      : 'hover:bg-ocean-50 text-ocean-700',
-                    dayTrips.length > 0 && !isSelected && 'font-medium'
-                  )}
-                >
-                  <span>{format(day, 'd')}</span>
-                  {dayTrips.length > 0 && (
-                    <div className="flex gap-0.5 mt-0.5">
-                      {hasDive && <span className={cn('h-1 w-1 rounded-full', isSelected ? 'bg-ocean-200' : 'bg-ocean-500')} />}
-                      {hasCourse && <span className={cn('h-1 w-1 rounded-full', isSelected ? 'bg-sand-200' : 'bg-sand-500')} />}
-                    </div>
-                  )}
-                </button>
-              )
-            })}
-          </div>
-
-          {/* Legend */}
-          <div className="flex gap-4 mt-4 pt-4 border-t border-ocean-100 text-xs text-ocean-500">
-            <span className="flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-ocean-500" /> {t('dive')}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-sand-500" /> {t('course')}
-            </span>
-          </div>
+      {/* Full-width calendar */}
+      <div className="card p-6 mb-10">
+        {/* Month nav */}
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => { setCurrentMonth(subMonths(currentMonth, 1)); setSelectedDate(null) }}
+            className="p-1.5 rounded-lg hover:bg-ocean-50 text-ocean-600"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <h2 className="font-semibold text-ocean-950 capitalize text-lg">
+            {format(currentMonth, 'MMMM yyyy', { locale: dfLocale })}
+          </h2>
+          <button
+            onClick={() => { setCurrentMonth(addMonths(currentMonth, 1)); setSelectedDate(null) }}
+            className="p-1.5 rounded-lg hover:bg-ocean-50 text-ocean-600"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
         </div>
 
-        {/* Trip list */}
-        <div>
-          {selectedDate && (
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-ocean-950 capitalize">
-                {format(selectedDate, "EEEE, d 'de' MMMM", { locale: dfLocale })}
-              </h3>
-              <button
-                onClick={() => setSelectedDate(null)}
-                className="text-sm text-ocean-500 hover:text-ocean-700"
-              >
-                {t('viewAll')}
-              </button>
+        {/* Day headers */}
+        <div className="grid grid-cols-7 border-b border-ocean-100 mb-0">
+          {DAY_HEADERS.map(d => (
+            <div key={d} className="text-center text-xs font-semibold text-ocean-400 py-2 uppercase tracking-wide">
+              {d}
             </div>
-          )}
+          ))}
+        </div>
 
-          {upcomingTrips.length === 0 ? (
+        {/* Days grid */}
+        <div className="grid grid-cols-7 border-l border-ocean-100">
+          {paddedDays.map((day, i) => {
+            if (!day) return (
+              <div key={`pad-${i}`} className="border-r border-b border-ocean-100 min-h-[56px] sm:min-h-[90px] bg-ocean-50/30" />
+            )
+
+            const dayTrips = tripsOnDay(day)
+            const isSelected = selectedDate ? isSameDay(day, selectedDate) : false
+            const hasDive = dayTrips.some(t => t.type === 'dive')
+            const hasCourse = dayTrips.some(t => t.type === 'course')
+
+            return (
+              <button
+                key={day.toISOString()}
+                onClick={() => setSelectedDate(isSelected ? null : day)}
+                className={cn(
+                  'relative border-r border-b border-ocean-100 min-h-[56px] sm:min-h-[90px] p-1.5 sm:p-2 text-left transition-colors',
+                  isSelected
+                    ? 'bg-ocean-600'
+                    : isToday(day)
+                    ? 'bg-ocean-50'
+                    : 'hover:bg-ocean-50/60'
+                )}
+              >
+                <span className={cn(
+                  'inline-flex h-6 w-6 items-center justify-center rounded-full text-sm font-medium',
+                  isSelected
+                    ? 'bg-white text-ocean-700'
+                    : isToday(day)
+                    ? 'bg-ocean-600 text-white'
+                    : 'text-ocean-700'
+                )}>
+                  {format(day, 'd')}
+                </span>
+
+                {/* Trip titles — desktop only */}
+                {dayTrips.length > 0 && (
+                  <div className="hidden sm:block mt-1.5 space-y-0.5">
+                    {dayTrips.slice(0, 2).map(trip => (
+                      <div
+                        key={trip.id}
+                        className={cn(
+                          'text-[11px] leading-tight truncate rounded px-1 py-0.5',
+                          isSelected
+                            ? 'bg-white/20 text-white'
+                            : trip.type === 'dive'
+                            ? 'bg-ocean-100 text-ocean-700'
+                            : 'bg-amber-100 text-amber-700'
+                        )}
+                      >
+                        {getI18n(trip.title_i18n, locale, trip.title)}
+                      </div>
+                    ))}
+                    {dayTrips.length > 2 && (
+                      <div className={cn('text-[11px]', isSelected ? 'text-ocean-100' : 'text-ocean-400')}>
+                        +{dayTrips.length - 2}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Dot indicators — mobile only */}
+                {dayTrips.length > 0 && (
+                  <div className="absolute bottom-1.5 right-1.5 flex gap-0.5 sm:hidden">
+                    {hasDive && <span className={cn('h-1.5 w-1.5 rounded-full', isSelected ? 'bg-white/60' : 'bg-ocean-500')} />}
+                    {hasCourse && <span className={cn('h-1.5 w-1.5 rounded-full', isSelected ? 'bg-white/60' : 'bg-amber-500')} />}
+                  </div>
+                )}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Legend */}
+        <div className="flex gap-4 mt-4 pt-4 border-t border-ocean-100 text-xs text-ocean-500">
+          <span className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-ocean-500" /> {t('dive')}
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-amber-500" /> {t('course')}
+          </span>
+        </div>
+      </div>
+
+      {/* Trips below calendar */}
+      <div>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="font-semibold text-ocean-950 text-lg capitalize">
+            {selectedDate
+              ? format(selectedDate, "EEEE, d 'de' MMMM", { locale: dfLocale })
+              : format(currentMonth, 'MMMM yyyy', { locale: dfLocale })
+            }
+          </h3>
+          {selectedDate && (
+            <button
+              onClick={() => setSelectedDate(null)}
+              className="text-sm text-ocean-500 hover:text-ocean-700"
+            >
+              {t('viewAll')}
+            </button>
+          )}
+        </div>
+
+        {/* Mobile: prompt when no day selected */}
+        {!selectedDate && (
+          <div className="sm:hidden card p-10 text-center text-ocean-400">
+            <CalendarDays className="h-10 w-10 mx-auto mb-3 opacity-40" />
+            <p className="text-sm font-medium text-ocean-500">{t('selectDay')}</p>
+          </div>
+        )}
+
+        {/* Mobile: day selected — show trips or empty state */}
+        {selectedDate && (
+          <div className="sm:hidden">
+            {displayTrips.length === 0 ? (
+              <div className="card p-10 text-center text-ocean-500">
+                <Waves className="h-10 w-10 mx-auto mb-3 opacity-30" />
+                <p className="text-sm">{t('noDayTrips')}</p>
+              </div>
+            ) : (
+              <div className="grid gap-5">
+                {displayTrips.map(trip => (
+                  <TripCard key={trip.id} trip={trip} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Desktop: always show month or day trips */}
+        <div className="hidden sm:block">
+          {displayTrips.length === 0 ? (
             <div className="card p-12 text-center text-ocean-500">
               <Waves className="h-10 w-10 mx-auto mb-3 opacity-30" />
               <p>{selectedDate ? t('noDayTrips') : t('noTrips')}</p>
             </div>
           ) : (
-            <div className="grid gap-5 sm:grid-cols-2">
-              {upcomingTrips.map(trip => (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {displayTrips.map(trip => (
                 <TripCard key={trip.id} trip={trip} />
               ))}
             </div>

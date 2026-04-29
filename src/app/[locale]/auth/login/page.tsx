@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import { LoginForm } from './LoginForm'
 import { Waves } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
+import { BRANDING } from '@/config/branding'
 
 export const metadata: Metadata = { title: 'Iniciar sessió' }
 
@@ -16,7 +17,7 @@ export default async function LoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-ocean-600 font-bold text-2xl mb-6">
             <Waves className="h-7 w-7" />
-            MATSUB
+            {BRANDING.name}
           </Link>
           <h1 className="text-2xl font-bold text-ocean-950">{t('title')}</h1>
           <p className="text-ocean-500 mt-2">{t('subtitle')}</p>

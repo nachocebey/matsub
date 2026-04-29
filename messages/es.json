@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "description": "Centro de buceo profesional en Mataró. Inmersiones guiadas, cursos PADI y alquiler de equipamiento para todos los niveles en el Maresme.",
+    "keywords": "buceo, mataró, padi, inmersiones, cursos de buceo, maresme, submarinismo, barcelona"
+  },
   "nav": {
     "spots": "Spots",
     "courses": "Cursos",
@@ -97,7 +101,8 @@
     "course": "Curso",
     "viewAll": "Ver todas",
     "noDayTrips": "No hay salidas este día.",
-    "noTrips": "No hay salidas programadas."
+    "noTrips": "No hay salidas programadas.",
+    "selectDay": "Toca un día del calendario para ver las salidas"
   },
   "booking": {
     "title": "Reservar plaza",

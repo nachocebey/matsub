@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 import { useTranslations, useLocale } from 'next-intl'
 import { locales, type Locale } from '@/i18n'
 import type { Profile } from '@/types'
+import { BRANDING } from '@/config/branding'
 
 const LOCALE_LABELS: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' }
 
@@ -100,7 +101,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className={cn('flex items-center gap-2 font-bold text-xl', logoColor)}>
           <Waves className="h-6 w-6" />
-          MATSUB
+          {BRANDING.name}
         </Link>
 
         {/* Desktop nav */}
