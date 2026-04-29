@@ -95,7 +95,7 @@ export function BookingsManager({ bookings: initial }: { bookings: BookingRow[] 
   const toggleExpanded = (tripId: string) => {
     setExpanded(prev => {
       const next = new Set(prev)
-      next.has(tripId) ? next.delete(tripId) : next.add(tripId)
+      if (next.has(tripId)) next.delete(tripId); else next.add(tripId)
       return next
     })
   }
@@ -103,7 +103,7 @@ export function BookingsManager({ bookings: initial }: { bookings: BookingRow[] 
   const toggleShowAll = (tripId: string) => {
     setShowAllForTrip(prev => {
       const next = new Set(prev)
-      next.has(tripId) ? next.delete(tripId) : next.add(tripId)
+      if (next.has(tripId)) next.delete(tripId); else next.add(tripId)
       return next
     })
   }
