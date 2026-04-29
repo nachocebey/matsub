@@ -1,13 +1,18 @@
 'use client'
 
-import { useState, useMemo, useRef } from 'react'
+import { useState, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from '@/components/ui/Toaster'
 import { formatDate, BOOKING_STATUS_LABELS, CERTIFICATION_LABELS } from '@/lib/utils'
 import { cn } from '@/lib/utils'
-import { CheckCircle, XCircle, Clock, ChevronDown, ChevronRight, Users, X } from 'lucide-react'
+import { CheckCircle, XCircle, Clock, ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react'
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths, isToday, isBefore, startOfToday, parseISO } from 'date-fns'
+import { ca, es, enUS } from 'date-fns/locale'
 import type { BookingStatus } from '@/types'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
+
+const DATE_FNS_LOCALES = { es, ca, en: enUS }
+const DAY_HEADERS = ['L', 'M', 'X', 'J', 'V', 'S', 'D']
 
 interface BookingRow {
   id: string
@@ -28,84 +33,77 @@ interface BookingRow {
   profile: { full_name: string; phone: string | null; certification_level: string } | null
 }
 
-interface TripGroup {
-  tripId: string
-  tripTitle: string
-  tripDate: string
-  tripTime: string
-  maxParticipants: number
-  bookings: BookingRow[]
-}
-
-type FilterType = 'all' | BookingStatus
-
 const STATUS_STYLES: Record<BookingStatus, string> = {
   pending: 'badge-yellow',
   confirmed: 'badge-green',
   cancelled: 'badge-red',
 }
 
+function PaymentBadge({ b }: { b: BookingRow }) {
+  if (b.paid_at) return <span className="badge badge-green text-xs">💳 Pagado</span>
+  if (b.payment_method === 'at_center') return <span className="badge badge-blue text-xs">🏊 En centro</span>
+  if (b.payment_method === 'stripe') return <span className="badge badge-yellow text-xs">💳 Pago pendiente</span>
+  return null
+}
+
 export function BookingsManager({ bookings: initial }: { bookings: BookingRow[] }) {
   const t = useTranslations('admin.bookings')
   const tCommon = useTranslations('common')
+  const locale = useLocale()
+  const dfLocale = DATE_FNS_LOCALES[locale as keyof typeof DATE_FNS_LOCALES] ?? es
   const supabase = createClient()
-  const [bookings, setBookings] = useState(initial)
-  const [filter, setFilter] = useState<FilterType>('all')
-  const [selectedDate, setSelectedDate] = useState<string>('')
-  const dateInputRef = useRef<HTMLInputElement>(null)
-  const [updating, setUpdating] = useState<string | null>(null)
-  const [expanded, setExpanded] = useState<Set<string>>(
-    () => new Set(initial.map(b => b.trip_id).filter(Boolean))
-  )
-  const [showAllForTrip, setShowAllForTrip] = useState<Set<string>>(new Set())
 
-  const grouped = useMemo<TripGroup[]>(() => {
-    const map = new Map<string, TripGroup>()
+  const [bookings, setBookings] = useState(initial)
+  const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [updating, setUpdating] = useState<string | null>(null)
+
+  // Last 5 bookings (already sorted by created_at desc from server)
+  const recentBookings = bookings.slice(0, 5)
+
+  // Group all bookings by trip date
+  const bookingsByDate = useMemo(() => {
+    const map: Record<string, BookingRow[]> = {}
     for (const b of bookings) {
+      const date = b.trip?.date
+      if (!date) continue
+      if (!map[date]) map[date] = []
+      map[date].push(b)
+    }
+    return map
+  }, [bookings])
+
+  // Calendar grid
+  const monthStart = startOfMonth(currentMonth)
+  const monthEnd = endOfMonth(currentMonth)
+  const days = eachDayOfInterval({ start: monthStart, end: monthEnd })
+  const startPad = (monthStart.getDay() + 6) % 7
+  const paddedDays = [...Array(startPad).fill(null), ...days]
+
+  // Bookings for selected day, grouped by trip
+  const dayBookings = selectedDate ? (bookingsByDate[selectedDate] ?? []) : []
+  const dayTripGroups = useMemo(() => {
+    const map = new Map<string, { title: string; time: string; max: number; bookings: BookingRow[] }>()
+    for (const b of dayBookings) {
       if (!b.trip_id) continue
       if (!map.has(b.trip_id)) {
         map.set(b.trip_id, {
-          tripId: b.trip_id,
-          tripTitle: b.trip?.title_i18n?.es || b.trip?.title || '—',
-          tripDate: b.trip?.date || '',
-          tripTime: b.trip?.time || '',
-          maxParticipants: b.trip?.max_participants || 0,
+          title: b.trip?.title_i18n?.es ?? b.trip?.title ?? '—',
+          time: b.trip?.time ?? '',
+          max: b.trip?.max_participants ?? 0,
           bookings: [],
         })
       }
       map.get(b.trip_id)!.bookings.push(b)
     }
     return Array.from(map.values())
-      .filter(g => !selectedDate || g.tripDate === selectedDate)
-      .sort((a, b) => a.tripDate.localeCompare(b.tripDate))
-  }, [bookings, selectedDate])
+  }, [dayBookings])
 
-  const handleFilterChange = (newFilter: FilterType) => {
-    setFilter(newFilter)
-    const newExpanded = new Set<string>()
-    for (const group of grouped) {
-      if (newFilter === 'all' || group.bookings.some(b => b.status === newFilter)) {
-        newExpanded.add(group.tripId)
-      }
-    }
-    setExpanded(newExpanded)
-    setShowAllForTrip(new Set())
-  }
-
-  const toggleExpanded = (tripId: string) => {
-    setExpanded(prev => {
-      const next = new Set(prev)
-      if (next.has(tripId)) next.delete(tripId); else next.add(tripId)
-      return next
-    })
-  }
-
-  const toggleShowAll = (tripId: string) => {
-    setShowAllForTrip(prev => {
-      const next = new Set(prev)
-      if (next.has(tripId)) next.delete(tripId); else next.add(tripId)
-      return next
-    })
+  const jumpToDate = (date?: string | null) => {
+    if (!date) return
+    const parsed = parseISO(date)
+    setCurrentMonth(parsed)
+    setSelectedDate(date)
   }
 
   const updateStatus = async (id: string, status: BookingStatus) => {
@@ -118,204 +116,274 @@ export function BookingsManager({ bookings: initial }: { bookings: BookingRow[] 
   }
 
   return (
-    <div>
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-ocean-950">{t('title')}</h1>
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="relative flex items-center">
-            <input
-              ref={dateInputRef}
-              type="date"
-              value={selectedDate}
-              onChange={e => setSelectedDate(e.target.value)}
-              onClick={() => dateInputRef.current?.showPicker()}
-              className={`py-1.5 text-xs border border-ocean-200 rounded-full text-ocean-700 focus:outline-none focus:border-ocean-400 bg-white ${selectedDate ? 'pl-3 pr-8' : 'px-3'}`}
-            />
-            {selectedDate && (
-              <button onClick={() => setSelectedDate('')} className="absolute right-3 text-ocean-400 hover:text-ocean-600">
-                <X className="h-3.5 w-3.5" />
-              </button>
-            )}
-          </div>
-          <div className="flex gap-2">
-            {(['all', 'pending', 'confirmed', 'cancelled'] as const).map(f => (
-              <button key={f} onClick={() => handleFilterChange(f)}
-                className={cn('rounded-full px-3 py-1 text-xs font-medium border transition-colors',
-                  filter === f
-                    ? 'bg-ocean-600 text-white border-ocean-600'
-                    : 'bg-white text-ocean-600 border-ocean-200 hover:border-ocean-400'
-                )}>
-                {f === 'all' ? t('all') : BOOKING_STATUS_LABELS[f]}
+    <div className="container-main py-8">
+      <h1 className="text-2xl font-bold text-ocean-950 mb-8">{t('title')}</h1>
+
+      {/* ── Recent bookings ──────────────────────────────────────── */}
+      <section className="mb-10">
+        <h2 className="text-sm font-semibold text-ocean-500 uppercase tracking-wider mb-4">Últimas reservas</h2>
+        {recentBookings.length === 0 ? (
+          <p className="text-sm text-ocean-400">{t('none')}</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            {recentBookings.map(b => (
+              <button
+                key={b.id}
+                onClick={() => jumpToDate(b.trip?.date)}
+                className="card p-4 text-left hover:shadow-md transition-shadow"
+              >
+                <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                  <span className={cn('badge text-xs', STATUS_STYLES[b.status])}>
+                    {BOOKING_STATUS_LABELS[b.status]}
+                  </span>
+                  <PaymentBadge b={b} />
+                </div>
+                <p className="font-semibold text-ocean-950 text-sm truncate">
+                  {b.profile?.full_name ?? b.guest_name ?? '—'}
+                  {!b.profile && <span className="ml-1 text-xs font-normal text-ocean-400">{t('guest')}</span>}
+                </p>
+                <p className="text-xs text-ocean-500 truncate mt-0.5">
+                  {b.trip?.title_i18n?.es ?? b.trip?.title ?? '—'}
+                </p>
+                <p className="text-xs text-ocean-400 mt-1">{b.trip?.date ? formatDate(b.trip.date) : '—'}</p>
               </button>
             ))}
           </div>
+        )}
+      </section>
+
+      {/* ── Calendar ─────────────────────────────────────────────── */}
+      <div className="card p-6 mb-8">
+        {/* Month nav */}
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => { setCurrentMonth(subMonths(currentMonth, 1)); setSelectedDate(null) }}
+            className="p-1.5 rounded-lg hover:bg-ocean-50 text-ocean-600"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <h2 className="font-semibold text-ocean-950 capitalize text-lg">
+            {format(currentMonth, 'MMMM yyyy', { locale: dfLocale })}
+          </h2>
+          <button
+            onClick={() => { setCurrentMonth(addMonths(currentMonth, 1)); setSelectedDate(null) }}
+            className="p-1.5 rounded-lg hover:bg-ocean-50 text-ocean-600"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Day headers */}
+        <div className="grid grid-cols-7 border-b border-ocean-100 mb-0">
+          {DAY_HEADERS.map(d => (
+            <div key={d} className="text-center text-xs font-semibold text-ocean-400 py-2 uppercase tracking-wide">
+              {d}
+            </div>
+          ))}
+        </div>
+
+        {/* Days grid */}
+        <div className="grid grid-cols-7 border-l border-ocean-100">
+          {paddedDays.map((day, i) => {
+            if (!day) return (
+              <div key={`pad-${i}`} className="border-r border-b border-ocean-100 min-h-[56px] sm:min-h-[80px] bg-ocean-50/30" />
+            )
+
+            const dateStr = format(day, 'yyyy-MM-dd')
+            const dayBks = bookingsByDate[dateStr] ?? []
+            const confirmed = dayBks.filter(b => b.status === 'confirmed').length
+            const pending = dayBks.filter(b => b.status === 'pending').length
+            const isSelected = selectedDate === dateStr
+            const isPast = isBefore(day, startOfToday())
+
+            return (
+              <button
+                key={dateStr}
+                onClick={() => setSelectedDate(isSelected ? null : dateStr)}
+                className={cn(
+                  'relative border-r border-b border-ocean-100 min-h-[56px] sm:min-h-[80px] p-1.5 text-left transition-colors',
+                  isSelected
+                    ? 'bg-ocean-600'
+                    : isToday(day)
+                    ? 'bg-ocean-50'
+                    : isPast
+                    ? 'bg-slate-50'
+                    : 'hover:bg-ocean-50/60'
+                )}
+              >
+                <span className={cn(
+                  'inline-flex h-6 w-6 items-center justify-center rounded-full text-sm font-medium',
+                  isSelected
+                    ? 'bg-white text-ocean-700'
+                    : isToday(day)
+                    ? 'bg-ocean-600 text-white'
+                    : isPast
+                    ? 'text-slate-400'
+                    : 'text-ocean-700'
+                )}>
+                  {format(day, 'd')}
+                </span>
+
+                {/* Desktop: counts */}
+                {dayBks.length > 0 && (
+                  <div className="hidden sm:flex flex-col gap-0.5 mt-1">
+                    {confirmed > 0 && (
+                      <span className={cn('text-[10px] font-semibold', isSelected ? 'text-green-200' : 'text-green-600')}>
+                        ✓ {confirmed}
+                      </span>
+                    )}
+                    {pending > 0 && (
+                      <span className={cn('text-[10px] font-semibold', isSelected ? 'text-amber-200' : 'text-amber-500')}>
+                        · {pending}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* Mobile: dots */}
+                {dayBks.length > 0 && (
+                  <div className="absolute bottom-1 right-1 flex gap-0.5 sm:hidden">
+                    {confirmed > 0 && <span className={cn('h-1.5 w-1.5 rounded-full', isSelected ? 'bg-green-300' : 'bg-green-500')} />}
+                    {pending > 0 && <span className={cn('h-1.5 w-1.5 rounded-full', isSelected ? 'bg-amber-300' : 'bg-amber-500')} />}
+                  </div>
+                )}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Legend */}
+        <div className="flex gap-5 mt-4 pt-4 border-t border-ocean-100 text-xs text-ocean-500">
+          <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-green-500" /> Confirmadas</span>
+          <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-amber-500" /> Pendientes</span>
         </div>
       </div>
 
-      <div className="space-y-3">
-        {grouped.length === 0 && (
-          <div className="card p-8 text-center text-ocean-400">{t('none')}</div>
-        )}
-        {grouped.map(group => {
-          const counts = {
-            pending: group.bookings.filter(b => b.status === 'pending').length,
-            confirmed: group.bookings.filter(b => b.status === 'confirmed').length,
-            cancelled: group.bookings.filter(b => b.status === 'cancelled').length,
-          }
-          const isExp = expanded.has(group.tripId)
-          const showingAll = showAllForTrip.has(group.tripId)
-          const visibleBookings = filter === 'all' || showingAll
-            ? group.bookings
-            : group.bookings.filter(b => b.status === filter)
-          const hiddenCount = group.bookings.length - visibleBookings.length
+      {/* ── Day panel ────────────────────────────────────────────── */}
+      {selectedDate ? (
+        <div>
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="font-semibold text-ocean-950 text-lg capitalize">
+              {format(parseISO(selectedDate), "EEEE, d 'de' MMMM yyyy", { locale: dfLocale })}
+            </h3>
+            <button onClick={() => setSelectedDate(null)} className="text-sm text-ocean-500 hover:text-ocean-700">
+              Ver todo el mes
+            </button>
+          </div>
 
-          return (
-            <div key={group.tripId} className="card overflow-hidden">
-              <button
-                onClick={() => toggleExpanded(group.tripId)}
-                className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-ocean-50/50 transition-colors"
-              >
-                {isExp
-                  ? <ChevronDown className="h-4 w-4 text-ocean-400 shrink-0" />
-                  : <ChevronRight className="h-4 w-4 text-ocean-400 shrink-0" />
-                }
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-ocean-950 truncate">{group.tripTitle}</p>
-                  <p className="text-xs text-ocean-400">{formatDate(group.tripDate)} · {group.tripTime?.slice(0, 5)}</p>
-                </div>
-                <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
-                  {counts.confirmed > 0 && (
-                    <span className="badge badge-green">{counts.confirmed} confirmada{counts.confirmed !== 1 ? 's' : ''}</span>
-                  )}
-                  {counts.pending > 0 && (
-                    <span className="badge badge-yellow">{counts.pending} pendiente{counts.pending !== 1 ? 's' : ''}</span>
-                  )}
-                  {counts.cancelled > 0 && (
-                    <span className="badge badge-red">{counts.cancelled} cancelada{counts.cancelled !== 1 ? 's' : ''}</span>
-                  )}
-                  <span className="flex items-center gap-1 text-xs text-ocean-400">
-                    <Users className="h-3.5 w-3.5" />
-                    {counts.confirmed}/{group.maxParticipants}
-                  </span>
-                </div>
-              </button>
-
-              {isExp && (
-                <div className="border-t border-ocean-100">
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead className="bg-ocean-50">
-                        <tr>
-                          {[t('user'), t('status'), t('equipment'), t('date'), t('actions')].map(h => (
-                            <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-ocean-500 uppercase tracking-wider">{h}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-ocean-50">
-                        {visibleBookings.map(b => (
-                          <tr key={b.id} className="hover:bg-ocean-50/50">
-                            <td className="px-4 py-3">
-                              <p className="font-medium text-ocean-950">
-                                {b.profile?.full_name ?? b.guest_name}
-                                {!b.profile && <span className="ml-1.5 text-xs text-ocean-400">{t('guest')}</span>}
-                              </p>
-                              {b.profile?.certification_level && (
-                                <p className="text-xs text-ocean-400">{CERTIFICATION_LABELS[b.profile.certification_level]}</p>
-                              )}
-                              {(b.profile?.phone ?? b.guest_phone) && (
-                                <p className="text-xs text-ocean-400">{b.profile?.phone ?? b.guest_phone}</p>
-                              )}
-                              {b.guest_email && (
-                                <p className="text-xs text-ocean-400">{b.guest_email}</p>
-                              )}
-                              {!b.verified && (
-                                <span className="badge badge-yellow text-xs mt-1">{t('pendingVerification')}</span>
-                              )}
-                            </td>
-                            <td className="px-4 py-3">
-                              <div className="flex flex-col gap-1">
-                                <span className={cn('badge', STATUS_STYLES[b.status])}>
-                                  {BOOKING_STATUS_LABELS[b.status]}
-                                </span>
-                                {b.paid_at ? (
-                                  <span className="badge badge-green text-xs">💳 Pagado</span>
-                                ) : b.payment_method === 'at_center' ? (
-                                  <span className="badge badge-blue text-xs">🏊 Pagar en centro</span>
-                                ) : b.payment_method === 'stripe' ? (
-                                  <span className="badge badge-yellow text-xs">💳 Pago pendiente</span>
-                                ) : null}
-                              </div>
-                            </td>
-                            <td className="px-4 py-3">
-                              <div className="flex flex-wrap gap-1">
-                                {b.needed_equipment?.length > 0
-                                  ? b.needed_equipment.map(type => (
-                                      <span key={type} className="badge badge-blue text-xs">
-                                        {tCommon(`equipment.${type}`)}
-                                      </span>
-                                    ))
-                                  : <span className="text-xs text-ocean-300">{t('noEquipment')}</span>
-                                }
-                                {b.tank_size && (
-                                  <span className="badge badge-blue text-xs">🫙 {b.tank_size}</span>
-                                )}
-                                {b.wants_nitrox && (
-                                  <span className="badge text-xs bg-amber-100 text-amber-700 border border-amber-200">⚗️ Nitrox</span>
-                                )}
-                              </div>
-                            </td>
-                            <td className="px-4 py-3 text-ocean-500 text-xs whitespace-nowrap">
-                              {new Date(b.created_at).toLocaleDateString('ca-ES')}
-                            </td>
-                            <td className="px-4 py-3">
-                              <div className="flex items-center gap-1.5">
-                                {b.status !== 'confirmed' && (
-                                  <button onClick={() => updateStatus(b.id, 'confirmed')} disabled={updating === b.id}
-                                    className="text-green-500 hover:text-green-700" title={t('confirm')}>
-                                    <CheckCircle className="h-4 w-4" />
-                                  </button>
-                                )}
-                                {b.status !== 'pending' && b.status !== 'cancelled' && (
-                                  <button onClick={() => updateStatus(b.id, 'pending')} disabled={updating === b.id}
-                                    className="text-yellow-500 hover:text-yellow-700" title={t('setPending')}>
-                                    <Clock className="h-4 w-4" />
-                                  </button>
-                                )}
-                                {b.status !== 'cancelled' && (
-                                  <button onClick={() => updateStatus(b.id, 'cancelled')} disabled={updating === b.id}
-                                    className="text-red-400 hover:text-red-600" title={t('cancel')}>
-                                    <XCircle className="h-4 w-4" />
-                                  </button>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                        {visibleBookings.length === 0 && (
-                          <tr>
-                            <td colSpan={5} className="text-center py-6 text-ocean-400 text-sm">{t('none')}</td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                  {hiddenCount > 0 && (
-                    <div className="px-5 py-3 border-t border-ocean-50 bg-ocean-50/30">
-                      <button onClick={() => toggleShowAll(group.tripId)}
-                        className="text-xs text-ocean-500 hover:text-ocean-700 font-medium transition-colors">
-                        {showingAll
-                          ? `Mostrar solo ${BOOKING_STATUS_LABELS[filter as BookingStatus].toLowerCase()}`
-                          : `Ver todas las reservas de esta salida (${group.bookings.length})`
-                        }
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
+          {dayTripGroups.length === 0 ? (
+            <div className="card p-10 text-center text-ocean-400">
+              <CalendarDays className="h-8 w-8 mx-auto mb-2 opacity-30" />
+              <p className="text-sm">No hay reservas este día.</p>
             </div>
-          )
-        })}
-      </div>
+          ) : (
+            <div className="space-y-4">
+              {dayTripGroups.map((group, gi) => {
+                const confirmed = group.bookings.filter(b => b.status === 'confirmed').length
+                return (
+                  <div key={gi} className="card overflow-hidden">
+                    <div className="px-5 py-3 bg-ocean-50 border-b border-ocean-100 flex items-center justify-between">
+                      <div>
+                        <p className="font-semibold text-ocean-950">{group.title}</p>
+                        <p className="text-xs text-ocean-400">{group.time?.slice(0, 5)}</p>
+                      </div>
+                      <span className="text-xs text-ocean-400">{confirmed}/{group.max} confirmados</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead className="bg-ocean-50/50">
+                          <tr>
+                            {[t('user'), t('status'), t('equipment'), t('actions')].map(h => (
+                              <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-ocean-500 uppercase tracking-wider">{h}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-ocean-50">
+                          {group.bookings.map(b => (
+                            <tr key={b.id} className="hover:bg-ocean-50/50">
+                              <td className="px-4 py-3">
+                                <p className="font-medium text-ocean-950">
+                                  {b.profile?.full_name ?? b.guest_name}
+                                  {!b.profile && <span className="ml-1.5 text-xs text-ocean-400">{t('guest')}</span>}
+                                </p>
+                                {b.profile?.certification_level && (
+                                  <p className="text-xs text-ocean-400">{CERTIFICATION_LABELS[b.profile.certification_level]}</p>
+                                )}
+                                {(b.profile?.phone ?? b.guest_phone) && (
+                                  <p className="text-xs text-ocean-400">{b.profile?.phone ?? b.guest_phone}</p>
+                                )}
+                                {b.guest_email && (
+                                  <p className="text-xs text-ocean-400">{b.guest_email}</p>
+                                )}
+                                {!b.verified && (
+                                  <span className="badge badge-yellow text-xs mt-1">{t('pendingVerification')}</span>
+                                )}
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex flex-col gap-1">
+                                  <span className={cn('badge', STATUS_STYLES[b.status])}>
+                                    {BOOKING_STATUS_LABELS[b.status]}
+                                  </span>
+                                  <PaymentBadge b={b} />
+                                </div>
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex flex-wrap gap-1">
+                                  {b.needed_equipment?.length > 0
+                                    ? b.needed_equipment.map(type => (
+                                        <span key={type} className="badge badge-blue text-xs">
+                                          {tCommon(`equipment.${type}`)}
+                                        </span>
+                                      ))
+                                    : <span className="text-xs text-ocean-300">{t('noEquipment')}</span>
+                                  }
+                                  {b.tank_size && (
+                                    <span className="badge badge-blue text-xs">🫙 {b.tank_size}</span>
+                                  )}
+                                  {b.wants_nitrox && (
+                                    <span className="badge text-xs bg-amber-100 text-amber-700 border border-amber-200">⚗️ Nitrox</span>
+                                  )}
+                                </div>
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex items-center gap-1.5">
+                                  {b.status !== 'confirmed' && (
+                                    <button onClick={() => updateStatus(b.id, 'confirmed')} disabled={updating === b.id}
+                                      className="text-green-500 hover:text-green-700" title={t('confirm')}>
+                                      <CheckCircle className="h-4 w-4" />
+                                    </button>
+                                  )}
+                                  {b.status !== 'pending' && b.status !== 'cancelled' && (
+                                    <button onClick={() => updateStatus(b.id, 'pending')} disabled={updating === b.id}
+                                      className="text-yellow-500 hover:text-yellow-700" title={t('setPending')}>
+                                      <Clock className="h-4 w-4" />
+                                    </button>
+                                  )}
+                                  {b.status !== 'cancelled' && (
+                                    <button onClick={() => updateStatus(b.id, 'cancelled')} disabled={updating === b.id}
+                                      className="text-red-400 hover:text-red-600" title={t('cancel')}>
+                                      <XCircle className="h-4 w-4" />
+                                    </button>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="card p-12 text-center text-ocean-400">
+          <CalendarDays className="h-10 w-10 mx-auto mb-3 opacity-30" />
+          <p className="text-sm">Selecciona un día para ver sus reservas.</p>
+        </div>
+      )}
     </div>
   )
 }
