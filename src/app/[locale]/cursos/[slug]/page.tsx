@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { TripCard } from '@/components/ui/TripCard'
+import Image from 'next/image'
 import { BookOpen, Award, ArrowLeft } from 'lucide-react'
 import type { Course, TripWithAvailability } from '@/types'
 import { getTranslations, getLocale } from 'next-intl/server'
@@ -85,12 +86,42 @@ export default async function CourseDetailPage({ params }: Props) {
               )}
             </div>
 
-            <div className="rounded-2xl overflow-hidden bg-ocean-900 h-64 lg:h-72 flex items-center justify-center">
-              <BookOpen className="h-20 w-20 text-ocean-700" />
+            <div className="rounded-2xl overflow-hidden bg-ocean-900 h-64 lg:h-72 relative flex items-center justify-center">
+              {course.images?.[0] ? (
+                <Image
+                  src={course.images[0]}
+                  alt={courseTitle}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                  priority
+                />
+              ) : (
+                <BookOpen className="h-20 w-20 text-ocean-700" />
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Gallery */}
+      {course.images && course.images.length > 1 && (
+        <div className="container-main pt-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {course.images.slice(1).map((url, i) => (
+              <div key={i} className="relative aspect-video rounded-xl overflow-hidden bg-ocean-100">
+                <Image
+                  src={url}
+                  alt={`${courseTitle} ${i + 2}`}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Upcoming trips for this course */}
       <div className="container-main py-16">

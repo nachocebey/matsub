@@ -6,6 +6,7 @@ import { toast } from '@/components/ui/Toaster'
 import { DifficultyBadge } from '@/components/ui/DifficultyBadge'
 import { I18nTextFields } from '@/components/ui/I18nTextFields'
 import { Plus, Edit2, Trash2, Eye, EyeOff } from 'lucide-react'
+import { ImageUploader } from '@/components/ui/ImageUploader'
 import type { Spot, Difficulty, I18nField } from '@/types'
 
 interface SpotForm {
@@ -17,6 +18,7 @@ interface SpotForm {
   difficulty: Difficulty
   lat: number | ''
   lng: number | ''
+  images: string[]
   visible: boolean
 }
 
@@ -25,6 +27,7 @@ const EMPTY: SpotForm = {
   depth_min: '', depth_max: '',
   difficulty: 'beginner',
   lat: '', lng: '',
+  images: [],
   visible: true,
 }
 
@@ -55,6 +58,7 @@ export function SpotsManager({ spots: initial }: { spots: Spot[] }) {
       depth_max: s.depth_max ?? '',
       difficulty: s.difficulty,
       lat: s.lat ?? '', lng: s.lng ?? '',
+      images: s.images ?? [],
       visible: s.visible,
     })
     setShowForm(true)
@@ -78,6 +82,7 @@ export function SpotsManager({ spots: initial }: { spots: Spot[] }) {
       difficulty: form.difficulty,
       lat: form.lat === '' ? null : Number(form.lat),
       lng: form.lng === '' ? null : Number(form.lng),
+      images: form.images,
       visible: form.visible,
     }
 
@@ -168,6 +173,10 @@ export function SpotsManager({ spots: initial }: { spots: Spot[] }) {
                   <label className="form-label">Longitud</label>
                   <input type="number" step="any" className="form-input" value={form.lng} onChange={e => set('lng', e.target.value as unknown as number)} />
                 </div>
+              </div>
+              <div>
+                <label className="form-label">Imágenes</label>
+                <ImageUploader folder="spots" images={form.images} onChange={v => set('images', v)} />
               </div>
               <label className="flex items-center gap-3 cursor-pointer">
                 <input

@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { toast } from '@/components/ui/Toaster'
 import { I18nTextFields } from '@/components/ui/I18nTextFields'
 import { Plus, Edit2, Trash2, Eye, EyeOff } from 'lucide-react'
+import { ImageUploader } from '@/components/ui/ImageUploader'
 import type { Course, CertificationLevel, I18nField } from '@/types'
 
 interface CourseForm {
@@ -12,12 +13,13 @@ interface CourseForm {
   slug: string
   description_i18n: I18nField
   certification_obtained: CertificationLevel | ''
+  images: string[]
   visible: boolean
 }
 
 const EMPTY: CourseForm = {
   title_i18n: {}, slug: '', description_i18n: {},
-  certification_obtained: '', visible: true,
+  certification_obtained: '', images: [], visible: true,
 }
 
 const CERTIFICATIONS: { value: CertificationLevel | ''; label: string }[] = [
@@ -52,6 +54,7 @@ export function CoursesManager({ courses: initial }: { courses: Course[] }) {
       slug: c.slug,
       description_i18n: c.description_i18n ?? (c.description ? { es: c.description } : {}),
       certification_obtained: c.certification_obtained ?? '',
+      images: c.images ?? [],
       visible: c.visible,
     })
     setShowForm(true)
@@ -71,6 +74,7 @@ export function CoursesManager({ courses: initial }: { courses: Course[] }) {
       title_i18n: form.title_i18n,
       description_i18n: form.description_i18n,
       certification_obtained: form.certification_obtained || null,
+      images: form.images,
       visible: form.visible,
     }
 
@@ -148,6 +152,10 @@ export function CoursesManager({ courses: initial }: { courses: Course[] }) {
                     <option key={c.value} value={c.value}>{c.label}</option>
                   ))}
                 </select>
+              </div>
+              <div>
+                <label className="form-label">Imágenes</label>
+                <ImageUploader folder="courses" images={form.images} onChange={v => set('images', v)} />
               </div>
               <label className="flex items-center gap-3 cursor-pointer">
                 <input

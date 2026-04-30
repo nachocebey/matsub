@@ -44,6 +44,12 @@ export default async function ReservaPage({
 
   if (!tripRes.data) redirect('/calendario')
 
+  const trip = tripRes.data as TripWithAvailability
+  const spotImagesRes = trip.spot_id
+    ? await supabase.from('spots').select('images').eq('id', trip.spot_id).single()
+    : null
+  const spotImages: string[] = spotImagesRes?.data?.images ?? []
+
   return (
     <div className="pt-16">
       <div className="bg-ocean-950 text-white py-12">
@@ -57,6 +63,7 @@ export default async function ReservaPage({
           trip={tripRes.data as TripWithAvailability}
           profile={profileRes.data as Profile | null}
           existingBooking={existingRes.data}
+          spotImages={spotImages}
         />
       </div>
     </div>

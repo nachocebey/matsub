@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from '@/components/ui/Toaster'
 import { formatDate, formatPrice, TRIP_TYPE_LABELS } from '@/lib/utils'
 import { I18nTextFields } from '@/components/ui/I18nTextFields'
-import { Plus, Edit2, XCircle, Users } from 'lucide-react'
+import { Plus, Edit2, XCircle, Users, Search, History } from 'lucide-react'
 import { DatePicker } from '@/components/ui/DatePicker'
 import { cn } from '@/lib/utils'
 import type { TripWithAvailability, Spot, Course, TripType, Difficulty, I18nField } from '@/types'
@@ -51,6 +51,24 @@ export function TripsManager({ trips: initial, spots, courses }: Props) {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState<TripForm>(EMPTY_FORM)
   const [saving, setSaving] = useState(false)
+  const [search, setSearch] = useState('')
+  const [dateFilter, setDateFilter] = useState('')
+  const [showPast, setShowPast] = useState(false)
+
+  const today = new Date().toISOString().split('T')[0]
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase()
+    return trips.filter(t => {
+      if (!showPast && t.date < today) return false
+      if (dateFilter && t.date !== dateFilter) return false
+      if (q) {
+        const title = t.title_i18n?.es ?? t.title
+        return title.toLowerCase().includes(q) || t.date.includes(q)
+      }
+      return true
+    })
+  }, [trips, search, dateFilter, showPast, today])
 
   const set = <K extends keyof TripForm>(k: K, v: TripForm[K]) =>
     setForm(prev => ({ ...prev, [k]: v }))
@@ -152,11 +170,41 @@ export function TripsManager({ trips: initial, spots, courses }: Props) {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 className="text-2xl font-bold text-ocean-950">Gestión de salidas</h1>
         <button onClick={openCreate} className="btn-primary">
           <Plus className="h-4 w-4" />
           Nueva salida
+        </button>
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ocean-400 pointer-events-none" />
+          <input
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Buscar por título..."
+            className="form-input pl-9 w-full text-sm"
+          />
+        </div>
+        <input
+          type="date"
+          value={dateFilter}
+          onChange={e => setDateFilter(e.target.value)}
+          className="form-input text-sm w-full sm:w-44"
+        />
+        <button
+          onClick={() => setShowPast(p => !p)}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors whitespace-nowrap ${
+            showPast
+              ? 'bg-ocean-100 border-ocean-300 text-ocean-700'
+              : 'bg-white border-ocean-200 text-ocean-500 hover:border-ocean-300'
+          }`}
+        >
+          <History className="h-4 w-4" />
+          {showPast ? 'Ocultando pasadas' : 'Ver pasadas'}
         </button>
       </div>
 
@@ -267,8 +315,8 @@ export function TripsManager({ trips: initial, spots, courses }: Props) {
               </tr>
             </thead>
             <tbody className="divide-y divide-ocean-50">
-              {trips.map(trip => (
-                <tr key={trip.id} className="hover:bg-ocean-50/50">
+              {filtered.map(trip => (
+                <tr key={trip.id} className={cn('hover:bg-ocean-50/50', trip.date < today && 'bg-slate-50 opacity-60')}>
                   <td className="px-4 py-3">
                     <p className="font-medium text-ocean-950">{trip.title_i18n?.es || trip.title}</p>
                     {trip.spot_name && <p className="text-xs text-ocean-400">{trip.spot_name}</p>}
@@ -310,7 +358,7 @@ export function TripsManager({ trips: initial, spots, courses }: Props) {
                   </td>
                 </tr>
               ))}
-              {trips.length === 0 && (
+              {filtered.length === 0 && (
                 <tr><td colSpan={7} className="text-center py-8 text-ocean-400">Sin salidas</td></tr>
               )}
             </tbody>

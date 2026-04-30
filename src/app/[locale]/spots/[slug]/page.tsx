@@ -6,7 +6,9 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { DifficultyBadge } from '@/components/ui/DifficultyBadge'
 import { TripCard } from '@/components/ui/TripCard'
+import Image from 'next/image'
 import { MapPin, ArrowLeft, Waves, Anchor } from 'lucide-react'
+import { ImageCarousel } from '@/components/ui/ImageCarousel'
 import type { Spot, TripWithAvailability } from '@/types'
 import { getTranslations, getLocale } from 'next-intl/server'
 import { getI18n } from '@/lib/utils'
@@ -57,51 +59,59 @@ export default async function SpotDetailPage({ params }: Props) {
   return (
     <div className="pt-16">
       {/* Header */}
-      <div className="bg-ocean-950 text-white py-16">
-        <div className="container-main">
-          <Link href="/spots" className="inline-flex items-center gap-1.5 text-ocean-400 hover:text-ocean-300 text-sm mb-6 transition-colors">
+      <div className="relative text-white py-20 overflow-hidden">
+        {spot.images?.[0] ? (
+          <Image
+            src={spot.images[0]}
+            alt={spotName}
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+        ) : (
+          <div className="absolute inset-0 bg-ocean-950" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-ocean-950/70 via-ocean-950/60 to-ocean-950/80" />
+
+        <div className="container-main relative z-10">
+          <Link href="/spots" className="inline-flex items-center gap-1.5 text-ocean-300 hover:text-white text-sm mb-8 transition-colors">
             <ArrowLeft className="h-4 w-4" />
             {t('allSpots')}
           </Link>
 
-          <div className="grid lg:grid-cols-2 gap-10 items-start">
-            <div>
-              <div className="flex flex-wrap gap-2 mb-4">
-                <DifficultyBadge difficulty={spot.difficulty} />
-              </div>
-              <h1 className="text-4xl sm:text-5xl font-bold mb-4">{spotName}</h1>
-              {spotDesc && (
-                <p className="text-ocean-300 text-lg leading-relaxed">{spotDesc}</p>
-              )}
-
-              <div className="flex flex-wrap gap-6 mt-8 text-sm">
-                {spot.depth_max && (
-                  <div className="flex items-center gap-2 text-ocean-300">
-                    <Anchor className="h-4 w-4 text-ocean-400" />
-                    <span>{t('depth', { min: spot.depth_min ?? 0, max: spot.depth_max })}</span>
-                  </div>
-                )}
-                {spot.lat && spot.lng && (
-                  <div className="flex items-center gap-2 text-ocean-300">
-                    <MapPin className="h-4 w-4 text-ocean-400" />
-                    <span>{spot.lat.toFixed(4)}, {spot.lng.toFixed(4)}</span>
-                  </div>
-                )}
-              </div>
+          <div className="max-w-2xl">
+            <div className="flex flex-wrap gap-2 mb-4">
+              <DifficultyBadge difficulty={spot.difficulty} />
             </div>
-
-            {/* Image */}
-            <div className="rounded-2xl overflow-hidden bg-ocean-900 h-64 lg:h-80 flex items-center justify-center">
-              {spot.images?.[0] ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={spot.images[0]} alt={spotName} className="w-full h-full object-cover" />
-              ) : (
-                <Waves className="h-20 w-20 text-ocean-700" />
+            <h1 className="text-4xl sm:text-5xl font-bold mb-4">{spotName}</h1>
+            {spotDesc && (
+              <p className="text-ocean-200 text-lg leading-relaxed">{spotDesc}</p>
+            )}
+            <div className="flex flex-wrap gap-6 mt-8 text-sm">
+              {spot.depth_max && (
+                <div className="flex items-center gap-2 text-ocean-300">
+                  <Anchor className="h-4 w-4 text-ocean-400" />
+                  <span>{t('depth', { min: spot.depth_min ?? 0, max: spot.depth_max })}</span>
+                </div>
+              )}
+              {spot.lat && spot.lng && (
+                <div className="flex items-center gap-2 text-ocean-300">
+                  <MapPin className="h-4 w-4 text-ocean-400" />
+                  <span>{spot.lat.toFixed(4)}, {spot.lng.toFixed(4)}</span>
+                </div>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Carousel */}
+      {spot.images && spot.images.length > 0 && (
+        <div className="container-main pt-10">
+          <ImageCarousel images={spot.images} alt={spotName} />
+        </div>
+      )}
 
       {/* Upcoming trips at this spot */}
       <div className="container-main py-16">

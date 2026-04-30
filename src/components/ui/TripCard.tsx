@@ -50,32 +50,30 @@ export function TripCard({ trip, compact = false, isBooked = false }: TripCardPr
           {getI18n(trip.title_i18n, locale, trip.title)}
         </h3>
         {trip.spot_name && (
-          <div className="flex items-center gap-1 mt-1 text-ocean-500 text-xs">
-            <MapPin className="h-3 w-3" />
+          <div className="flex items-center gap-1 mt-1 text-ocean-700 text-xs">
+            <MapPin className="h-3 w-3" aria-hidden="true" />
             {trip.spot_name}
           </div>
         )}
       </div>
 
       {/* Meta */}
-      <div className={cn('grid gap-2 text-sm text-ocean-600', compact ? 'grid-cols-2' : 'grid-cols-2 sm:grid-cols-2')}>
+      <div className={cn('grid gap-2 text-xs text-ocean-700', compact ? 'grid-cols-2' : 'grid-cols-2 sm:grid-cols-2')}>
         <div className="flex items-center gap-1.5">
-          <Calendar className="h-3.5 w-3.5 text-ocean-400" />
-          <span className="text-xs">{formatDate(trip.date, locale)}</span>
+          <Calendar className="h-3.5 w-3.5 text-ocean-500 shrink-0" aria-hidden="true" />
+          {formatDate(trip.date, locale)}
         </div>
         <div className="flex items-center gap-1.5">
-          <Clock className="h-3.5 w-3.5 text-ocean-400" />
-          <span className="text-xs">{formatTime(trip.time)} · {formatDuration(trip.duration_minutes)}</span>
+          <Clock className="h-3.5 w-3.5 text-ocean-500 shrink-0" aria-hidden="true" />
+          {formatTime(trip.time)} · {formatDuration(trip.duration_minutes)}
         </div>
         <div className="flex items-center gap-1.5">
-          <Users className="h-3.5 w-3.5 text-ocean-400" />
-          <span className="text-xs">
-            {isFull ? t('noSpots') : t('spotsLeft', { count: trip.available_spots })}
-          </span>
+          <Users className="h-3.5 w-3.5 text-ocean-500 shrink-0" aria-hidden="true" />
+          {isFull ? t('noSpots') : t('spotsLeft', { count: trip.available_spots })}
         </div>
         <div className="flex items-center gap-1.5">
-          <Euro className="h-3.5 w-3.5 text-ocean-400" />
-          <span className="text-xs font-semibold text-ocean-800">{formatPrice(trip.price)}</span>
+          <Euro className="h-3.5 w-3.5 text-ocean-500 shrink-0" aria-hidden="true" />
+          <span className="font-semibold text-ocean-800">{formatPrice(trip.price)}</span>
         </div>
       </div>
 

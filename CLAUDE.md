@@ -91,6 +91,28 @@ src/
 - Perfil creado automáticamente por trigger `handle_new_user` en Supabase
 - Guest bookings: sin auth, verificación por email con token → `/reserva/verificar?token=...`
 
+## Accesibilidad y SEO (aplicar siempre)
+
+Aplicar en cualquier código que se escriba o modifique, sin necesidad de pedirlo explícitamente.
+
+### Accesibilidad (WCAG AA)
+- **Contraste**: texto pequeño (`text-xs`, `text-sm`) sobre fondo blanco → mínimo `ocean-700`. Nunca `ocean-400` ni `ocean-500` para texto; solo para iconos decorativos.
+- **Iconos decorativos**: siempre `aria-hidden="true"` en SVGs/iconos que acompañan texto.
+- **Botones icon-only**: siempre `aria-label` descriptivo (ej. botones ‹ › de navegación).
+- **Imágenes**: `alt` descriptivo en imágenes de contenido; `alt=""` en puramente decorativas.
+- **Formularios**: cada `<input>` / `<select>` / `<textarea>` con `<label>` asociado por `htmlFor`/`id` o `aria-label`.
+- **Jerarquía de headings**: no saltarse niveles (h1 → h2 → h3). Una sola `h1` por página.
+- **Focus visible**: no eliminar outline de foco sin reemplazarlo por algo equivalente.
+- **Roles y semántica**: usar elementos semánticos (`<nav>`, `<main>`, `<button>`, `<a>`) en vez de `<div>` con handlers cuando corresponda.
+
+### SEO
+- **Metadata**: toda página pública tiene `export const metadata` (o `generateMetadata`) con `title` y `description` únicos.
+- **Open Graph**: páginas de contenido (spots, cursos) incluyen `openGraph` en metadata con imagen cuando hay imagen disponible.
+- **Canonical**: Next.js App Router lo gestiona automáticamente — no duplicar rutas sin `canonical`.
+- **Structured data**: páginas de detalle de spot o curso pueden incluir JSON-LD (`Course`, `Place`) si es relevante.
+- **Alt en imágenes**: crítico para SEO también — siempre descriptivo con palabras clave naturales.
+- **URLs amigables**: usar slugs legibles, ya implementado via Supabase.
+
 ## Patrones y convenciones
 
 **Páginas admin**: Server Component (`page.tsx`) carga datos, Client Component (`*Manager.tsx`) gestiona estado y acciones.

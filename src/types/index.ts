@@ -30,6 +30,7 @@ export interface Course {
   description: string | null
   description_i18n: I18nField
   certification_obtained: CertificationLevel | null
+  images: string[]
   visible: boolean
   created_at: string
 }
@@ -66,6 +67,7 @@ export interface Trip {
   max_participants: number
   price: number
   difficulty_level: Difficulty | null
+  images: string[]
   status: TripStatus
   created_at: string
 }

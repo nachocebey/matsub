@@ -18,7 +18,6 @@ const t = {
       dateLabel: '📅 Fecha',
       timeLabel: '⏰ Hora',
       bookingLabel: '🔖 Nº reserva',
-      pending: 'Te confirmaremos la reserva en breve. Si tienes cualquier duda, no dudes en contactarnos.',
       arriveEarly: 'Recuerda presentarte al centro <strong>30 minutos antes</strong> de la hora de salida para preparar el equipo y completar los trámites.',
       cta: 'Ver mis reservas',
       addToCalendar: '📅 Añadir al Google Calendar',
@@ -49,7 +48,6 @@ const t = {
       dateLabel: '📅 Data',
       timeLabel: '⏰ Hora',
       bookingLabel: '🔖 Nº reserva',
-      pending: 'Et confirmarem la reserva en breu. Si tens qualsevol dubte, no dubtis en contactar-nos.',
       arriveEarly: 'Recorda presentar-te al centre <strong>30 minuts abans</strong> de l\'hora de sortida per preparar l\'equip i completar els tràmits.',
       cta: 'Veure les meves reserves',
       addToCalendar: '📅 Afegir al Google Calendar',
@@ -80,7 +78,6 @@ const t = {
       dateLabel: '📅 Date',
       timeLabel: '⏰ Time',
       bookingLabel: '🔖 Booking #',
-      pending: "We'll confirm your booking shortly. If you have any questions, don't hesitate to contact us.",
       arriveEarly: 'Please arrive at the center <strong>30 minutes before</strong> the departure time to prepare your equipment and complete the paperwork.',
       cta: 'View my bookings',
       addToCalendar: '📅 Add to Google Calendar',
@@ -192,7 +189,6 @@ export async function sendBookingConfirmation({
             </table>
           </td></tr>
         </table>
-        <p style="margin:0 0 16px;color:#475569;font-size:14px;line-height:1.6;">${tr.pending}</p>
         <table width="100%" cellpadding="0" cellspacing="0" style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;margin-bottom:24px;">
           <tr><td style="padding:16px;">
             <p style="margin:0;color:#92400e;font-size:14px;line-height:1.6;">${tr.arriveEarly}</p>

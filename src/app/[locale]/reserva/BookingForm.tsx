@@ -16,6 +16,7 @@ import { Calendar, Clock, Users, Euro, MapPin, Package, CheckCircle, AlertTriang
 import { cn } from '@/lib/utils'
 import type { TripWithAvailability, Profile, EquipmentType, PaymentMethod } from '@/types'
 import { useTranslations, useLocale } from 'next-intl'
+import Image from 'next/image'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -64,9 +65,10 @@ interface Props {
   trip: TripWithAvailability
   profile: Profile | null
   existingBooking: { id: string; status: string } | null
+  spotImages?: string[]
 }
 
-export function BookingForm({ trip, profile, existingBooking }: Props) {
+export function BookingForm({ trip, profile, existingBooking, spotImages = [] }: Props) {
   const t = useTranslations('booking')
   const tCommon = useTranslations('common')
   const locale = useLocale()
@@ -257,45 +259,52 @@ export function BookingForm({ trip, profile, existingBooking }: Props) {
       </div>
 
       {/* Trip summary */}
-      <div className="card p-6">
-        <h2 className="font-semibold text-ocean-950 text-lg mb-4">{t('summary')}</h2>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="font-bold text-xl text-ocean-950">{getI18n(trip.title_i18n, locale, trip.title)}</span>
-            {trip.difficulty_level && <DifficultyBadge difficulty={trip.difficulty_level} />}
+      <div className="card overflow-hidden">
+        {spotImages[0] && (
+          <div className="relative aspect-[16/7] w-full">
+            <Image src={spotImages[0]} alt={getI18n(trip.title_i18n, locale, trip.title)} fill sizes="(max-width: 672px) 100vw, 672px" className="object-cover" />
           </div>
-          {trip.spot_name && (
-            <div className="flex items-center gap-2 text-sm text-ocean-600">
-              <MapPin className="h-4 w-4 text-ocean-400" />
-              {trip.spot_name}
+        )}
+        <div className="p-6">
+          <h2 className="font-semibold text-ocean-950 text-lg mb-4">{t('summary')}</h2>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-xl text-ocean-950">{getI18n(trip.title_i18n, locale, trip.title)}</span>
+              {trip.difficulty_level && <DifficultyBadge difficulty={trip.difficulty_level} />}
             </div>
-          )}
-          <div className="grid grid-cols-2 gap-3 pt-2">
-            <div className="flex items-center gap-2 text-sm text-ocean-600">
-              <Calendar className="h-4 w-4 text-ocean-400" />
-              {formatDate(trip.date, locale)}
+            {trip.spot_name && (
+              <div className="flex items-center gap-2 text-sm text-ocean-600">
+                <MapPin className="h-4 w-4 text-ocean-400" />
+                {trip.spot_name}
+              </div>
+            )}
+            <div className="grid grid-cols-2 gap-3 pt-2">
+              <div className="flex items-center gap-2 text-sm text-ocean-600">
+                <Calendar className="h-4 w-4 text-ocean-400" />
+                {formatDate(trip.date, locale)}
+              </div>
+              <div className="flex items-center gap-2 text-sm text-ocean-600">
+                <Clock className="h-4 w-4 text-ocean-400" />
+                {formatTime(trip.time)} · {formatDuration(trip.duration_minutes)}
+              </div>
+              <div className="flex items-center gap-2 text-sm text-ocean-600">
+                <Users className="h-4 w-4 text-ocean-400" />
+                {isFull
+                  ? <span className="text-red-600 font-medium">{t('full')}</span>
+                  : <span>{t('spotsAvailable', { count: trip.available_spots })}</span>
+                }
+              </div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-ocean-800">
+                <Euro className="h-4 w-4 text-ocean-400" />
+                {formatPrice(trip.price)}
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-sm text-ocean-600">
-              <Clock className="h-4 w-4 text-ocean-400" />
-              {formatTime(trip.time)} · {formatDuration(trip.duration_minutes)}
-            </div>
-            <div className="flex items-center gap-2 text-sm text-ocean-600">
-              <Users className="h-4 w-4 text-ocean-400" />
-              {isFull
-                ? <span className="text-red-600 font-medium">{t('full')}</span>
-                : <span>{t('spotsAvailable', { count: trip.available_spots })}</span>
-              }
-            </div>
-            <div className="flex items-center gap-2 text-sm font-semibold text-ocean-800">
-              <Euro className="h-4 w-4 text-ocean-400" />
-              {formatPrice(trip.price)}
-            </div>
+            {trip.description && (
+              <p className="text-sm text-ocean-600 leading-relaxed pt-2 border-t border-ocean-100">
+                {trip.description}
+              </p>
+            )}
           </div>
-          {trip.description && (
-            <p className="text-sm text-ocean-600 leading-relaxed pt-2 border-t border-ocean-100">
-              {trip.description}
-            </p>
-          )}
         </div>
       </div>
 
