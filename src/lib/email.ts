@@ -19,7 +19,9 @@ const t = {
       timeLabel: '⏰ Hora',
       bookingLabel: '🔖 Nº reserva',
       pending: 'Te confirmaremos la reserva en breve. Si tienes cualquier duda, no dudes en contactarnos.',
+      arriveEarly: 'Recuerda presentarte al centro <strong>30 minutos antes</strong> de la hora de salida para preparar el equipo y completar los trámites.',
       cta: 'Ver mis reservas',
+      addToCalendar: '📅 Añadir al Google Calendar',
     },
     guestVerification: {
       subject: (title: string) => `Confirma tu reserva: ${title}`,
@@ -48,7 +50,9 @@ const t = {
       timeLabel: '⏰ Hora',
       bookingLabel: '🔖 Nº reserva',
       pending: 'Et confirmarem la reserva en breu. Si tens qualsevol dubte, no dubtis en contactar-nos.',
+      arriveEarly: 'Recorda presentar-te al centre <strong>30 minuts abans</strong> de l\'hora de sortida per preparar l\'equip i completar els tràmits.',
       cta: 'Veure les meves reserves',
+      addToCalendar: '📅 Afegir al Google Calendar',
     },
     guestVerification: {
       subject: (title: string) => `Confirma la teva reserva: ${title}`,
@@ -77,7 +81,9 @@ const t = {
       timeLabel: '⏰ Time',
       bookingLabel: '🔖 Booking #',
       pending: "We'll confirm your booking shortly. If you have any questions, don't hesitate to contact us.",
+      arriveEarly: 'Please arrive at the center <strong>30 minutes before</strong> the departure time to prepare your equipment and complete the paperwork.',
       cta: 'View my bookings',
+      addToCalendar: '📅 Add to Google Calendar',
     },
     guestVerification: {
       subject: (title: string) => `Confirm your booking: ${title}`,
@@ -96,6 +102,19 @@ const t = {
       team: (brand: string) => `— The ${brand} team`,
     },
   },
+}
+
+function googleCalendarUrl(tripTitle: string, tripDate: string, tripTime: string, bookingId: string): string {
+  const dateStr = tripDate.replace(/-/g, '')
+  const [h, m] = tripTime.split(':').map(Number)
+  const startTime = `${h.toString().padStart(2, '0')}${(m || 0).toString().padStart(2, '0')}00`
+  const endH = (h + 3) % 24
+  const endTime = `${endH.toString().padStart(2, '0')}${(m || 0).toString().padStart(2, '0')}00`
+  const dates = `${dateStr}T${startTime}/${dateStr}T${endTime}`
+  const text = encodeURIComponent(`🤿 ${tripTitle}`)
+  const details = encodeURIComponent(`Reserva #${bookingId.split('-')[0].toUpperCase()}\n\n⏰ Recuerda llegar 30 minutos antes para preparar el equipo.\n\n${BRANDING.name} · ${BRANDING.phone}`)
+  const location = encodeURIComponent(BRANDING.address.replace('\n', ', '))
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dates}&details=${details}&location=${location}`
 }
 
 function getLang(locale?: string): Locale {
@@ -144,6 +163,7 @@ export async function sendBookingConfirmation({
   const lang = getLang(locale)
   const tr = t[lang].bookingConfirmed
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+  const calUrl = googleCalendarUrl(tripTitle, tripDate, tripTime, bookingId)
 
   await resend.emails.send({
     from: FROM,
@@ -172,8 +192,15 @@ export async function sendBookingConfirmation({
             </table>
           </td></tr>
         </table>
-        <p style="margin:0 0 24px;color:#475569;font-size:14px;line-height:1.6;">${tr.pending}</p>
-        <a href="${siteUrl}/dashboard" style="display:inline-block;background:#0369a1;color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;font-size:15px;">${tr.cta}</a>
+        <p style="margin:0 0 16px;color:#475569;font-size:14px;line-height:1.6;">${tr.pending}</p>
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;margin-bottom:24px;">
+          <tr><td style="padding:16px;">
+            <p style="margin:0;color:#92400e;font-size:14px;line-height:1.6;">${tr.arriveEarly}</p>
+          </td></tr>
+        </table>
+        <a href="${siteUrl}/dashboard" style="display:inline-block;background:#0369a1;color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;font-size:15px;margin-bottom:12px;">${tr.cta}</a>
+        <br/>
+        <a href="${calUrl}" style="display:inline-block;background:#ffffff;color:#0369a1;text-decoration:none;padding:11px 28px;border-radius:8px;font-weight:600;font-size:14px;border:2px solid #0369a1;">${tr.addToCalendar}</a>
       </td></tr>
     `),
   })
